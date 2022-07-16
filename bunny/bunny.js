@@ -22,8 +22,10 @@
   let currentTime;               // current time
   
   // image size
-  let iw = Math.min(screen.height, screen.width) - 350;
-  let ih = Math.min(screen.height, screen.width) - 350;
+  tsize = Math.min(screen.height, screen.width) - 350;
+  if (tsize < 320) tsize=320;
+  let iw = tsize;
+  let ih = tsize;
   
   // timings
   let mcdot = 150;
