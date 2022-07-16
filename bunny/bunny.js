@@ -22,14 +22,14 @@
   let currentTime;               // current time
   
   // image size
-  let iw = 640
-  let ih = 480
+  let iw = 360
+  let ih = 240
   
   // timings
-  let mcdot = 100;
-  let mcdash = 250;
-  let mcgap = 200
-  let mcspace = 300;
+  let mcdot = 150;
+  let mcdash = 300;
+  let mcgap = 250
+  let mcspace = 350;
   
   
 //   ------------------- morse code ------------------
