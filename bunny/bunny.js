@@ -1,5 +1,5 @@
 /*
-   Display morse code via bunny image - 16Jul22
+   Display morse code via bunny image - 17Jul22
  
         Basic morse code javascript from: https://www.tutorialspoint.com/converting-string-to-morse-code-in-javascript
         images and idea from: https://www.youtube.com/user/bixanorak/about
@@ -72,7 +72,7 @@ const morseCode = {
    "6": "-....",
    "7": "--...",
    "8": "---..",
-   "9": "----."   
+   "9": "----."
 }
 
 const convertToMorse = (str) => {
@@ -132,9 +132,16 @@ function draw() {
     } 
     else {
     
-      // next char
+      // step through morse code
       if (position > -1) {
         
+        // show position in morse code
+        let ttext = message.substring(0, position);
+        ttext+="<u>" + message.charAt(position) + "</u>";
+        ttext+=message.substring(position + 1, 999);
+        document.getElementById("output").innerHTML = ttext;
+        
+        // find next part 
         let char = message.charAt(position);
         //console.log(char);
         if (char == ".") {                     // dot

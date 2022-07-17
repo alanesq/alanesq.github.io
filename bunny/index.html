@@ -2,7 +2,7 @@
 
 <!-- 
 
-    Morse code bunny - 16jul22
+    Morse code bunny - 17jul22
     
 -->
 
@@ -14,13 +14,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="morse code bunny">
         
-        <title>Morse Code Bunny</title>
-
         <script src="./p5.min.js"></script>
-        <!-- <script src="./p5.sound.js"></script> -->
         <script src="./bunny.js"></script>
         
+        <title>Morse Code Bunny</title>
+        
         <style>
+
+          #output {
+            font-size: 30px;
+          }
 
         </style>
         
@@ -38,12 +41,10 @@
 
         
         <h1>Morse Code Bunny</h1>
-        
-        inspired/copied from:  <a href="https://www.youtube.com/watch?v=n9Sssbm9B-Y" target="_top">https://www.youtube.com/watch?v=n9Sssbm9B-Y</a> <br><br>
-                
+        inspired by / copied from:  <a href="https://www.youtube.com/watch?v=n9Sssbm9B-Y" target="_top">https://www.youtube.com/watch?v=n9Sssbm9B-Y</a> <br><br>
         <input type="text" id="MCmessage" value="message"> 
         <button onclick="textEntered()">submit</button>
-        <p id="output"></p>
+        <div id="output"></div><br>
         
     </body>
 
