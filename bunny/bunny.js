@@ -12,29 +12,30 @@
 
   let message = "";              // message to send
   
-  let position = -1;             // current position in message (0 = no message yet)
+  let position = -1;             // current position in message (-1 = no message yet)
   
-  let state = 0;                 // current morse state
+  let state = 0;                 // current state of morse code display
                                  // 0 = none, 1 = dot, 2 = dash
                                  
   let nextEvent = 0;             // time next event is scheduled
   
-  let currentTime;               // current time
+  let currentTime;               // store for current millis
   
-  // image size
-  tsize = Math.min(screen.height, screen.width) - 350;
+  // image size based on screen size
+  let tsize = Math.min(screen.height, screen.width) - 350;
   if (tsize < 320) tsize=320;
   let iw = tsize;
   let ih = tsize;
   
-  // timings
-  let mcdot = 150;
-  let mcdash = 300;
-  let mcgap = 250
-  let mcspace = 350;
+  // morse code timings
+  let mcdot = 150;       // dot 
+  let mcdash = 300;      // dash
+  let mcgap = 250        // delay between sounds
+  let mcspace = 350;     // space 
   
   
 //   ------------------- morse code ------------------
+//   from: https://www.tutorialspoint.com/converting-string-to-morse-code-in-javascript
 
 
 const morseCode = {
@@ -82,7 +83,7 @@ const convertToMorse = (str) => {
 };
 
 
-// ------------- called when message is entered ----------
+// ------------ called when a message is entered ---------
 
 
 function textEntered() {
@@ -92,7 +93,7 @@ function textEntered() {
 }
 
 
-//   ------------------------------------------------------
+//   --------------------- preloads -----------------------
 
 
 function preload() {
@@ -104,7 +105,7 @@ function preload() {
 }
 
 
-//   ------------------------------------------------------
+//   ----------------------- setup ------------------------
 
 
 function setup() {
@@ -114,67 +115,62 @@ function setup() {
 }
 
 
-// ------------------------------------------------------
+// ------------------------ draw ------------------------
 
   
 function draw() {
   clear();
   //background(0);
   
-  // check if morse state should reset
+  // check if time delay has expired
   currentTime = millis();   // current time
   if (currentTime > nextEvent) {
     
-    if (state != 0) {
+    if (state != 0) {    // if a dot or dash is ending leave a delay before next one 
       state = 0;
       nextEvent = currentTime + mcgap;   
-      //console.log("delay");
     } 
     else {
     
-      // step through morse code
-      if (position > -1) {
+      // step through the morse code
+      if (position > -1) {          // -1 = morse code disabled
         
-        // show position in morse code
+        // show position in morse code above the image
         let ttext = message.substring(0, position);
         ttext+="<u>" + message.charAt(position) + "</u>";
         ttext+=message.substring(position + 1, 999);
         document.getElementById("output").innerHTML = ttext;
         
-        // find next part 
+        // find next part of morse code
         let char = message.charAt(position);
-        //console.log(char);
         if (char == ".") {                     // dot
-          //console.log("dot");
           state=1;
           nextEvent = currentTime + mcdot;
           dotsound.play();
         }
         else if (char == "-") {                // dash
-          //console.log("dash");
           state=2;
           nextEvent = currentTime + mcdash;
           dashsound.play();
         }
-        else  {                                // delay
-          //console.log("space");
-          state=0;
+        else  {                                // space
           nextEvent = currentTime + mcspace;
         }    
         
         position++;
-        if (position > message.length) position=0;        
+        if (position > message.length) position=0;  // back to start
       }
-    }
+    } 
   
   }
   
-  // draw bunny
-  if (state == 0 && position > -1) image(bunnya, 0, 0, iw, ih);
-  else if (state == 1) image(bunnyb, 0, 0, iw, ih);
-  else if (state == 2) image(bunnyc, 0, 0, iw, ih);  
-    
-  //noLoop();
+  // show the bunny
+  if (position > -1) {
+    if (state == 0) image(bunnya, 0, 0, iw, ih);                    // bunny at rest
+    else if (state == 1) image(bunnyb, 0, 0, iw, ih);               // bunny ear down
+    else if (state == 2) image(bunnyc, 0, 0, iw, ih);               // bunny other ear down  
+  }
+
 }
 
 
