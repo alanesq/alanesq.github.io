@@ -133,10 +133,11 @@ function draw() {
     else {
     
       // step through the morse code
-      if (position > -1) {          // -1 = morse code disabled
+      if (position > -1) {          // -1 = message has not been entered yet
         
         // show position in morse code above the image
-        let ttext = message.substring(0, position);
+        let ttext = "";
+        if (position > 0) = ttext = message.substring(0, position);
         ttext+="<u>" + message.charAt(position) + "</u>";
         ttext+=message.substring(position + 1, 999);
         document.getElementById("output").innerHTML = ttext;
@@ -155,6 +156,7 @@ function draw() {
         }
         else  {                                // space
           nextEvent = currentTime + mcspace;
+          state=3;
         }    
         
         position++;
