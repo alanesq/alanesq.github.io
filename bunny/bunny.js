@@ -17,7 +17,7 @@
   let state = 0;                 // current state of morse code display
                                  // 0 = none, 1 = dot, 2 = dash
                                  
-  let nextEvent = 0;             // time next event is scheduled
+  let nextEvent = 0;             // time next event is scheduled to trigger
   
   let currentTime;               // store for current millis
   
@@ -87,9 +87,12 @@ const convertToMorse = (str) => {
 
 
 function textEntered() {
-  message = convertToMorse(document.getElementById("MCmessage").value);
-  document.getElementById("output").innerHTML = message;
-  position = 0;
+  message = document.getElementById("MCmessage").value;
+  if (message.length > 0) {
+    message = convertToMorse(message);
+    document.getElementById("output").innerHTML = message;
+    position = 0;
+  }
 }
 
 
@@ -109,8 +112,9 @@ function preload() {
 
 
 function setup() {
-  let cnv = createCanvas(iw, ih);
-  pixelDensity(1);            // in case of a high density display
+  let cnv = createCanvas(iw, ih);   // create p5.js canvas
+  cnv.parent('code');               // put canvas inside html div with ID 'code'
+  pixelDensity(1);                  // in case of a high density display
 
 }
 
@@ -119,10 +123,8 @@ function setup() {
 
   
 function draw() {
-  clear();
-  //background(0);
   
-  // check if time delay has expired
+  // check if current time delay has expired yet
   currentTime = millis();   // current time
   if (currentTime > nextEvent) {
     
@@ -163,10 +165,8 @@ function draw() {
       }
     } 
   
-  }
-  
-  // show the bunny
-  if (position > -1) {
+    // show the bunny
+    clear();
     if (state == 0) image(bunnya, 0, 0, iw, ih);                    // bunny at rest
     else if (state == 1) image(bunnyb, 0, 0, iw, ih);               // bunny ear down
     else if (state == 2) image(bunnyc, 0, 0, iw, ih);               // bunny other ear down  
