@@ -137,7 +137,7 @@ function draw() {
         
         // show position in morse code above the image
         let ttext = "";
-        if (position > 0) ttext = message.substring(0, position);
+        if (position > 0) = ttext = message.substring(0, position);
         ttext+="<u>" + message.charAt(position) + "</u>";
         ttext+=message.substring(position + 1, 999);
         document.getElementById("output").innerHTML = ttext;
