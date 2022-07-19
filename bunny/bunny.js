@@ -136,7 +136,7 @@ function draw() {
       if (position > -1) {          // -1 = message has not been entered yet
         
         // show position in morse code above the image
-        let ttext = "";
+        let ttext;
         if (position > 0) = ttext = message.substring(0, position);
         ttext+="<u>" + message.charAt(position) + "</u>";
         ttext+=message.substring(position + 1, 999);
