@@ -28,7 +28,7 @@
   let ih = tsize;
   
   // morse code timings
-  let mcdot = 150;       // dot 
+  let mcdot = 180;       // dot 
   let mcdash = 300;      // dash
   let mcgap = 250        // delay between sounds
   let mcspace = 350;     // space 
