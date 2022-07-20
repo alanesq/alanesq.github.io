@@ -1,5 +1,5 @@
 /*
-   Display morse code via bunny image - 17Jul22
+   Display morse code via bunny image - 20Jul22
  
         Basic morse code javascript from: https://www.tutorialspoint.com/converting-string-to-morse-code-in-javascript
         images and idea from: https://www.youtube.com/user/bixanorak/about
@@ -27,11 +27,12 @@
   let iw = tsize;
   let ih = tsize;
   
-  // morse code timings
-  let mcdot = 180;       // dot 
-  let mcdash = 300;      // dash
-  let mcgap = 250        // delay between sounds
-  let mcspace = 350;     // space 
+  // morse code timings - https://en.wikipedia.org/wiki/Morse_code
+  let mcdot = 150;          // dot (one time unit in milliseconds)
+    let mcdash = 3 * mcdot;   // dash  (3 units)
+    let mcgap = mcdot;        // delay between dot or dash (1 unit)
+    let mcspace = 3 * mcdot;  // space between letters (3 units)
+    let mcword = 5 * mcdot;   // space between words (7 units - two spaces)
   
   
 //   ------------------- morse code ------------------
@@ -73,7 +74,8 @@ const morseCode = {
    "6": "-....",
    "7": "--...",
    "8": "---..",
-   "9": "----."
+   "9": "----.",
+   " ": ","
 }
 
 const convertToMorse = (str) => {
@@ -104,7 +106,8 @@ function preload() {
   bunnya = loadImage("./bunnya.jpg");
   bunnyb = loadImage("./bunnyb.jpg");
   bunnyc = loadImage("./bunnyc.jpg");
-  
+  dotmp3 = createAudio('./dot.mp3');
+  dashmp3 = createAudio('./dash.mp3');
 }
 
 
@@ -149,14 +152,18 @@ function draw() {
         if (char == ".") {                     // dot
           state=1;
           nextEvent = currentTime + mcdot;
-          dotsound.play();
+          dotmp3.play();     
         }
         else if (char == "-") {                // dash
           state=2;
           nextEvent = currentTime + mcdash;
-          dashsound.play();
+          dashmp3.play();            
         }
-        else  {                                // space
+        else if (char == ",") {                // end of word
+          state=0;
+          nextEvent = currentTime + (mcword);
+        }
+        else  {                                // space (end of letter)
           nextEvent = currentTime + mcspace;
         }    
         
