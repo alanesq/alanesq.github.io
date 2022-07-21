@@ -1,0 +1,51 @@
+<p style="font-weight: bold;">Calculate arrow speed from video</p> 
+
+<form name="form1" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+
+Enter how many frames per second your video is recorded at: <br>
+<input type="text" name="fps" value="<?php echo $_GET['fps']; ?>" /> 
+
+<br> 
+Enter the total length of the arrow (in inches): <br>
+<input type="text" name="length" value="<?php echo $_GET['length']; ?>" /> 
+
+<br> 
+Enter how many video frames it takes for the arrow to travel its own length: <br>
+<input type="text" name="frames" value="<?php echo $_GET['frames']; ?>" /> 
+
+<br> 
+<input type="submit" name="submit" value="Submit"> 
+</form> 
+
+<p style="font-weight: bold;">
+
+
+<?PHP
+
+//get the users input
+  $fps = $_GET['fps'] ;
+  $length = $_GET['length'] ;
+  $frames = $_GET['frames'] ;
+
+
+//If fps is not empty then process input
+If ($fps<>"") {
+
+  //validate input
+  if ($fps < 1 or $fps > 8000 or $length < 1 or $length > 40 or $frames < 1 or $frames > 8000 )  { 
+            print "Invalid input - please try again:<br />";
+    }
+  
+  //If input ok do calculations
+  Else  {
+
+  $tlen = ( 1 / $fps ) * $frames ;    //time to travel length
+  $tlen = $tlen / $length * 12 ;      //Convert to feet
+  $rfps = round ( 1 / $tlen , 2 ) ;                 //?
+  $rmph = round ( $rfps * 0.68181818 , 2 ) ;        //convert to miles per hour
+
+  echo "The arrow is traveling at ".$rfps." feet per second which is ".$rmph." miles per hour";
+}
+}
+?>
+</p>
