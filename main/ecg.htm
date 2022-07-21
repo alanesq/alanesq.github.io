@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html style=" direction: ltr;">
+  <head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta content="20030715;22523552" name="CREATED">
+    <meta content="20050521;18305890" name="CHANGED">
+    <meta content="Alan's Electrocardiography page" name="DESCRIPTION">
+    <meta content="ecg,e.c.g.,arduino,Electrocardiography,diy ecg,medical,processing,diy ecg"
+      name="KEYWORDS">
+    <link href="logo.ico" rel="SHORTCUT ICON">
+    <title>Alan's ECG page</title>
+    <meta name="author" content="Alan Blackham">
+    <meta name="description" content="Alan's Electrocardiography Page">
+  </head>
+  <body style=" direction: ltr; background-color: rgb(255, 255, 0);">
+    <div style="text-align: left;">
+      <center>
+        <table style="text-align: left; margin-left: auto; margin-right: auto;"
+          border="0" cellpadding="3">
+          <tbody>
+            <tr>
+              <td><img style="width: 247px; height: 160px;" alt="pic" src="ecg/ecgpic.gif"><br>
+              </td>
+              <td>
+                <p align="center"><font color="#ff0000" size="6"><strong>Alan's</strong></font><font
+                    color="#ff0000" size="5"><strong></strong></font><font color="#ff0000"
+                    size="2"><strong></strong></font><font color="#ff0000" size="6"><strong>
+                      Electrocardiography page</strong></font><font color="#ff0000"
+                    size="5"><strong> </strong><strong><u><br>
+                      </u></strong></font><font color="#ff0000" size="2">updated
+                    Jul16<br>
+                  </font></p>
+              </td>
+              <td><img style="width: 247px; height: 160px;" alt="pic" src="ecg/ecgpic.gif">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </center>
+    </div>
+    <hr style="width: 100%; height: 2px;"><br>
+    I recently went to see my doctor as something was not right with my
+    heartbeat, of course by the time I got to see the doctor it had returned to
+    normal so he could only really guess as to what was going on.&nbsp; He
+    suggested that if it happen again I go to casualty to get an <a href="http://en.wikipedia.org/wiki/Ecg"
+      target="_blank">ECG</a> done but of course if it happens again it will in
+    all probability be back to normal by the time I get there.<br>
+    This set me wondering if it would be possible to buld myself an ECG and thus
+    be able to present a printout if it happens again, it also seemed like it
+    would be a very interesting project!<br>
+    <small>BTW - My doctor doesn't think it anything life threatening so I am
+      not risking my safety or anything here but it may help to figure out
+      exactly what is going on if it happens again.</small><br>
+    <br>
+    See a short video <a href="http://www.youtube.com/watch?v=v3b-YhZmQu8" target="_blank">HERE</a>
+    which explains what an ECG is measuring.<br>
+    <br>
+    <div style="text-align: left;">
+
+        <!-- If it is December display Festivus banner -->
+            <div id='festivusDiv'></div>
+            <script type="text/javascript" src="js/festivus.js"></script>    
+        
+        <!-- show banner if 'alanesq.com/banner.gif' exists -->
+            <div id='bannerDiv'></div>
+            <script type="text/javascript" src="js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->
+                
+    
+    <br>
+        <div style="text-align: center;"> </div>
+      </div>
+      <br>
+      <br>
+      <hr style="width: 100%; height: 2px;"><span style="text-decoration: underline; font-weight: bold;"></span><br>
+      After a bit of searching I found <a href="http://www.swharden.com/blog/2013-04-14-simple-diy-ecg-pulse-oximeter-version-2/"
+        target="_blank">THIS</a> page detailing how to build a very basic E.C.G.
+      and so I quickly set about building it, I already had most of the required
+      parts.<br>
+      I was having some sucess with this design but I then spotted on eBay <a href="http://www.100randomtasks.com/ecg-front-end"
+        target="_blank">THIS</a> ready made "E.C.G. front end" by
+      100randomtasks.com and I figured this will be much better than the ultra
+      basic one I have built and it should have some decent filtering built in,
+      for £13.50 it has to be worth a try so I ordered myself one. <br>
+      <br>
+      BTW - This project gave me the excuse I have always wanted and I finally
+      bought myself an oscilloscope :-)&nbsp;&nbsp; This is already proving to
+      be a most useful tool to have.<br>
+      <br>
+      The front end soon arrived and I have also purchased myself some of the
+      proper stick on electrodes from eBay costing £5 for 60.&nbsp; <br>
+      At first I was a bit disappointed as I was not getting a signal much
+      better than I had with my basic home made one but with some experimenting
+      I soon discovered where best to stick the electrodes on my chest and most
+      importantly that the circuit's zero volt line needs to be linked to earth
+      (this makes a massive difference), also if I hold an earth connection in
+      my hand this can help to remove some of the mains interference from the
+      signal.&nbsp; I was now reliably getting a most excellent signal :-)<br>
+      <br>
+      <div style="text-align: center;">Example of the signal I was getting on my
+        oscilloscope<br>
+        <iframe src="//www.youtube.com/embed/3tDmAl1McKA" allowfullscreen="" frameborder="0"
+          height="315" width="420"></iframe><br>
+      </div>
+      <br>
+      I was now getting a pretty good signal via my oscilloscope so my next task
+      was to get this signal into my PC so I could save and print it.&nbsp; I
+      experimented with doing this via the sound card but I had little succcess
+      and so I decided to instead use a trusty <a href="arduino.htm" target="_blank">Arduino</a>
+      to capture the data and transfer it to my PC via the USB.&nbsp; This I
+      eventually got working very well, I captured the raw data on the PC and
+      then later plotted this data in a spreadsheet.&nbsp; This worked ok but I
+      wanted something a bit better....<br>
+      <br>
+      I also built a small circuit to go between the "front end" board and the
+      arduino as shown on the <a href="http://www.100randomtasks.com" target="_blank">100randomtasks.com</a>
+      web page, this has a simple filter to help reduce mains interference and
+      also a pot' to adjust the voltage level of the signal.&nbsp; This was not
+      necessary but improves the signal.<br>
+      <br>
+      <br>
+      My final task now was to create a program on the PC to display this raw
+      data in real time, I used <a href="http://processing.org/" target="_blank">Processing</a>
+      to do this.&nbsp; I had not used Processing before, I found it to be very
+      easy to use (helped a lot by being used to programming an Arduino which is
+      very similar), I found a sample charting sketch <a href="http://arduino.cc/en/Tutorial/Graph"
+        target="_blank">HERE</a> which gave me a good starting point and I had a
+      working app surprisingly quickly....<br>
+      The Arduino's sketch is pretty basic, it just reads an analog input and
+      sends it to PC via serial port every 10 milliseconds (with a bit of code
+      added to send beats per min info every time a pulse is detected) - the
+      Arduino sketch can be seen <a href="ecg/ecg-ard.htm" target="_blank">HERE</a>
+      and the Processing sketch can be seen <a href="ecg/ecg-proc.htm" target="_blank">HERE</a>.<br>
+      <br>
+      so, here is how my ECG now displays the data on the PC screen in real time
+      as it comes in:<br>
+      <br>
+      <div style="text-align: center;"><img style="width: 982px; height: 283px;"
+          alt="ecg trace" src="ecg/ecg%20-trace.jpg">&nbsp;<br>
+      </div>
+      <br>
+      Here is the finished ECG unit it's self&nbsp;<small> (In the case you can
+        see the Arduino top right, small filter board to the left and the ECG
+        board bottom)</small>:<br>
+      <br>
+      <div style="text-align: center;"><img style="width: 640px; height: 487px;"
+          alt="ecg unit" src="ecg/ecg-fin.jpg"><br>
+      </div>
+      <br>
+      It turned out to be a reasonably simple project and very interesting so I
+      would recommend giving it a try.&nbsp; Not only was making this project
+      very rewarding but what I learned along the way about E.C.G., what the
+      signal I am receiving is and how the heart works etc. was also very
+      interesting.....<br>
+      <br>
+      Total spent on this project was £30.<br>
+      <br>
+      <hr style="width: 100%; height: 2px;"><span style="font-weight: bold; text-decoration: underline;"><br>
+      </span> <br>
+    </div>
+    <hr style="width: 100%; height: 2px;">
+    <p style="text-align: center;"><font color="#800000">You can contact me on -
+      </font><a href="mailto:alanesq@disroot.org"><font color="#800000">alanesq@disroot.org</font></a></p>
+    <p style="text-align: center;"><a href="index.htm" target="_top"><font
+          color="#800000" size="2">Back to my homepage</font></a></p>
+  </body>
+</html>

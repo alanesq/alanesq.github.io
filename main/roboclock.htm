@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html style="direction: ltr;">
+  <head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta content="Alan's wooden gear clock page" name="DESCRIPTION">
+    <meta content="arduino, robot, robotics, clock, wooden gear clocks, easy make robotic arm, basic robotics, stepper motors"
+      name="KEYWORDS">
+    <link href="logo.ico" rel="SHORTCUT ICON">
+    <title>Alan's robo clock page</title>
+    <meta name="description" content="Alan's robo clock">
+
+
+</head>
+  <body style=" direction: ltr; background-color: rgb(255, 255, 0);">
+    <div style="text-align: left;">
+      <center>
+        <table style="text-align: left; margin-left: auto; margin-right: auto;"
+          border="0" cellpadding="3">
+          <tbody>
+            <tr>
+              <td><img style="width: 223px; height: 200px;" alt="clock small" src="clock/roboclock1.jpg"><br>
+              </td>
+              <td>
+                <p align="center"><font color="#ff0000" size="6"><strong>Alan's</strong></font><font
+                    color="#ff0000" size="5"><strong></strong></font><font color="#ff0000"
+                    size="2"><strong></strong></font><font color="#ff0000" size="6"><strong>
+                      Roboclock <br>
+                      page</strong></font><font color="#ff0000" size="5"><strong>
+                    </strong><strong><u><br>
+                      </u></strong></font><font color="#ff0000" size="2">updated
+                    Nov 13</font></p>
+              </td>
+              <td><img style="width: 242px; height: 200px;" alt="maths" src="clock/math.gif"><br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </center>
+    </div>
+    <hr style="width: 100%; height: 2px;"><span style="color: rgb(153, 0, 0);">This
+      page details the creation of
+      yet another of my strange&nbsp;projects.....</span><br>
+    This
+    time I had a vary vague idea that I wanted to make a clock using a very
+    simple robotic arm, the idea was to have an old style analogue clock
+    face
+    but instead of the arms moving themselves,&nbsp;the robotic arm moves
+    periodically and pushes the hands&nbsp;round. &nbsp;<br>
+    So I first had a try building a robotic arm, this was a very
+    interesting project in it's self as it involved a lot of maths <small>(I
+      have recently been trying to teach myself some maths so this was a good
+      chance to try it out)<br>
+      <br>
+    </small>
+
+        <!-- If it is December display Festivus banner -->
+            <div id='festivusDiv'></div>
+            <script type="text/javascript" src="js/festivus.js"></script>    
+        
+        <!-- show banner if 'alanesq.com/banner.gif' exists -->
+            <div id='bannerDiv'></div>
+            <script type="text/javascript" src="js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->
+            
+    
+    <small><br>
+    </small>
+    <br>
+ 
+    <table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="width: 50%; text-align: left; vertical-align: top;">Dec
+            2012: I
+            first tried using servos but whilst this looked promising, it turns
+            out that the angles servos actually move to are very non
+            linear&nbsp;and so I was unable to
+            get any kind of usable accuracy from them.&nbsp; I then had a try to
+            see
+            what I could do with a couple of cheap stepper motors <small>(£5
+              for 2 from eBay including control circuits)</small> building the
+            most
+            basic arm I could think of.<br>
+            This is much better, the motors have a bit of play in them <small>(and
+all
+              the joints for that matter)</small>
+            so there is some free play in the arm, but it is good enough to do
+            something
+            with and at a total cost of £5 plus a bit of wood ans some bolts, it
+            is
+            a good
+            project in it's self and probably has lots of uses....<br>
+            <br>
+            I control it with an Arduino Uno <small>(see more info <a href="arduino.htm"
+                target="_blank">HERE</a>) </small><br>
+            To
+            position the arm it just requires to be given an x and y coordinate
+            <br>
+            i.e. tell it
+            to move to 100,150 and the arm will move so that it's tip is 100mm
+            to
+            the right and 150mm above the motors output shaft. &nbsp;This is
+            where
+            the maths came in, you can see more on how I did
+            this <a href="http://arduino.cc/forum/index.php/topic,135176.0.html"
+              target="_blank">HERE</a><br>
+            <br>
+            The
+            arm is very easy to build, it is just two&nbsp;stepper motors
+            mounted
+            so they are facing each
+            other with the output shafts opposite,&nbsp;I then turn both at the
+            same rate to move
+            the shoulder and one on it's own to move the elbow, very simple but
+            works surprisingly well.<br>
+            <br>
+            The Arduino Sketch for this arm can be seen <a href="clock/robosketch.htm"
+              target="_blank">HERE<br>
+            </a>In
+            this sketch you enter the coordinates via the serial monitor (e.g.
+            100,120) and the arm moves to that position. - As I am learning,
+            robotic
+            is much more complicated than I ever imagined, so there is plenty
+            could
+            be improved on this - but it works.......<br>
+            <br>
+          </td>
+          <td><a href="http://youtu.be/wBOTbSKWDwU"><img style="border: 0px solid ; width: 398px; height: 359px;"
+                alt="robot arm 2" src="clock/roboclock1.jpg"></a><br>
+            <br>
+            <div style="text-align: center;"><a href="http://youtu.be/wBOTbSKWDwU"
+                target="_blank"><span style="color: rgb(102, 0, 0);">Video of
+                  arm in action</span></a></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br style="color: rgb(153, 0, 0);">
+    <span style="color: rgb(153, 0, 0);">So, now I have a working arm I now
+      need to start thinking about what to
+      do with it ???</span><br>
+    My
+    original plan of an analogue clock face is feasible but a friend had an
+    idea which I am starting to like more;&nbsp;instead of a traditional
+    clock face with hands the robot points to numbers for the minutes, then
+    have
+    some kind of device where it slides a pointer up and down to indicate
+    hours<small> (not
+      figured this out yet)</small> but the bit I really like is his idea of
+    a bell which
+    the arm rings to indicate the hour :-)<br>
+    <br>
+    <hr style="width: 100%; height: 2px;"><br>
+    Jan 2013: &nbsp;I have
+    now made a slider for the indication of the hour. &nbsp;This turned out
+    to be much more difficult than I expected. &nbsp;The problem was making
+    something easy enough for the very weak arm to move but it needs to
+    stay in place whilst vertical when the arm has moved it. &nbsp;In the
+    end I used a magnet sliding along a chromed metal bar.<br>
+    There is a
+    lot more work to do on this, but it is now working to some extent.
+    &nbsp;The other problem I have is because there is so much free play in
+    the cheap stepper motors accuracy is an issue (I have added some weight
+    to the end of the arm to try and help with this)<br>
+    See video of the progress so far <a href="http://youtu.be/XquJrUasV0Y" target="_blank">HERE</a><br>
+    <br>
+    <hr style="width: 100%; height: 2px;"><br>
+    May 13: I have not done much recently on this project.&nbsp; I am stuck
+    at the moment on how to indicate the hours and I am waiting for
+    insparation on how to do this.<br>
+    I have made a slide which the arm can move up and down but with the
+    limitations on accuracy of the basic arm linkages (and code) I am
+    struggling to make it reliable enough.&nbsp; I think some other system
+    is required?<br>
+    <br>
+    I could just use a LED display or something for the hours, but I think
+    the arm moving some kind of indicator would be the main point of this
+    clock (if it has any point ?)<br>
+    <br>
+    Sep13: I think I have abandoned this project.&nbsp; I was working on it
+    back in May when I had this sudden realisation that this is just
+    pointless and I have not looked at it since????<br>
+    I may get back to it some time but I think the real problem was that it
+    was proving very difficult to come up with a way to indicate the hours
+    and I just lost interest and moved on to other things.......<br>
+    <br>
+    I will leave this page up though as I think the robotic arm is an
+    interesting/easy project in it's self so may be of interest to someone
+    as a first step into robotics?<br>
+    <br>
+    <br>
+    <a href="clocks.htm" target="_blank">My Wooden gear
+      clock page</a><a href="arduino.htm" target="_blank"><br>
+      My Arduino Page</a><br>
+    <a href="index.htm" target="_blank">My Home Page</a><br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <hr style="width: 100%; height: 2px;">
+    <p style="text-align: center;"><font color="#800000">You
+        can contact me on - </font><a href="mailto:alanesq@disroot.org"><font color="#800000">alanesq@disroot.org</font></a></p>
+    <p style="text-align: center;"><a href="index.htm" target="_top"><font
+          color="#800000" size="2">Back
+          to my homepage</font></a></p>
+  </body>
+</html>

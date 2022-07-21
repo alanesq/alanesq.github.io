@@ -1,0 +1,371 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta http-equiv="Content-Language" content="en-gb">
+    <meta name="DESCRIPTION" content="Alan's vending machine robot page">
+    <meta name="KEYWORDS" content="robot arduino vending machine drinks">
+    <link rel="SHORTCUT ICON" href="logo.ico"><title>Alan's robot page</title>
+    </head>
+
+    <body style=" direction: ltr; background-color: rgb(255, 255, 0);">
+  
+    
+    <div style="text-align: left;">
+    <table style="text-align: left; margin-left: auto; margin-right: auto;" border="0" cellpadding="3">
+    <tbody>
+        <tr>
+        <td>
+        <h1 align="center"><big><big><font color="#ff0000"><img style="width: 188px; height: 140px;" alt="bender" src="robot/bender.jpg"><br>
+        </font></big></big></h1>
+        </td>
+        <td>
+        <p align="center"><font color="#ff0000" size="6"><strong>Alan's
+    robot page</strong></font><font color="#ff0000" size="5"><strong> </strong><strong><u><br>
+        </u></strong></font><font color="#ff0000" size="2">updated Dec13<br>
+        </font></p>
+        </td>
+        <td>
+        <h1 align="center"><big><big><font color="#ff0000"><img style="width: 152px; height: 140px;" alt="marvin" src="robot/marvin.jpg"><br>
+        </font></big></big></h1>
+        </td>
+        </tr>
+    </tbody>
+    </table>
+    </div>
+
+
+
+<div style="text-align: center;"><big><span style="color: rgb(153, 0, 0);"></span></big>
+<hr style="width: 100%; height: 2px;"><big><span style="color: rgb(153, 0, 0);">We
+all have stupid ideas from time to time, this is the story of a series
+of silly ideas I had and my quest to actually carry them out! </span><br style="color: rgb(153, 0, 0);">
+<small><span style="color: rgb(153, 0, 0);"></span></small></big><br>
+</div>
+
+The
+first silly idea I had was that I wanted a full size hot drinks vending
+machine in my home, then I decided that pressing the buttons was
+proving too much like hard work so I fitted RFIDs to my mugs, then I
+decided that a robot to go collect drinks for me would take a lot of
+the stress and drudgery out of hot drinks..............<br>
+
+
+        <!-- If it is December display Festivus banner -->
+            <div id='festivusDiv'></div>
+            <script type="text/javascript" src="js/festivus.js"></script>    
+        
+        <!-- show banner if 'alanesq.com/banner.gif' exists -->
+            <div id='bannerDiv'></div>
+            <script type="text/javascript" src="js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->
+           
+           
+    
+<hr style="width: 100%; height: 2px;"><br>
+
+<table style="text-align: left; width: 100%; height: 407px;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 100%;"> <span style="font-weight: bold;">Latest news:&nbsp; </span><br>
+      <br>
+It has been a long slow process getting this to work, but it is now
+finished :-)<br>
+      <br>
+Well,
+finished is probably over stating it, there is still plenty of room for
+improvement and it is not yet very reliable - but it has now successfully collected and delivered many drinks..........<br>
+      <br>
+      <br>
+See a video of the robot collecting a drink -------&gt;<br>
+      <br>
+      <br>
+      <br>
+BTW - <a href="http://www.element14.com/community/community/experts/benheck" target="_blank">Ben Heck</a>
+is the real master of building things like this and his show introduced
+me to the Arduino without which this would be impossible for me to even
+consider doing. &nbsp;&nbsp;<br>
+      </td>
+      <td style="width: 60%; text-align: left; vertical-align: top;"><br>
+      <br>
+      <iframe src="http://www.youtube.com/embed/1dh4FiS4YO4" allowfullscreen="" frameborder="0" height="315" width="420"></iframe> <br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
+<hr style="width: 100%; height: 2px;"><br>
+
+<table style="text-align: left; width: 100%; height: 407px;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 100%;"><span style="font-weight: bold;">How it all came about:</span><br>
+      <br>
+For a long time now I had fancied the idea of having my own hot drinks
+vending machine <small>(not sure why ;-)</small>
+&nbsp;but it was only recently I spotted one
+on eBay which was not only a reasonable price but they would deliver
+it, I put a cheeky bid on, fully expecting it to go for stupid money.
+&nbsp;Next think I knew I had bought it !!! &nbsp; &nbsp; <br>
+Little did I know that this was going to be just the start of this
+whole new route of stupidity............<br>
+      <br>
+Soon after getting this machine working and installed I had the idea
+that if I fitted an <a href="http://en.wikipedia.org/wiki/Rfid" target="_blank">RFID</a> to the underside of my mug I
+could by using an <a href="arduino.htm" target="_blank">Arduino</a>
+with RFID reader and a bit of circuitry <small>(i.e. a couple of
+mux chips)</small> get it to to control the keypad
+on the vending machine so just by putting my mug into the machine it
+would recognise the mug and dispense my drink without my having to
+press any buttons..<br>
+      <br>
+This I did, but with this feature it gave me
+my silliest idea yet which I eventually just had to have a try at as it
+was just such a tempting project - this idea being that if a robot
+could collect my mug from me and take it to the machine, all it would
+have to do is place the mug into the vending machine and my drink would
+be dispensed, the robot could then bring the drink back to me..... </td>
+      <td style="width: 310px;"><img style="width: 153px; height: 350px;" alt="fusion" src="robot/fusion.gif"></td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
+<hr style="width: 100%; height: 2px;"><br>
+
+<table style="text-align: left; width: 100%; height: 407px;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 100%;"> <big>Building
+the robot:</big><br>
+      <br>
+First problem I had was the<br>
+minor
+detail that I have no experience whatsoever with building or
+programming robots and I had no idea where to start, so I decided that
+the best thing to do would be to build myself a very basic 3 wheeled
+robot of some kind just to get myself some experience on what is
+involved. &nbsp;As with all my projects I was determined not to
+spend a lot
+of money on this, especially as I thought it VERY unlikely I would ever
+be successful or even if it was possible at all?<br>
+      <br>
+So
+I ordered a couple of cheap motors and put together a very basic three
+wheeled base using whatever wood/metal I had in stock and started
+adding bits to it.<br>
+To control the motors I built a simple "H bridge"
+type circuit using a couple of relays and used a couple of transistors
+to switch the power feeds to these so I could use PWM to control the
+motor speeds.<br>
+I put Ultrasound range finders on the front and sides (these are just
+£2.50 each). &nbsp;<br>
+I decided to fit an LCD display as I figured this would make
+programming it easier as it could display what it was doing etc.<br>
+The
+drive motors are not very big so I made more heavy duty axles for the
+wheels to attach to as I expect this robot will be carrying more weight
+than the motors alone could take,<br>
+      <br>
+I cut out a couple of wheels from plywood, fitted a caster on the back
+and it was ready to start experimenting with........<br>
+      <br>
+      <span style="font-weight: bold;">Update:</span>
+I have now put the front ultrasound sensor on a servo so I can move the
+direction it points, this should help a lot as i can look at the wall
+in front from 2 directions and thus tell if it is square on to the wall
+or at an angle, it should also be able to swig it 90 degrees either
+side and do the same for a wall at the side of the robot .<br>
+      <br>
+&nbsp;cost so far = around £100<br>
+- Arduino mega&nbsp; £16, ultrasound sensors £7.50,
+motors £12, misc electronics £10., caster £6.50, universal joints
+£13,&nbsp;remote control £9, lcd £5, servo £2.50, 5ah 12v battery
+£16.<br>
+      <br>
+      </td>
+      <td style="vertical-align: top;"><img style="width: 227px; height: 401px;" alt="robot" src="robot/robot.jpg"><br>
+      <br>
+      <img style="width: 224px; height: 226px;" alt="servo" src="robot/servo.jpg"></td>
+      <td style="width: 310px; vertical-align: top;"><img style="width: 309px; height: 206px;" alt="base" src="robot/robotbase.jpg"><br>
+      <br>
+      <img style="width: 296px; height: 175px;" alt="axle" src="robot/robot%20axle.jpg"><br>
+      <br>
+      <img style="width: 295px; height: 233px;" alt="electronics" src="robot/electronics.jpg"><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
+
+
+<br>
+
+<hr style="width: 100%; height: 2px;"><br>
+
+<table style="text-align: left; width: 100%; height: 407px;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 100%;"> <big>Controlling
+the robot:</big><br>
+      <br>
+Once I had built a robot then the difficult part starts - trying to
+program it to do what I want -&nbsp;I am using an Arduino mega as
+controller <small>(more info <a href="http://alanesq.com/arduino.htm" target="_blank">HERE</a>)&nbsp;<big><br>
+I
+am not a programmer and have no experience of doing anything like this
+before so there is no way I could try and write some kind of artificial
+intelligence program or anything, so it has to be as simple as
+possible. &nbsp;<br>
+My first thoughts had been to paint a line on the
+floor for it to follow but I didn't really want lines all over the
+place and after looking at this idea on the internet it didn't look
+like it would be as easy as I had hoped anyway to program this.
+&nbsp;My next thought was to have infra red LEDs on my walls at
+strategic points and the robot just has to move towards the light, but
+I didn't fancy the idea of all the wiring and mess this would involve.<br>
+I
+also considered magnets/wires etc. under the floor that it could
+follow, this was a possibility but I thought for starters I will just
+see what I can get it to do just using the three ultrasound sensors. <small>(how
+these work can be seen <a href="http://en.wikipedia.org/wiki/Ultrasonic_sensor" target="_blank">HERE</a>)</small>.
+&nbsp;As it turns out, these almost turned out to be all that is
+needed,&nbsp;I am navigating round with very simple instructions
+such as
+move forward until 30cm from the object in front, turn left..........<br>
+      </big></small><small><big><br>
+If
+everything in the room was perfectly flat/square with no odd
+angles and strange shapes, no objects being moved and no doors being
+opened or closed&nbsp;etc. then this would be easy, but as I soon
+found out, programming a robot to navigate the real world is a very
+different proposition.. &nbsp;Also you have the problem that the
+robot
+may drift sideways when moving forward or a wheel may slip all of which
+throws out any attempts at navigation.<br>
+I
+also soon found out that the ultrasound can't be relied on in some
+situations as if at an angle from the thing in front or other things
+around giving reflections you can get no signal or even worse a false
+signal. &nbsp;After much experimenting I decided I needed more and
+so
+made a sensor to detect movement along the floor using an old PS2
+optical mouse. &nbsp;This hangs below the robot so as to slide
+along
+the ground and the signal from this can tell the robot not only how far
+it has travelled but also how far it has turned. &nbsp;This again
+is
+not perfect in the real world but is good enough to give some
+additional help in navigation.<br>
+      <br>
+Just need to spend a lot of time now learning how best to do it.<br>
+      <br>
+      </big></small>The main "breakthroughs" I have found
+is the idea of running for a small distance and
+comparing distance measurements to make sure it is running parallel to
+a wall, if not make a slight adjustment. &nbsp;The other trick is
+to have it
+try to follow a wall if one is available <small>(this can be
+seen working as it goes into the second room)</small>.
+&nbsp;My code for doing these still requires some work to get it
+right but they are already working well enough to help a lot.<br>
+      <br>
+I have now<span style="text-decoration: underline;"></span> fitted a
+ball caster on the back which has helped a lot as the caster I was
+using was throwing it out of
+alignment and upsetting everything. &nbsp;I also modified my sketch
+to
+apply low power to the motors for a short while before applying enough
+to move the robot, the idea being this will take up any slack in the
+motor drive - this has made a big difference :-)<br>
+I
+had a lot of trouble with the PS2 mouse keep stopping working resulting
+in the robot going out of control, I think this was a problem with the
+timed interrupt I use and so I have just modified my sketch to turn off
+this interrupt when using the mouse, so I am hoping this is now
+resolved?<br>
+      <br>
+      <small><big><br>
+For anyone interested, the latest version of my program can be seen <a href="robot/robot-sketch.htm" target="_blank">HERE</a><br>
+      <br>
+      <br>
+      </big></small></td>
+      <td style="width: 310px; vertical-align: top;"><br>
+      <br>
+      <br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
+<hr style="width: 100%; height: 2px;"><br>
+
+<table style="text-align: left; width: 100%; height: 407px;" border="0" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 100%;"> <span style="font-weight: bold;">Controller:</span><br>
+      <br>
+I bought a simple 4 button radio remote to use with the robot, so I
+can tell it when I want it to come and collect my cup etc. and then a
+friend gave me the idea that it would be fun to have a bell to ring to
+call the robot, so I have built the controller into the control panel
+here ---&gt;<br>
+      <br>
+There is a microswitch attached to the bell so the
+plan is that when I want a drink I ring the bell, the robot will then
+come into the room to collect my mug, take it to the vending machine,
+get it filled and then bring it&nbsp;to me.<br>
+      <br>
+      </td>
+      <td><img style="width: 400px; height: 265px;" alt="controller" src="robot/controller.jpg"></td>
+      <td style="width: 60%; text-align: left; vertical-align: top;"><br>
+      <br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
+
+
+<br>
+
+<span style="font-weight: bold;">Links:</span><br>
+
+<div style="text-align: left;">The real master of building
+stuff like this - <a href="http://www.element14.com/community/community/experts/benheck" target="_blank">Ben Heck</a><br>
+<a href="arduino.htm" target="_blank">My page about
+the Arduino</a><br>
+<a href="http://norrislabs.com/" target="_blank">NorrisLabs</a><br>
+<a href="http://nottinghack.org.uk/" target="_blank">Nottinghack</a> -
+group in Nottingham dedicated to building all kinds of stuff<br>
+</div>
+
+<br>
+
+You
+can contact me on - </font><a href="mailto:alanesq@disroot.org"><font color="#800000">alanesq@disroot.org</font></a></p>
+
+<p style="text-align: center;"><a href="index.htm" target="_top"><font color="#800000" size="2">Back
+to my homepage</font></a></p>
+
+<br>
+
+<br>
+
+</body></html>

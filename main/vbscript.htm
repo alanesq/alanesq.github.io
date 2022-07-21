@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html style="direction: ltr;">
+  <head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta content="Alan's VBScript page" name="DESCRIPTION">
+    <meta content="vbscript,visual basic,macro,windows,vb scripting,automating tasks,programming,coding,beginner,easy"
+      name="KEYWORDS">
+    <link href="http://www.alanesq.com/logo.ico" rel="SHORTCUT ICON">
+    <title>Alan's VBScript page</title>
+    <meta name="description" content="Alan's VBScript programming Page">
+  </head>
+  
+  
+  <body style="direction: ltr; background-color: rgb(255, 255, 0);">
+    <div style="text-align: left;">
+      <center>
+        <table style="text-align: left; margin-left: auto; margin-right: auto;"
+          cellpadding="3" border="0">
+          <tbody>
+            <tr>
+              <td><img style="width: 200px; height: 185px;" alt="logo2" src="vb/vb.jpg"><br>
+              </td>
+              <td>
+                <p align="center"><font color="#ff0000" size="6"><strong>Alan's</strong></font><font
+                    color="#ff0000" size="5"><strong></strong></font><font color="#ff0000"
+                    size="2"><strong></strong></font><font color="#ff0000" size="6"><strong>
+                      VBScript page</strong></font><font color="#ff0000" size="5"><strong>
+                    </strong><strong><u><br>
+                      </u></strong></font><font color="#ff0000" size="2">updated
+                    Nov19<br>
+                  </font></p>
+              </td>
+              <td><img style="width: 200px; height: 185px;" alt="logo2" src="vb/vb.jpg">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </center>
+    </div>
+    <hr style="width: 100%; height: 2px;">In my youth I was really into
+    programming, but this being the 80s it was very different to now. &nbsp;What
+    I love about VBScript is it is very simple and quick, in that respect very
+    similar to the "good old days" <small>(although it is&nbsp;easier and much
+      more powerful than the Basic of the 80s)</small><br>
+    <div style="text-align: left;">BTW - See an example here of the sort of
+      things I did whilst others my age were out having fun - <a href="vb/magclip.jpg"
+        target="_blank">HERE</a> - This is taken from a popular weekly magazine
+      of the time "Home Computing Weekly"<br>
+      <br>
+      I&nbsp;find VBScript very useful both at home <small>(it controls my
+        house via my home automation system)</small> and at work <small>(automating
+        tasks, gathering audit info from computers etc.)</small>, you can do
+      some very clever things with it very easily - this page is aimed at
+      getting you started as I found it difficult to find any decent info on the
+      basics. &nbsp;Once you get the feel for how it works then it is easy to
+      find examples for what you wish to do via Google etc., so once you have
+      read through this page there will be no stopping you :-)<br>
+      
+
+        <!-- If it is December display Festivus banner -->
+            <div id='festivusDiv'></div>
+            <script type="text/javascript" src="js/festivus.js"></script>    
+        
+        <!-- show banner if 'alanesq.com/banner.gif' exists -->
+            <div id='bannerDiv'></div>
+            <script type="text/javascript" src="js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->
+              
+            
+      <br>
+      <br>
+      <hr style="width: 100%; height: 2px;"><span style="text-decoration: underline; font-weight: bold;">Getting
+        started</span><br>
+      <br>
+      First of all, just to show how easy it is to create a script and to get an
+      idea of what it is all about we shall <small>(in the time honoured way)</small>
+      create a script to display "hello world"<br>
+      <br>
+      &nbsp;&nbsp;&nbsp; 1 - Open Notepad on your computer <small>(click start
+        then run and enter Notepad)</small><br>
+      <br>
+      &nbsp;&nbsp;&nbsp; 2&nbsp;- Enter the following line<br>
+      &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<span style="color: rgb(204, 0, 0);">
+        &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; msgbox
+        "hello world"</span><br>
+      <br>
+      &nbsp;&nbsp;&nbsp; 3 - Save the file as &nbsp;&nbsp;<span style="color: rgb(204, 0, 0);">test.vbs<br>
+        <br>
+        <span style="color: black;">Now browse to this file you have just saved
+          <small>(in my computer)</small> and double click on it<br>
+          - It is that simple, you are now ready to start experimenting with all
+          the VBScript commands to see what you can do<br>
+        </span></span><span style="color: rgb(204, 0, 0);"><span style="color: black;"><small>note
+            - If when you double click on the file it just opens up in notepad
+            again, this will be that your computer is set not to show&nbsp;file
+            extensions (i.e. it has saved the file as <span style="color: rgb(204, 0, 0);">test.vbs.txt</span>
+            ) - Google "windows show file extensions"</small></span><span style="color: black;"><span
+            style="color: rgb(204, 0, 0);"></span><br>
+        </span></span><br>
+      <span style="color: rgb(204, 0, 0);"><span style="color: black;"><br>
+          Try replacing the command in your script with - &nbsp; &nbsp; &nbsp;<span
+            style="color: rgb(204, 0, 0);">msgbox "The date is " &amp; date<br>
+            <br>
+            <br>
+            <span style="color: black;">You could create a simple script to
+              check if it is an important date</span><br>
+            &nbsp; &nbsp; &nbsp; &nbsp;If left(date,5) = "09/11" Then<span style="color: black;">
+              &nbsp; &nbsp; &nbsp; <small>'<span style="font-weight: bold;">left(date,5)</span>
+                just uses the first 5 characters of todays date</small></span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;MsgBox "Happy
+            Birthday"<br>
+            &nbsp; &nbsp; &nbsp; &nbsp;End If<br>
+          </span>Put this into the <a href="http://techpaul.wordpress.com/2007/07/10/adding-programs-to-your-startup-folder/"
+            target="_blank">Startup folder</a> on your PC and there, you have
+          already created something useful with VBScript :-)<br>
+          <br>
+        </span><br>
+      </span>
+      <hr style="width: 100%; height: 2px;"><span style="color: rgb(204, 0, 0);"><span
+          style="color: black;"><span style="font-weight: bold; text-decoration: underline;">Getting
+a
+            bit more advanced</span><br>
+          <br>
+          Here is a simple script to copy a file "test.txt" from c:\ to c:\temp<br>
+          &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<span style="color: rgb(204, 0, 0);">Set
+            Fso = WScript.CreateObject("Scripting.FileSystemObject") &nbsp; <span
+              style="color: black;">&nbsp;<small>'this line is just a standard
+                VBScript command to invoke the "File System" addin &nbsp;(dont
+                worry if you don't understand it)</small></span></span><br style="color: rgb(204, 0, 0);">
+          <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;FSO.CopyFile "c:\test.txt"&nbsp; , "c:\temp\" ,
+            True</span></span></span><br>
+      <br>
+      Now if you only wanted the file to copy after a certain date you could do
+      the following:<br>
+      <span style="color: rgb(204, 0, 0);"><span style="color: black;">&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;<span style="color: rgb(204, 0, 0);">Set Fso =
+            WScript.CreateObject("Scripting.FileSystemObject") &nbsp;<span style="color: black;"><br>
+            </span></span><span style="color: rgb(204, 0, 0);"></span></span></span>&nbsp;&nbsp;
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">If
+          date &gt; "08/09/2009" Then</span></span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;</span><span style="color: rgb(204, 0, 0);">FSO.CopyFile
+"c:\test.txt"&nbsp;
+        , "c:\temp\" , True</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span
+          style="font-weight: bold;">End If</span></span><br>
+      <br>
+      Now you can add the following so it will tell you if the file has been
+      copied<br>
+      <span style="color: rgb(204, 0, 0);"><span style="color: black;">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;
+          <span style="color: rgb(204, 0, 0);">Set Fso =
+            WScript.CreateObject("Scripting.FileSystemObject") &nbsp; <span style="color: black;">&nbsp;</span></span><br
+            style="color: rgb(204, 0, 0);">
+          <span style="color: rgb(204, 0, 0);"></span></span></span>
+      &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="color: rgb(204, 0, 0);">If
+        date &gt; "</span><span style="color: rgb(204, 0, 0);">08/09/2009</span><span
+        style="color: rgb(204, 0, 0);">" Then</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; FSO.CopyFile "c:\test.txt"&nbsp; ,
+        "c:\temp\" , True<br>
+      </span><span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<span style="font-weight: bold;">MsgBox
+          "File copied"</span><br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">Else</span><br
+          style="font-weight: bold;">
+        <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp; &nbsp;MsgBox "File not copied"</span><br style="color: rgb(204, 0, 0);">
+      </span><span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;End If</span><br>
+      <br>
+      Now if the file to be copied doesn't exist you will get a meaningless
+      error message, so you can test for this before attempting to copy the file<br>
+      &nbsp;<span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp; Set
+        Fso = WScript.CreateObject("Scripting.FileSystemObject") <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If date &gt; "08/09/2009" Then<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">If
+          FSO.FileExists ("c:\test.txt") = True Then</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+FSO.CopyFile
+        "c:\test.txt"&nbsp; , "c:\temp\" , True<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+MsgBox
+        "File copied"<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">Else</span><br
+          style="font-weight: bold;">
+        <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+MsgBox
+          "Error - c:\test.txt does not exist"</span><br style="font-weight: bold;">
+        <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+End
+          If</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Else<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MsgBox
+        "File not copied"<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; End If</span><br>
+      <br>
+      Now you may not want it to overwrite the destination file if it already
+      exists<br>
+      &nbsp;<span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp; Set Fso =
+        WScript.CreateObject("Scripting.FileSystemObject") </span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        If date &gt; "08/09/2009" Then</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;If
+        FSO.FileExists ("c:\test.txt") = True Then</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span style="font-weight: bold;">If FSO.FileExists ("c:\temp\test.txt")
+          = True Then</span></span><br style="color: rgb(204, 0, 0); font-weight: bold;">
+      <span style="color: rgb(204, 0, 0); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Msgbox
+        "Error - destination file alread exists"</span><br style="color: rgb(204, 0, 0); font-weight: bold;">
+      <span style="color: rgb(204, 0, 0); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Else</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+FSO.CopyFile
+        "c:\test.txt"&nbsp; , "c:\temp\" , True</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+MsgBox
+        "File copied"</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span style="font-weight: bold;">End If</span></span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;Else</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+MsgBox
+        "Error - c:\test.txt does not exist"</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;End
+        If</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Else</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+MsgBox
+        "File not copied"</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+End
+        If</span><br style="color: rgb(204, 0, 0);">
+      <br>
+      So you get the idea how you can quickly and easily use VBScript to do
+      exactly what you require<br>
+      <br>
+      <hr style="width: 100%; height: 2px;"><span style="font-weight: bold; text-decoration: underline;">Example
+        Game</span><br>
+      <br>
+      Here is a very simple game using VBScript<br>
+      you try to guess a number between 1 and 100 - There is no error trapping
+      etc. in this so there is plenty of room for improvement here but it
+      demonstrates the sort of thing you can do<br>
+      <br>
+      It uses variables which we have not covered yet, this just assigns a word
+      or number to a name<br>
+      e.g. you could say FRED=10 then work out what FRED plus 5 is &nbsp;<br>
+      <span style="color: rgb(153, 0, 0);">&nbsp; &nbsp; &nbsp; dim FRED &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: black;">&nbsp;'This
+          declares you will be using a variable called FRED</span></span><br style="color: rgb(153, 0, 0);">
+      <span style="color: rgb(153, 0, 0);">&nbsp; &nbsp; &nbsp; FRED = 10 &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: black;">'This
+          assigns the number 10 to FRED</span></span><br style="color: rgb(153, 0, 0);">
+      <span style="color: rgb(153, 0, 0);">&nbsp; &nbsp; &nbsp; MsgBox FRED +
+        5&nbsp; &nbsp; &nbsp; <span style="color: black;">'This displays what
+          FRED plus 5 is. &nbsp; i.e. it displays "15"</span></span><br style="color: rgb(153, 0, 0);">
+      <br>
+      <br>
+      <small>Note: The variables used in this game are GNUM=The random number
+        you have to guess, GUESS=Users crrent guess and COUNT=the number of
+        guesses so far</small><br>
+      <span style="color: rgb(204, 0, 0);"></span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">randomize&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;
+        &nbsp; &nbsp; <span style="color: black;">&nbsp; &nbsp; &nbsp; &nbsp;
+          &nbsp; &nbsp; &nbsp; &nbsp;'This stops the same numbers coming up
+          every time you start the program</span></span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">dim GNUM, GUESS,
+        COUNTt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: black;">
+          'Declare variables used in the script &nbsp;</span></span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">gnum=int(rnd()*100)+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+          style="color: black;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          &nbsp; &nbsp;'pick a random number between 1 and 100</span></span><br
+        style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">count=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;
+        &nbsp; &nbsp; &nbsp; <span style="color: black;">&nbsp; &nbsp; &nbsp;
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'set number of guesses counter to 0</span></span><br
+        style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp; Do </span><span style="color: rgb(204, 0, 0);">&nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp;</span><span style="color: rgb(204, 0, 0);"><span
+          style="color: black;">'keep repeating this section until the guess is
+          correct</span></span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+count
+        = count +1&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: black;"> &nbsp;
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          &nbsp;'increment the guess counter by 1</span></span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+guess=inputbox("Enter
+        guess number " &amp; count)</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If
+        gnum = cdbl(guess) Then Exit do&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: black;">'Stop
+          when correct <small>(cdbl converts text format to&nbsp;number format)</small></span></span><br
+        style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+If
+        cdbl(guess) &gt; gnum then &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: black;">'Display
+          if the guess is too low or too high</span></span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+msgbox
+        "lower"</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Else</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+msgbox
+        "higher"</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+End
+        If</span><br style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">&nbsp;&nbsp; Loop &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; <span style="color: black;">'Jump back up to the Do command</span></span><br
+        style="color: rgb(204, 0, 0);">
+      <span style="color: rgb(204, 0, 0);">Msgbox "Correct in " &amp; count
+        &amp; " tries"</span><br style="color: rgb(204, 0, 0);">
+      <br>
+      <hr style="width: 100%; height: 2px;"><br>
+      Now you have a feel for the basics you will be able to search for other
+      peoples scripts on Google and see how to do things.<br>
+      There are plenty of forums and guides out there, it is just the very
+      basics <small>(as covered above)</small> which I found was difficult to
+      figure out and so it was difficult to get started.....<br>
+      <br>
+      Before spending too much time learning VBScript I would recommend you have
+      a look at the open source scripting language&nbsp;<a href="http://www.autohotkey.com/"
+        target="_blank">Autohotkey</a><br>
+      I think it is more powerful than VBScript and you can do some really
+      clever things with it very easily.<br>
+      If your interest is more in creating graphics or web based stuff then
+      Javascript will be much more of interest, take a look at <a target="_blank"
+        title="javascript" href="http://www.alanesq.com/vb/planets3d.htm">THIS</a>,
+      I have been amazed at how easy this type of thing is tto produce these
+      days...<br>
+      <br>
+      BTW - If you enjoy this sort of thing you may be interested in having a
+      look at the Arduino? &nbsp; &nbsp;Have a look <a href="http://alanesq.com/arduino.htm"
+        target="_blank">HERE</a><br>
+      <br>
+      <br>
+      <span style="color: rgb(0, 102, 0);">Let me know if this page has been
+        useful, if I get enough interest I will&nbsp;continue to add to it -
+        alanesq@disroot.org<br>
+      </span><br>
+      <br>
+      <hr style="width: 100%; height: 2px;"><span style="font-weight: bold; text-decoration: underline;">Links<br>
+      </span> <br>
+      <a href="http://www.w3schools.com/vbscript/" target="_blank">Beginners
+        Guide</a><br>
+      <a href="http://ss64.com/vb/" target="_blank">VBScript Commands</a><br>
+      <a href="http://www-scf.usc.edu/%7Ecsci571/Special/vb_examples.html" target="_blank">Some
+        examples of VBScript in web pages</a><br>
+    </div>
+    <hr style="width: 100%; height: 2px;">
+    <p style="text-align: center;"><font color="#800000">You can contact me on -
+      </font><a href="mailto:alanesq@disroot.org"><font color="#800000">alanesq@disroot.org</font></a></p>
+    <p style="text-align: center;"><a href="http://www.alanesq.com" target="_top"><font
+          color="#800000" size="2">Back to my homepage</font></a></p>
+  </body>
+</html>

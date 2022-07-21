@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<!-- 
+
+    Display of care home fees - 20Jun22
+    
+-->
+
+<html>
+
+  <head>
+    <title>Care fees</title>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Language" content="en-gb">
+    <link rel="SHORTCUT ICON" href="http://alanesq.eu5.net/logo.ico"/>    
+  </head>
+  
+  <style>
+    * {
+        padding: 0;
+        margin: 0;
+        font-size: 18px;
+    }  
+    
+    body {
+      background-color: #FF0;
+    }
+    #myProgress {
+      width: 100%;
+      background-color: #ddd;
+    }
+    #myBar1, #myBar2 {
+      width: 1%;
+      height: 30px;
+      background-color: #500;
+    } 
+    #myProgress {
+      border: 2px solid gray;
+      padding: 8px;
+      width: 95%;
+    }    
+    h1 {
+      color: #FF1000; 
+      text-shadow: 0 0 3px #000000, 0 0 5px #551000;      
+      font-size: 55px;
+      transition: font-size 5s;
+    }
+    h1:hover {
+      font-size: 95px;
+    }
+    P {
+      color: #505;
+      font-size: 20px;
+    }
+  </style>  
+  
+  <body>
+    <center>
+  
+    <br><br>
+    <div id="myProgress">
+      <br>
+      <p title='What it costs you if you are ill and need to go in to care'>THE COST OF BEING ILL</p><br>
+      <div id="myBar1"></div>
+      <br><h1 id="carecosts"></h1><br>
+      <div id="myBar2"></div>
+      <p id="fee" title='This is the cost of the care home minus attendance allowance'></p>
+      <br>
+    </div>
+    
+    
+    <script>   // Javascript 
+    
+      var cstart = new Date('June 1, 2021 10:00');      // When he moved in to care home £900 ('June 1, 2021 10:00')
+      var cstart2 = new Date('April 1, 2022 00:00');    // When care fees went up to £972 ('Apr 1, 2022 00:00')
+      var carefees = 972;                               // care home fees
+      var aa = 89.60;                                   // attendance allowance received
+      var ccost = carefees - aa;                        // cost per week 
+    
+      var cps = ccost/7/24/60/60/1000;                // calculate care cost per millisecond 
+      
+      // display fee information
+        var nd = new Date();     // date now
+        var da = Math.ceil( (nd - cstart) / 1000 / 60 / 60 / 24 );    // days since start
+        //var mes = "<br>Moved in to care home 1st June 2021, " + da + " days ago (current weekly fee £ " + ccost.toFixed(2) + ")";
+        var mes = "<br>Moved in to care home 1st June 2021 (" + da + " days ago)";
+        var mes = mes + "<br>Weekly care home fee £" + carefees.toFixed(2) + ", weekly attendence allowance received £" + aa.toFixed(2);
+        document.getElementById("fee").innerHTML = mes;
+      
+      // refreshing display
+      function refreshingDisplay() {
+          update();                                   // show initial costs
+          var width = 1;
+          var id = setInterval(frame, 95);
+          function frame() {                          // show moving bars
+            if (width >= 100) {
+              update(); 
+              width = 1;   // reset bar size
+            } else {
+              width++;
+              document.getElementById("myBar1").style.width = width + "%";
+              document.getElementById("myBar2").style.width = width + "%";
+            }
+          }
+          function update() {                         // update costs
+            var n = new Date();                       // time now
+            var dif = Math.abs(n-cstart2);            // milliseconds since fees went up to £972
+            var res = cps * dif;                      // cost since fee increse
+            res += 35150;                             // fees from moving in until fee increased from £900 to £972 (apr 22)
+            var resFormatted = res.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            document.getElementById("carecosts").innerHTML = "Cost of being in care £" + resFormatted;    // display result
+          }             
+        }
+      
+      refreshingDisplay();                            // start the updating display
+      
+    </script>
+    
+
+  </body>
+</html>

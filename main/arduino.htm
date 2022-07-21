@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <title>Alan's Arduino page</title>
+    <meta content="Alan's Aduino page" name="DESCRIPTION">
+    <meta content="arduino,electronics,micro controler,home automation,ENC28J60,ethernet shield,ethercard"
+      name="KEYWORDS">
+    <link href="logo.ico" rel="SHORTCUT ICON">
+    <meta content="Alan's Arduino page" name="description">
+  </head>
+  <body style="direction: ltr; background-color: rgb(255, 255, 0);">
+    <center>
+      <table style="margin-left: auto; width: 661px; margin-right: auto; height: 67px; text-align: left;"
+        border="0" cellpadding="3">
+        <tbody>
+          <tr>
+            <td style="width: 209px;"><img style="width: 224px; height: 193px;"
+                alt="left" src="arduino/arduino.png"><br>
+            </td>
+            <td style="width: 201px;">
+              <p style="margin-left: 0px; width: 238px;" align="center"><font color="#ff0000"
+                  size="6"><strong>Alan's</strong></font><font color="#ff0000" size="5"><strong></strong></font><font
+                  color="#ff0000" size="2"><strong></strong></font><font color="#ff0000"
+                  size="6"><strong> Arduino Page</strong></font><font color="#ff0000"
+                  size="5"><strong></strong><strong><u><br>
+                    </u></strong></font><font color="#ff0000" size="2">Page
+                  updated Jul19<br>
+                </font></p>
+            </td>
+            <td style="width: 238px;"><img style="width: 224px; height: 140px;"
+                alt="right" src="arduino/esp8266.png"><br>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+        <!-- If it is December display Festivus banner -->
+            <div id='festivusDiv'></div>
+            <script type="text/javascript" src="js/festivus.js"></script>    
+        
+        <!-- show banner if 'alanesq.com/banner.gif' exists -->
+            <div id='bannerDiv'></div>
+            <script type="text/javascript" src="js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->
+             
+      
+    </center>
+    <hr style="width: 100%; height: 2px;">I wish I had discovered the Arduino a
+    long time ago, it would have made my home automation projects much easier,
+    now a whole new world of possibilities opens up.......<br>
+    <br>
+
+    <!-- show banner if 'alanesq.com/banner.gif' exists -->
+        <div id=bannerDiv align="center"> </div>
+        <script type="text/javascript" src="js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->
+    
+    
+    <br>
+    The Arduino is basically a very small computer with lots of &nbsp;input and
+    output connections which can be used to switch things on and off or to
+    connect sensors to etc.. &nbsp;If you want to make some kind of electronic
+    gizmo, rather than having to have a degree in electronics/maths to be able
+    to design and build a custom circuit, you just write a simple program and
+    with the minimum of electronics knowledge you can be build just about
+    anything you can imagine...<br>
+    <br>
+    There are other micro controllers out there but the big advantage of the
+    Arduino is that it is designed to be <span style="font-weight: bold;">very</span>
+    easy to use, especially for beginners - see <a href="http://arduino.cc/" target="_blank">HERE</a>
+    for more info<br>
+    <small><big><br>
+        e.g. You can buy&nbsp;modules&nbsp;which wire straight in:<br>
+        -&nbsp;4 relays on a board with all the electronics built in, all it
+        needs is 6 wires from the Arduino&nbsp;(£5 on eBay) with this you can
+        switch just about anything on and off <span style="font-style: italic;">(switching
+          mains power with them is dangerous and you need to know what you are
+          doing).</span><br>
+        - servos <small>(as used in model aircraft)</small> have just 3 wires -
+        2 of these go to a battery and the other plugs straight into the Arduino<br>
+        - search eBay for Arduino and you will see he amazing array of things
+        you can get for it<br>
+        <br>
+        It is very cheap, the programming language is easy to learn/use and
+        there is just shed loads of info/help on the internet <br>
+        <br>
+        <br style="font-weight: bold;">
+        <span style="font-weight: bold;"> LATEST NEWS: </span>The ESP8266 or
+        ESP32 is the latest development which is much more powerful than a basic
+        Arduino, has built in Wifi and can be programmed with the same
+        software.&nbsp; See <a target="_top" href="http://alanesq.com/arduino/basicwebserver/">HERE
+          </a>for my sketch for use with these modules which I find is a good
+        starting point for any new project.&nbsp; Rather than buying an Arduino
+        I would recommend getting yourself an "ESP8266 nodemcu" (you can pick
+        them up on eBay for around £2).<br>
+        <br>
+        <br>
+      </big></small>
+    <hr style="width: 100%; height: 2px;"><small style="font-weight: bold;"><big><br>
+      </big></small><small><big><span style="color: rgb(0, 0, 153);"><span style="font-weight: bold;">Here
+            is a sketch which will flash a light which shows just how easy the
+            Arduino is to program. </span><br>
+          <br>
+          Note - There are two sections to an Arduino program (sketch) - SETUP
+          is what it runs when first turned on, LOOP is what it then cycles
+          through repeatedly<br>
+          <br>
+          <br style="color: rgb(0, 0, 153);">
+        </span><span style="color: rgb(153, 0, 0);">void setup()
+          {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span><br style="color: rgb(153, 0, 0);">
+        <span style="color: rgb(153, 0, 0);">&nbsp; pinMode(13,
+          OUTPUT);&nbsp;&nbsp;&nbsp;&nbsp; /</span></big></small><small style="color: rgb(153, 0, 0);"><big>/
+        tell it to use pin 13 as an output.<br>
+      </big></small><small><big><span style="color: rgb(153, 0, 0);">}</span><br
+          style="color: rgb(153, 0, 0);">
+        <br style="color: rgb(153, 0, 0);">
+        <span style="color: rgb(153, 0, 0);">void loop() {</span><br style="color: rgb(153, 0, 0);">
+        <span style="color: rgb(153, 0, 0);">&nbsp; digitalWrite(13,
+          HIGH);&nbsp;&nbsp; // turn the output on&nbsp;</span><br style="color: rgb(153, 0, 0);">
+        <span style="color: rgb(153, 0, 0);">&nbsp;
+          delay(1000);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+//
+          wait for a second</span><br style="color: rgb(153, 0, 0);">
+        <span style="color: rgb(153, 0, 0);">&nbsp; digitalWrite(13,
+          LOW);&nbsp;&nbsp;&nbsp; // turn the output off</span><br style="color: rgb(153, 0, 0);">
+        <span style="color: rgb(153, 0, 0);">&nbsp;
+          delay(1000);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+//
+          wait for a second</span><br style="color: rgb(153, 0, 0);">
+        <span style="color: rgb(153, 0, 0);">}</span><br style="color: rgb(153, 0, 0);">
+        <span style="color: rgb(153, 0, 0);"></span><br>
+        <br>
+        So you enter the above code into the Arduino software&nbsp;on your
+        computer, plug an Arduino board into a USB port, upload the program and
+        that is it - you can now plug the Arduino into a power supply and it
+        will run your program and in this case flash the light. &nbsp;If you
+        were to do this with analog electronics it would involve lots of
+        components, maths and a lot of knowledge/experience to get it right.<br>
+        <br>
+      </big></small><br>
+    <br>
+    <hr style="width: 100%; height: 2px;"> <br>
+    <table style="width: 100%; text-align: left;" border="0" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; text-align: left;">Here is my first
+            project - it is a monitor to check my home automation server is
+            working ok. &nbsp;If the server stops sending a signal to the
+            Arduino then it knows the software on the server has stopped and so
+            it will shut the power off then back on in order to restart
+            everything <small>(it will also restart some other equipment hence
+              the multiple relays)</small>. &nbsp;So now if my server crashes,
+            rather than my home control and security systems all coming to a
+            stop it restarts them automatically&nbsp;:-)<br>
+            I have recently also added a network sheild to this so I can control
+            it via the internet if I need to restart the server manually.<br>
+            <br>
+            It uses a 4 relay board from eBay costing £5 and a £12 Arduino and
+            is cased in an old computer PSU. Total&nbsp;cost £17 to build.<br>
+            <small>BTW - if you use a relay on a board like this remember that
+              some of the pins on the circuit board will have mains on them, so
+              make sure it is well insulated from the case.<br>
+            </small><br>
+            The sketch (minus networking) for this can be seen <a href="arduino/smon.txt"
+              target="_blank">HERE</a><br>
+            <br>
+          </td>
+          <td><img style="width: 373px; height: 280px;" alt="server monitor" src="arduino/smon.jpg"></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    <hr style="width: 100%; height: 2px;"> <br>
+    I have also used an Arduino to make an automatic gate opener/closer using
+    hydraulics, made a 3d led cube <small>(<a href="http://aglick.com/charliecube.html"
+        target="_blank">instructions here</a>)</small> , an ECG <a href="ecg.htm"
+      target="_self">HERE</a> and my drinks robot project can be seen <a href="robot.htm"
+      target="_blank">HERE</a><br>
+    My next project I think will be some kind of novelty clock - see <a href="roboclock.htm"
+      target="_blank">HERE&nbsp;</a> <small>(BTW - see my wooden gear clocks <a
+        href="http://alanesq.com/clocks.htm" target="_blank">HERE</a>)</small><br>
+    <br>
+    <div style="text-align: center;"><a href="robot.htm"><img
+          style="border: 0px solid ; width: 177px; height: 300px;" alt="robot" src="arduino/robot.jpg"></a>&nbsp;&nbsp;<a
+        href="http://aglick.com/charliecube.html"><img style="border: 0px solid ; width: 300px; height: 297px;"
+          alt="LEDcube" src="arduino/LEDcube.jpg"></a> &nbsp;<img style="width: 400px; height: 300px;"
+        alt="gate opener" src="arduino/gate.jpg"></div>
+    <br>
+    <hr style="width: 100%; height: 2px;"><br>
+    <span style="font-weight: bold;"></span><span style="font-weight: bold;"></span>Links:<br>
+    <br>
+    &nbsp;&nbsp;&nbsp; <a href="http://arduino.cc/" target="_blank">The main
+      Arduino web site</a><br>
+    <br>
+    &nbsp;&nbsp;&nbsp; <a href="http://www.youtube.com/watch?v=fCxzA9_kg6s" target="_blank">Excellent
+      set of beginners guide videos</a><br>
+    <br>
+    &nbsp;&nbsp;&nbsp; <a href="http://www.arduino.cc/playground/Main/ManualsAndCurriculum"
+      target="_blank">Arduino / Electronics manuals</a><br>
+    <br>
+    &nbsp;&nbsp;&nbsp; <a href="http://tronixstuff.wordpress.com/tutorials/" target="_blank">Excellent
+set
+      of tutorials</a><br>
+    &nbsp;&nbsp;&nbsp; <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span style="text-decoration: underline;"></span><a
+      href="http://www.arduinotutorials.com/" target="_blank">Lots more
+      tutorials -&nbsp;arduinotutorials.com</a><br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<a href="http://aglick.com/charliecube.html" target="_blank">Fantastic
+      3D LED cube project</a><br>
+    <br>
+    &nbsp;&nbsp;&nbsp; <a href="http://fritzing.org/" target="_blank">Fritzing
+      - very easy to use design software</a><br>
+    <br>
+    &nbsp; &nbsp; <a href="http://nottinghack.org.uk/" target="_blank">Nottinghack
+-
+      nottingham based group dedicated to making all kinds of stuff</a><br>
+    <br>
+    &nbsp;&nbsp;&nbsp; <a href="http://dangerousprototypes.com/" target="_blank">Dangerousprototypes
+      - Open source hardware</a><br>
+    <br>
+    <br>
+    <hr style="width: 100%; height: 2px;"> <br>
+    <script src="Alan%27s%20Arduino%20page_files/brand" type="text/javascript"></script>
+    <p style="text-align: center;"><font color="#800000">You can contact me on -
+      </font><a href="mailto:alanesq@disroot.org"><font color="#800000">alanesq@disroot.org</font></a></p>
+    <p style="text-align: center;"><a href="index.htm" target="_top"><font
+          color="#800000" size="2">Back to my homepage</font></a></p>
+  </body>
+</html>
