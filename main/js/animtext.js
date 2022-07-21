@@ -1,8 +1,8 @@
 /*
-   Display animated text - 10 Dec 19
+   Display animated text - 21Jul22
    
    include following in html:    
-            <script language="javascript" type="text/javascript" src="http://www.alanesq.eu5.net/js/p5.min.js"></script>
+            <script language="javascript" type="text/javascript" src="js/p5.min.js"></script>
             <script language="javascript" type="text/javascript" src="js/animtext.js"></script>
             
             <center><div id="animtext"></div></center>
@@ -28,7 +28,7 @@ let lPad, radii;
 
 // text to display - format = 'lines.push("This is a message");'
     lines.push("Welcome to");
-    lines.push("alanesq.eu5.net");
+    lines.push("alanesq.github.io");
     
 let tcol = [255,0,0];                       // text colour (red overwritten if shimmer is enabled)
 const lSpace = 65;                          // line spacing (default = 65)
