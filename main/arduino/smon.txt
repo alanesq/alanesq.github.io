@@ -1,0 +1,454 @@
+/*
+ 
+ This is the Arduino sketch for monitoring the home automation
+ server - Alan            Jan 12                 v1.0
+ 
+ 
+ The server sends a line of serial data once a minute to show all is ok, 
+ if no data has been received for 5 mins then assume the server 
+ has crashed and reboot (by turning the power off then on)
+ If the server does not come back online then reset both the 
+ server and the aux. power supply.
+ 
+ The Arduino also monitors a temp sensor and if this gets too
+ high all power is shut off  (in case of fire/overheating of server area)
+ 
+ 
+           -----------------------------------
+ 
+ 
+ The server can send the following commands to the Arduino
+
+    disable = suspend any actions
+    enable = enable power mnitoring
+    report = respond with status information
+    alloff = turn all power off to both server and aux.
+    ping = send this every minute to inform arduino all is ok (arduino will reply with "ping")
+    reboot = turn server power off then back on
+    reset = turn server an aux power off then back on
+
+ This script will issue commands/info to the server with lines starting with:
+
+    warning - no data received from server for 3 mins, in 2 more mins powe will be shut off
+    alloff - about to turn all power off
+    ping - confirm ping received
+    report - report on arduino status (send following a "report" request received)
+    enabled - server monitoring enables
+    disabled - server monitoring disabled
+    reboot - about to power off and back on the server
+    reset - about to power off and back on the server and aux power 
+    tempwarning - Temp too high so all power about to be turned off
+    note - general info to be logged
+
+
+  note - Send the commands in Homeseer with:     hs.sendtocomport 8,"enable" & vblf 
+
+
+           -----------------------------------
+
+
+ The temparature is read from a LM35DZ sensor on pin A0 which gives a voltage from 0 to 1v dpending on temp    
+ 
+ The LED on pin 13 flashes to show when the arduino is in active mode
+    
+ There is a Piezo sounder on pin 12
+ 
+ 
+
+  */
+  //   -----------------------------------------------------
+  //   -----------------------------------------------------
+
+
+
+// define constants
+
+const int mins = 110;                     // number of cycles per minute      note - this is used for timing (110)
+
+const int warnings = 25;                  // number of warning beeps given before reboots
+
+const int maxtemp = 45;                   // temperature in c at which all power is shut off
+
+const boolean initialstate = false;       // inital state when first turned on (i.e. enabled or not - true = enabled )
+
+const boolean off = LOW ;                 //   Signal to turn a relay on      
+const boolean on = HIGH ;                 //   Signal to turn a relay off     note - when testing you can set this one to the same as on to prevent power being turned off
+  
+
+
+
+// define variables
+
+String  inputString = "";         // to hold incoming data
+
+boolean stringComplete = false;   // whether the string is complete
+
+boolean enabled = initialstate;   // flag if server monitoring is enabled or not
+
+String  command = "";             // command received from H.A. server
+
+int     pingcounter = 0 ;         // counter of when last ping was received - if this goes too high assume server has crashed
+
+int     counter = 0 ;             // temporary counter
+
+int     relay1 = 7 ;              // pc power               - Relay control pins 
+int     relay2 = 6 ;              // aux. power
+int     relay3 = 5 ;              // not used
+int     relay4 = 4 ;              // not used
+
+int     flasher = 13 ;            // flash this led to show arduino enabled
+
+int     sounder = 12 ;            // alarm sounder pin
+
+int     tempPin = A0;             // temperature sensor pin
+int     tempreading;              // temperature reading
+int     maxi = -100;              // maximum temperature
+int     mini = 100;               // minimum temperature
+
+
+  //   -----------------------------------------------------
+
+
+void setup() {
+ 
+ 
+  // initialize serial:
+  Serial.begin(9600);
+  
+  // reserve 200 bytes for the inputString:
+  inputString.reserve(200);
+  
+  // set up output pins for relays
+  pinMode(relay1, OUTPUT);
+  pinMode(relay2, OUTPUT);
+  pinMode(relay3, OUTPUT);
+  pinMode(relay4, OUTPUT);
+  
+  // set initial relay states
+  digitalWrite(relay1, on );   
+  digitalWrite(relay2, on );  
+  digitalWrite(relay3, on );   
+  digitalWrite(relay4, on );   
+
+  pinMode(flasher, OUTPUT);     // indicator led
+  
+  pinMode(sounder, OUTPUT);     // alarm buzzer
+
+  pinMode(tempPin, INPUT);      // temperature sensor input
+
+
+  // Send startup message
+        Serial.println("enabled - Server Monitor has been powered on but is inactive");
+
+
+  // show relays and sounder are working
+        digitalWrite(relay3, off );    
+        delay (300);
+        digitalWrite(relay4, off );    
+        delay (500);
+        digitalWrite(relay4, on );    
+        delay (300);
+        digitalWrite(relay3, on );    
+        delay (300);
+        makesound ( 300 , 300 , 1 );   // make a sound           
+
+}
+
+
+  //   -----------------------------------------------------
+
+
+void loop() {
+
+  // Make sure sounder is turned off
+     digitalWrite(sounder, LOW);   // turn sounder off
+
+   
+  // check if an end of line has arrived from the home automation server
+
+  if (stringComplete) {
+
+    // data has been received from server so act on it
+    
+    pingcounter = 0 ;     // reset counter of when last data received from server
+
+    if (inputString == "ping") {                //confirm ping received - if disabled give a warning sound
+           if ( enabled == false) {
+             Serial.println("ping received, server monitor disabled"); 
+             makesound ( 90 , 90 , 3 );       // make a sound to warn that it is receiving pings but not enbled
+           }
+           else {
+             Serial.println("ping received, server monitor enabled"); 
+           }
+     }
+
+    else if (inputString == "enable") {         //enable command received
+           Serial.println("enabled"); 
+           enabled = true ;
+           makesound ( 100 , 200 , 1 );         // make a sound
+     }
+     
+     else if (inputString == "disable") {       //disable command received
+           Serial.println("disabled"); 
+           enabled = false ;
+           makesound ( 100 , 200 , 2 );         // make a sound
+     }
+
+     else if (inputString == "report") {        //report command received
+           Serial.print("report, Server monitoring "); 
+           if ( enabled == true ) { Serial.print("enabled"); }
+           else { Serial.print("disabled"); }
+           Serial.print(", Current temperature = "); 
+           tempreading = ( 5.0 * analogRead(tempPin) * 100.0) / 1024.0;       // read temp in c
+           Serial.print( tempreading , DEC ) ;
+           Serial.print( "c, Maximum temp = ") ;
+           Serial.print( maxi , DEC ) ;
+           Serial.print( "c, Minimum temp = ") ;
+           Serial.print( mini , DEC ) ;
+           Serial.println( "c.") ;
+     }     
+
+     else if (inputString == "alloff") {         //all off command received
+           Serial.println("alloff - turning all power off due to alloff command received");
+           digitalWrite(flasher, HIGH);     // set the LED on
+           makesound ( 500 , 1500 , warnings );   // make a sound              give server chance to shut down
+           digitalWrite(relay1, off );      // server off
+           digitalWrite(relay2, off );      // aux off
+           enabled = false ;                // disable monitoring 
+     }
+
+     
+     else if (inputString == "reboot") {         //reboot command received
+           Serial.println("reboot - restarting server due to reboot command received");
+           digitalWrite(flasher, HIGH);     // set the LED on
+           makesound ( 500 , 1500 , warnings );   // make a sound              give server chance to shut down
+           digitalWrite(relay1, off );      // server off
+           delay(5000);                     // wait 
+           digitalWrite(relay1, on );       // server on
+           enabled = false ;                // disable monitoring 
+     }
+
+
+     else if (inputString == "reset") {         //reset command received
+           Serial.println("reset - restarting server and aux power due to reset command received");
+           digitalWrite(flasher, HIGH);     // set the LED on
+           makesound ( 500 , 1500 , warnings );   // make a sound              give server chance to shut down
+           digitalWrite(relay1, off );      // server off
+           delay(1000);                     // wait 
+           digitalWrite(relay2, off );      // aux power off
+           delay(5000);                     // wait 
+           digitalWrite(relay2, on );      // aux power on
+           delay(1000);                     // wait 
+           digitalWrite(relay1, on );       // server on
+           enabled = false ;                // disable monitoring 
+     }
+
+
+     // clear variables
+     command = "" ;
+     inputString = "";
+     stringComplete = false;
+
+    }
+
+
+  //   -----------------------------------------------------
+ 
+
+
+   //check how long since data received from server  
+
+   if ( enabled == true ) {
+
+   if ( pingcounter == (mins * 3)) {
+        //3 mins since data received so issue warning
+        Serial.println("warning");
+        makesound ( 200 , 700 , warnings );   // make a sound        
+        // make a noise here !
+    }
+
+    if ( pingcounter == (mins * 8)) {
+        //5 mins and still no data received so reboot server
+        Serial.println("reboot");
+        digitalWrite(flasher, HIGH);   // set the LED on
+        makesound ( 500 , 1500 , warnings );   // make a sound              give server chance to shut down
+        if ( ! stringComplete) {         // if still no data received 
+          digitalWrite(relay1, off );    // off
+          delay(5000);                   // wait
+          digitalWrite(relay1, on );     // on
+        }
+    }
+
+    if ( pingcounter == (mins *14)) {
+        //try another reboot
+        Serial.println("reboot");
+        digitalWrite(flasher, HIGH);   // set the LED on
+        makesound ( 500 , 1500 , warnings );   // make a sound              give server chance to shut down
+        if ( ! stringComplete) {         // if still no data received 
+          digitalWrite(relay1, off );    // off
+          delay(5000);                   // wait
+          digitalWrite(relay1, on );     // on
+        }
+    }
+
+    if ( pingcounter == (mins * 20)) {
+        //reboots didn't work so try rebooting both server and aux power
+        Serial.println("reset");
+        digitalWrite(flasher, HIGH);   // set the LED on
+        makesound ( 500 , 1500 , warnings );   // make a sound              give server chance to shut down
+        if ( ! stringComplete) {         // if still no data received 
+          digitalWrite(relay1, off );    // off
+          delay(1000);                   // wait 
+          digitalWrite(relay2, off );    // off
+          delay(5000);                   // wait
+          digitalWrite(relay2, on );     // on
+          delay(1000);                   // wait
+          digitalWrite(relay1, on );     // on
+        }
+    }
+
+    if ( pingcounter == (mins * 26)) {
+        //very long time so one last try
+        Serial.println("reboot");
+        digitalWrite(flasher, HIGH);   // set the LED on
+        makesound ( 500 , 1500 , warnings );   // make a sound              give server chance to shut down
+        if ( ! stringComplete) {         // if still no data received 
+          digitalWrite(relay1, off );    // off
+          delay(5000);                   // wait
+          digitalWrite(relay1, on );     // on
+          enabled = false ;              // disable further action to prevent getting into a loop if server is faulty
+          Serial.println("disabled - due to end of server reboot attempts");
+        }
+    }
+   }
+
+
+  //   -----------------------------------------------------
+
+
+  // check the temperature is ok
+  
+  tempreading = ( 5.0 * analogRead(tempPin) * 100.0) / 1024.0;       // read temp in c
+
+  if ( tempreading > maxtemp ) {
+
+      // Inform server of the temp reading
+        Serial.print("note - just had a very high temperature reading - ");
+        Serial.print(tempreading, DEC);
+        Serial.println("c");
+
+      // Take several readings and get an average to check it is a true reading
+        delay(500);  
+        tempreading = 0; 
+        for( int i = 1 ; i <= 4 ; i++ ){    // gets 4 samples of temperature
+          tempreading = tempreading + (( 5.0 * analogRead(tempPin) * 100.0) / 1024.0);
+          delay(200);
+        }
+        tempreading = tempreading / 4;     // convert to one average reading
+
+        if ( tempreading > maxtemp ) {
+          Serial.print("tempwarning - ");
+          Serial.print(tempreading, DEC);
+          Serial.println("c");
+           
+          makesound ( 500 , 1500 , 3 );   // make a sound              give server chance to log what is happening
+
+          // All relays off
+          digitalWrite(relay1, off );    // off
+          digitalWrite(relay2, off );    // off
+          digitalWrite(relay3, off );    // off
+          digitalWrite(relay4, off );    // off
+
+        }
+        else {
+          // Inform server of the temp reading
+           Serial.print("note - high temp reading was a false alarm, new reading is - ");
+           Serial.print(tempreading, DEC);
+           Serial.println("c");
+        }
+  }
+
+
+  // log maximum and minimum temperatures
+        if(tempreading > maxi) {maxi = tempreading;} // set max temperature
+        if(tempreading < mini) {mini = tempreading;} // set min temperature
+
+
+
+  //   -----------------------------------------------------
+
+
+  // timer of last data received from server
+
+   pingcounter ++ ;                // increment counter of when last ping received from server
+
+   if ( pingcounter >= 20000) {    // make sure counter doesn't get too high
+     pingcounter = 10000;         
+   }
+
+   
+
+  //   -----------------------------------------------------
+
+
+
+  // delay for half a second - flash led if monitoring enabled
+
+  if ( enabled == true ) {
+     digitalWrite(flasher, HIGH);   // set the LED on
+  }
+  delay(250);              // wait for a quarter second
+  digitalWrite(flasher, LOW);    // set the LED off
+  delay(250);              // wait for a quarter second
+
+
+   
+}   // end of loop
+
+
+
+  //   -----------------------------------------------------
+  //   -----------------------------------------------------
+
+
+// interupt for when serial data has arrived from server - add it to the stored line and flag if line feed received
+
+void serialEvent() {
+
+  while (Serial.available()) {
+    // get the new byte:
+    char inChar = (char)Serial.read(); 
+    if (inChar == '\n') {
+      // if the incoming character is a newline, set a flag
+      stringComplete = true;
+      }
+    else  {   
+      // add received char to the inputString:
+      inputString += inChar ;
+      }
+  }
+
+}
+
+
+  //   -----------------------------------------------------
+
+
+//Make a sound 'length1' sound then 'length2' silence,repeat 'reps' times 
+
+
+void makesound (int length1, int length2, int reps) {
+    
+        for ( int i=0; i < reps; i++ ) {
+             digitalWrite(sounder, HIGH);   // turn sounder on
+             delay(length1);                 // wait 
+             digitalWrite(sounder, LOW);    // turn sounder off
+             delay(length2);                 // wait 
+        }
+}
+
+
+
+  //   -----------------------------------------------------
+  //   end
+  

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html style=" direction: ltr;">
+  <head>
+    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta content="20030715;22523552" name="CREATED">
+    <meta content="20050521;18305890" name="CHANGED">
+    <meta content="Alan's BasicWebServer ESP page" name="DESCRIPTION">
+    <meta content="esp8266,esp32,basicwebserver,arduino" name="KEYWORDS">
+    <link href="../../logo.ico" rel="SHORTCUT ICON">
+    <title>Alan's BasicWebServer ESP page</title>
+    <meta name="author" content="Alan Blackham">
+    <meta name="description" content="Alan's BasicWebServer ESP page">
+  </head>
+  <body style=" direction: ltr; background-color: rgb(255, 255, 0);">
+    <div style="text-align: left;">
+      <center>
+        <table style="text-align: left; margin-left: auto; margin-right: auto;"
+          border="0" cellpadding="3">
+          <tbody>
+            <tr>
+              <td><br>
+              </td>
+              <td>
+                <p align="center"><font color="#ff0000" size="6"><strong>Alan's</strong></font><font
+                    color="#ff0000" size="5"><strong></strong></font><font color="#ff0000"
+                    size="2"><strong></strong></font><font color="#ff0000" size="6"><strong>
+                      BasicWebServer Sketch</strong></font><font color="#ff0000"
+                    size="5"><strong> </strong><strong><u><br>
+                      </u></strong></font><font color="#ff0000" size="2">updated
+                    Jul19<br>
+                  </font></p>
+              </td>
+              <td><br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </center>
+    </div>
+    <hr style="width: 100%; height: 2px;"><br>
+    I find that when creating pretty much any new project with an ESP8266 or
+    ESP32 I use this sketch as a starting point, so I have published it here in
+    case it is of any use/interest to anyone else (I also hope that people will
+    offer improvements/suggestions as I am not a professional programmer by any
+    stretch of the imagination).&nbsp; It is not all my own work, just something
+    I have put together for my own use from many sources.<br>
+    <br>
+    
+         <!-- If it is December display Festivus banner -->
+            <div id='festivusDiv'></div>
+            <script type="text/javascript" src="../js/festivus.js"></script>    
+        
+        <!-- show banner if 'alanesq.com/banner.gif' exists -->
+            <div id='bannerDiv'></div>
+            <script type="text/javascript" src="../js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->
+           
+    
+    It is the easiest way I have found to serve web pages with control buttons,
+    updating information, a log of activity and a clock (using NTP) <br>
+    This are the web pages this sketch creates:<br>
+    <br>
+    <div style="text-align: center;"><img alt="Main page" src="Screenshot1.png"><br>
+      <br>
+      <img alt="log page" src="Screenshot2.png"><br>
+      <div style="text-align: left;"><br>
+        <br>
+        <br>
+        <br>
+        <span style="font-weight: bold;"><a target="_top" href="https://github.com/alanesq/BasicWebserver">You can
+            download the sketch from HERE</a>, it works on both ESP8266 and
+          ESP32</span>
+        <br><br>
+        The sketch as it is will first create a wifi access point named
+        "ESPconfig", you need to connect to this with the password "password"
+        and you will then be able to enter your wifi network details so it is
+        then able to connect to it (it uses the WifiManager library to do this
+        which is included in the above file).&nbsp; Once connected to your
+        network you should be able to view a similar web page to the image above
+        (you will need to find out what ip address it is using from your router
+        or by viewing the terminal window in the Arduino IDE).<br>
+        <br>
+        If you look in the procedure "handleRoot", the lower part is where it
+        creates any control buttons and the top part is where it performs any
+        actions when the buttons are pressed.&nbsp; Any information you want to
+        update (e.g. sensor status) are put in the procedure "data" as this is
+        then automatically updated every few seconds (not the ideal way to do
+        this but I think the simplest).<br>
+        <br>
+        You can then add your own code to the "loop" section to perform whatever
+        tasks you wish...<br>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div style="text-align: left;"> </div>
+    <hr style="width: 100%; height: 2px;">
+    <p style="text-align: center;"><font color="#800000">You can contact me on -
+      </font><a href="mailto:alanesq@disroot.org"><font color="#800000">alanesq@disroot.org</font></a></p>
+    <p style="text-align: center;"><a href="../../index.htm" target="_top"><font
+          color="#800000" size="2">Back to my homepage</font></a></p>
+  </body>
+</html>

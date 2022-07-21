@@ -1,0 +1,365 @@
+<pre>
+
+<span style="color: #7E7E7E;">/*</span>
+
+<span style="color: #7E7E7E;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Robot&nbsp;arm&nbsp;test&nbsp;script&nbsp;2.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dec12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alanesq@disroot.org</span>
+<span style="color: #7E7E7E;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #7E7E7E;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Uses&nbsp;2&nbsp;stepper&nbsp;motors&nbsp;to&nbsp;move&nbsp;a&nbsp;simple&nbsp;2&nbsp;dimensional&nbsp;robotic&nbsp;arm</span>
+<span style="color: #7E7E7E;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #7E7E7E;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;arm&nbsp;is&nbsp;positioned&nbsp;by&nbsp;giving&nbsp;an&nbsp;x,y&nbsp;coordinate&nbsp;and&nbsp;via&nbsp;the&nbsp;gift&nbsp;of&nbsp;inverse&nbsp;kinematics&nbsp;</span>
+<span style="color: #7E7E7E;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this&nbsp;is&nbsp;translated&nbsp;to&nbsp;the&nbsp;required&nbsp;joint&nbsp;angles.</span>
+
+<span style="color: #7E7E7E;">*/</span>
+
+
+#include&nbsp;&lt;<span style="color: #CC6600;">Servo</span>.h&gt;    <span style="color: #7E7E7E;">// servo library</span>
+
+
+<span style="color: #7E7E7E;">//&nbsp;define&nbsp;robot&nbsp;arm&nbsp;mengths</span>
+#define&nbsp;humerus&nbsp;134&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Humerus length (mm)</span>
+#define&nbsp;ulna&nbsp;134&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Ulna length (mm)</span>
+
+
+<span style="color: #7E7E7E;">//stepper&nbsp;motors</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> motorSPin1 = 4;	<span style="color: #7E7E7E;">// Blue   - 28BYJ48 pin 1</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> motorSPin2 = 5;	<span style="color: #7E7E7E;">// Pink   - 28BYJ48 pin 2</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> motorSPin3 = 6;	<span style="color: #7E7E7E;">// Yellow - 28BYJ48 pin 3</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> motorSPin4 = 7;	<span style="color: #7E7E7E;">// Orange - 28BYJ48 pin 4</span>
+
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> motorEPin1 = 8;	<span style="color: #7E7E7E;">// Blue   - 28BYJ48 pin 1</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> motorEPin2 = 9;	<span style="color: #7E7E7E;">// Pink   - 28BYJ48 pin 2</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> motorEPin3 = 10;	<span style="color: #7E7E7E;">// Yellow - 28BYJ48 pin 3</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> motorEPin4 = 11;	<span style="color: #7E7E7E;">// Orange - 28BYJ48 pin 4</span>
+
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> motorSpeed = 1600;  <span style="color: #7E7E7E;">//variable to set stepper speed</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> countsperrev = 4000;  <span style="color: #7E7E7E;">// number of steps per full revolution</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> lookup[8] = {B01000, B01100, B00100, B00110, B00010, B00011, B00001, B01001};   <span style="color: #7E7E7E;">// stepper coil sequence</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> count = 0;    <span style="color: #7E7E7E;">// temp counter</span>
+&nbsp;&nbsp;
+
+<span style="color: #7E7E7E;">//&nbsp;define&nbsp;global&nbsp;variables&nbsp;</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> shoulderPos = 1000;       <span style="color: #7E7E7E;">// current position of shoulder (in stepper motor steps)</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> elbowPos = 1000;          <span style="color: #7E7E7E;">// current position of elbow (in stepper motor steps)</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> shoulderStep = 0;         <span style="color: #7E7E7E;">// current stepper motor sequence step (0-7) </span>
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> elbowStep = 0;            <span style="color: #7E7E7E;">// current stepper motor sequence step (0-7) </span>
+
+
+<span style="color: #7E7E7E;">//&nbsp;pre&nbsp;calculations</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">float</span> hum_sq = humerus * humerus;        <span style="color: #7E7E7E;">// humurus length squared</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">float</span> uln_sq = ulna * ulna;              <span style="color: #7E7E7E;">// ulna length squared</span>
+
+&nbsp;
+
+<span style="color: #7E7E7E;">//&nbsp;***************************************************************************</span>
+
+
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;"><b>setup</b></span>() 
+{&nbsp;
+&nbsp;&nbsp;<span style="color: #7E7E7E;">//start serial connection</span>
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">begin</span>(9600);
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"Robot arm demo sketch v2.0"</span>);
+
+
+&nbsp;&nbsp;<span style="color: #7E7E7E;">//declare the stepper motor pins as outputs</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(motorSPin1, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(motorSPin2, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(motorSPin3, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(motorSPin4, <span style="color: #006699;">OUTPUT</span>);
+
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(motorEPin1, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(motorEPin2, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(motorEPin3, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(motorEPin4, <span style="color: #006699;">OUTPUT</span>);
+
+
+&nbsp;&nbsp;resetArm();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// reset arm to it's start position</span>
+
+}&nbsp;
+&nbsp;
+&nbsp;
+<span style="color: #7E7E7E;">//&nbsp;***************************************************************************</span>
+
+
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;"><b>loop</b></span>() 
+{&nbsp;
+
+&nbsp;&nbsp;<span style="color: #7E7E7E;">// if serial data waiting then read input and move arm</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span>(<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">available</span>()) moveArmFromSerial();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span> (100);
+
+}
+
+&nbsp;&nbsp;
+&nbsp;&nbsp;
+<span style="color: #7E7E7E;">////&nbsp;move&nbsp;arm&nbsp;along&nbsp;a&nbsp;straight&nbsp;line&nbsp;-&nbsp;up&nbsp;down</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;while(1)&nbsp;{</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;(&nbsp;int&nbsp;i=30;&nbsp;i&nbsp;&lt;&nbsp;210;&nbsp;i&nbsp;=&nbsp;i&nbsp;+&nbsp;20)&nbsp;&nbsp;{</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moveArm&nbsp;(&nbsp;140,i&nbsp;);</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delay(300);</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;(&nbsp;int&nbsp;i=210;&nbsp;i&nbsp;&gt;&nbsp;30;&nbsp;i&nbsp;=&nbsp;i&nbsp;-&nbsp;20)&nbsp;&nbsp;{</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moveArm&nbsp;(&nbsp;140,i&nbsp;);</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delay(300);</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;}</span>
+
+
+
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;//&nbsp;move&nbsp;arm&nbsp;along&nbsp;a&nbsp;straight&nbsp;line&nbsp;-&nbsp;left&nbsp;right</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;while(1)&nbsp;{</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;(&nbsp;int&nbsp;i=50;&nbsp;i&nbsp;&lt;&nbsp;200;&nbsp;i&nbsp;=&nbsp;i&nbsp;+&nbsp;10)&nbsp;&nbsp;{</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moveArm&nbsp;(&nbsp;i,140&nbsp;);</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delay(300);</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;(&nbsp;int&nbsp;i=220;&nbsp;i&nbsp;&gt;&nbsp;50;&nbsp;i&nbsp;=&nbsp;i&nbsp;-&nbsp;10)&nbsp;&nbsp;{</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moveArm&nbsp;(&nbsp;i,140&nbsp;);</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delay(300);</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;}</span>
+
+
+
+
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;//&nbsp;move&nbsp;around&nbsp;in&nbsp;a&nbsp;circle</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;float&nbsp;h&nbsp;=&nbsp;130.0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;x&nbsp;coordinate&nbsp;of&nbsp;circle&nbsp;center</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;float&nbsp;k&nbsp;=&nbsp;130.0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;y&nbsp;coordinate&nbsp;of&nbsp;circle&nbsp;center</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;float&nbsp;r&nbsp;=&nbsp;50.0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;radius&nbsp;of&nbsp;circle</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;float&nbsp;cstep&nbsp;=&nbsp;6.283&nbsp;/&nbsp;60;&nbsp;//&nbsp;steps&nbsp;&nbsp;&nbsp;(2&nbsp;pi&nbsp;divided&nbsp;by&nbsp;steps)</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;while(1)&nbsp;{</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;(&nbsp;float&nbsp;theta&nbsp;=&nbsp;0;&nbsp;theta&nbsp;&lt;&nbsp;6.283;&nbsp;theta&nbsp;=&nbsp;theta&nbsp;+&nbsp;cstep)&nbsp;&nbsp;{</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;x&nbsp;=&nbsp;h&nbsp;+&nbsp;r*cos(theta);</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;y&nbsp;=&nbsp;k&nbsp;+&nbsp;r*sin(theta);</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moveArm(&nbsp;x,y);</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;}</span>
+&nbsp;&nbsp;&nbsp;
+
+
+<span style="color: #7E7E7E;">//&nbsp;***************************************************************************</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;procedures</span>
+<span style="color: #7E7E7E;">//&nbsp;***************************************************************************</span>
+
+
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;Move&nbsp;the&nbsp;arm&nbsp;to&nbsp;specified&nbsp;x,y&nbsp;position&nbsp;</span>
+
+
+&nbsp;&nbsp;<span style="color: #CC6600;">void</span> moveArm ( <span style="color: #CC6600;">float</span> x, <span style="color: #CC6600;">float</span> y) {
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// calculate required angles using inverse kinematics </span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"Calculate angles:"</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Work out the length of an imaginery line from the arms shoulder to the x,y position and call it B</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// using pythagoras theorem - length of b squared = x sqared + y squared</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">float</span> B = <span style="color: #CC6600;">sqrt</span> ( ( x * x ) + ( y * y ) );
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"  B = "</span>);     <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>( B );
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Calculate the angle of the imaginary line from the x axis and call it QA</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">float</span> QA = <span style="color: #CC6600;">atan2</span> ( y , x ); 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"  QA = "</span>);     <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>( QA );
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Calculate the angle from the imaginary line to the humerus (using cosine rule) and call it QB</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">float</span> B_sq = B * B;    <span style="color: #7E7E7E;">// B squared</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">float</span> tvala = hum_sq - uln_sq + B_sq ;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">float</span> tvalb = 2.0 * humerus * B;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">float</span> QB = <span style="color: #CC6600;">acos</span> ( tvala / tvalb ); 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"  QB = "</span>);     <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>( QB );
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Calculate angle of shoulder by ading the two calculated angles together</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">float</span> angleS = QA + QB;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"  angleS = "</span>);     <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>( angleS );
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Calculate angle of elbow</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// this is done using the cosine rule </span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tvala&nbsp;=&nbsp;hum_sq&nbsp;+&nbsp;uln_sq&nbsp;-&nbsp;B_sq&nbsp;;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tvalb&nbsp;=&nbsp;2.0&nbsp;*&nbsp;humerus&nbsp;*&nbsp;ulna;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">float</span> angleE = <span style="color: #CC6600;">acos</span> ( tvala / tvalb ); 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"  angleE = "</span>);     <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>( angleE );
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// convert angles from radians to degrees</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;angleE&nbsp;=&nbsp;angleE&nbsp;*&nbsp;RAD_TO_DEG;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;angleS&nbsp;=&nbsp;angleS&nbsp;*&nbsp;RAD_TO_DEG;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"moving arm to x="</span>);  <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(x);  <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">" Y="</span>);  <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"  angleS in degrees = "</span>);     <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>( angleS );
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"  angleE in degrees = "</span>);     <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>( angleE );
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moveMotors(angleS,angleE);&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// move the arm</span>
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;}
+
+
+<span style="color: #7E7E7E;">//&nbsp;***************************************************************************</span>
+
+
+<span style="color: #7E7E7E;">//&nbsp;Move&nbsp;motors&nbsp;to&nbsp;given&nbsp;angles</span>
+
+
+&nbsp;&nbsp;<span style="color: #CC6600;">void</span> moveMotors ( <span style="color: #CC6600;">int</span> s, <span style="color: #CC6600;">int</span> e ) {
+
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">int</span> starget = s * ( countsperrev / 360 );     <span style="color: #7E7E7E;">// convert target angle to motor steps</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">int</span> etarget = e * ( countsperrev / 360 );     <span style="color: #7E7E7E;">// convert target angle to motor steps</span>
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">while</span> ( shoulderPos != starget || elbowPos != etarget ) {    <span style="color: #7E7E7E;">// keep going until both angles are correct</span>
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ( shoulderPos &lt; starget ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moveStepper&nbsp;(&nbsp;0&nbsp;,&nbsp;1&nbsp;);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delayMicroseconds</span>(motorSpeed);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ( shoulderPos &gt; starget ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moveStepper&nbsp;(&nbsp;0&nbsp;,&nbsp;-1&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delayMicroseconds</span>(motorSpeed);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ( elbowPos &lt; etarget ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moveStepper&nbsp;(&nbsp;1&nbsp;,&nbsp;1&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delayMicroseconds</span>(motorSpeed);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ( elbowPos &gt; etarget ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moveStepper&nbsp;(&nbsp;1&nbsp;,&nbsp;-1&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delayMicroseconds</span>(motorSpeed);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;allOff();&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// all motor coils off</span>
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;}
+
+
+<span style="color: #7E7E7E;">//&nbsp;***************************************************************************</span>
+
+
+<span style="color: #7E7E7E;">//&nbsp;move&nbsp;stepper&nbsp;motor&nbsp;one&nbsp;step</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;motor&nbsp;=&nbsp;which&nbsp;motor&nbsp;0&nbsp;or&nbsp;1&nbsp;&nbsp;&nbsp;(0=shoulder&nbsp;1=elbow)</span>
+<span style="color: #7E7E7E;">//&nbsp;&nbsp;&nbsp;direct&nbsp;=&nbsp;which&nbsp;direction&nbsp;&nbsp;&nbsp;&nbsp;(1=clockwise,&nbsp;-1=anticlockwise)</span>
+
+
+&nbsp;&nbsp;<span style="color: #CC6600;">void</span> moveStepper(<span style="color: #CC6600;">int</span> motor, <span style="color: #CC6600;">int</span> direct)
+&nbsp;&nbsp;{
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (motor == 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// shoulder</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shoulderStep&nbsp;=&nbsp;shoulderStep&nbsp;-&nbsp;direct;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// increment current stepper motor step (0-7) </span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (shoulderStep &lt; 0) shoulderStep = 7;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (shoulderStep &gt; 7) shoulderStep = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shoulderPos&nbsp;=&nbsp;shoulderPos&nbsp;+&nbsp;direct;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// increment motor position flag</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorSPin1, <span style="color: #CC6600;">bitRead</span>(lookup[shoulderStep], 0));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorSPin2, <span style="color: #CC6600;">bitRead</span>(lookup[shoulderStep], 1));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorSPin3, <span style="color: #CC6600;">bitRead</span>(lookup[shoulderStep], 2));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorSPin4, <span style="color: #CC6600;">bitRead</span>(lookup[shoulderStep], 3));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// also move elbow so it stays in position relative to shoulder arm</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elbowStep&nbsp;=&nbsp;elbowStep&nbsp;+&nbsp;direct;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// increment current stepper motor step (0-7) </span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (elbowStep &lt; 0) elbowStep = 7;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (elbowStep &gt; 7) elbowStep = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorEPin1, <span style="color: #CC6600;">bitRead</span>(lookup[elbowStep], 0));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorEPin2, <span style="color: #CC6600;">bitRead</span>(lookup[elbowStep], 1));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorEPin3, <span style="color: #CC6600;">bitRead</span>(lookup[elbowStep], 2));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorEPin4, <span style="color: #CC6600;">bitRead</span>(lookup[elbowStep], 3));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">else</span> {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// elbow</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elbowStep&nbsp;=&nbsp;elbowStep&nbsp;+&nbsp;direct;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// increment current stepper motor step (0-7) </span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (elbowStep &lt; 0) elbowStep = 7;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (elbowStep &gt; 7) elbowStep = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elbowPos&nbsp;=&nbsp;elbowPos&nbsp;+&nbsp;direct;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// increment motor position flag</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorEPin1, <span style="color: #CC6600;">bitRead</span>(lookup[elbowStep], 0));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorEPin2, <span style="color: #CC6600;">bitRead</span>(lookup[elbowStep], 1));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorEPin3, <span style="color: #CC6600;">bitRead</span>(lookup[elbowStep], 2));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorEPin4, <span style="color: #CC6600;">bitRead</span>(lookup[elbowStep], 3));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+
+<span style="color: #7E7E7E;">//&nbsp;***************************************************************************</span>
+
+
+<span style="color: #7E7E7E;">//&nbsp;all&nbsp;motor&nbsp;outputs&nbsp;off&nbsp;(make&nbsp;sure&nbsp;no&nbsp;coils&nbsp;left&nbsp;energized&nbsp;when&nbsp;not&nbsp;in&nbsp;use)</span>
+
+&nbsp;&nbsp;<span style="color: #CC6600;">void</span> allOff() {
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorSPin1,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorSPin2,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorSPin3,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorSPin4,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorEPin1,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorEPin2,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorEPin3,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(motorEPin4,0);
+
+&nbsp;&nbsp;}
+
+
+<span style="color: #7E7E7E;">//&nbsp;***************************************************************************</span>
+
+
+<span style="color: #7E7E7E;">//&nbsp;find&nbsp;arms&nbsp;position&nbsp;and&nbsp;move&nbsp;to&nbsp;default&nbsp;start&nbsp;location</span>
+
+&nbsp;&nbsp;<span style="color: #CC6600;">void</span> resetArm() {
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// move elbow to stop then back to 90 degrees</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">for</span> ( <span style="color: #CC6600;">int</span> i=0; i &lt; ( countsperrev / 2.5); i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moveStepper(1,-1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delayMicroseconds</span>(motorSpeed);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">for</span> ( <span style="color: #CC6600;">int</span> i=0; i &lt; ( countsperrev / 4.4); i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;moveStepper(1,1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delayMicroseconds</span>(motorSpeed);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// reset arm location flags</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shoulderPos&nbsp;=&nbsp;1000;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// current position of shoulder (in stepper motor steps)</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elbowPos&nbsp;=&nbsp;1000;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// current position of elbow (in stepper motor steps)</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;allOff();&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// turn all motor outputs off</span>
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;}
+
+
+<span style="color: #7E7E7E;">//&nbsp;***************************************************************************</span>
+
+
+<span style="color: #7E7E7E;">//&nbsp;read&nbsp;serial&nbsp;input&nbsp;and&nbsp;move&nbsp;arm&nbsp;if&nbsp;anything&nbsp;recived</span>
+
+
+&nbsp;&nbsp;<span style="color: #CC6600;">void</span> moveArmFromSerial() {
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">const</span> <span style="color: #CC6600;">int</span> serStrLen = 30;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">char</span> serInStr[ serStrLen ];  <span style="color: #7E7E7E;">// array that will hold the serial input string</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">int</span> input1, input2;
+&nbsp;&nbsp;&nbsp;&nbsp;memset(&nbsp;serInStr,&nbsp;0,&nbsp;sizeof(serInStr)&nbsp;);&nbsp;<span style="color: #7E7E7E;">// set it all to zero</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(10);  <span style="color: #7E7E7E;">// wait a little for serial data</span>
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">int</span> i = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">while</span>(<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">available</span>() &amp;&amp; i&lt;serStrLen ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;serInStr[i]&nbsp;=&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">read</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i++;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span> (<span style="color: #006699;">"Input = "</span>);  <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>( serInStr );
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">char</span>* str = serInStr;      <span style="color: #7E7E7E;">// Save the remaining string for inputs.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;input1&nbsp;=&nbsp;atoi(str);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Next command is input1, capture and save it.</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">while</span>( (*++str == <span style="color: #006699;">','</span>) == 0 );    <span style="color: #7E7E7E;">// find comma</span>
+&nbsp;&nbsp;&nbsp;&nbsp;*++str;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// jump past comma</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;input2&nbsp;=&nbsp;atoi(str);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Next command is input2, capture and save it.</span>
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(30);                 <span style="color: #7E7E7E;">// Delay to settle the UART buffer.</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"Moving arm to "</span>);  <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>( input1 );  <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">print</span>( <span style="color: #006699;">" , "</span> );  <span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>( input2 );
+&nbsp;&nbsp;&nbsp;&nbsp;moveArm(input1,input2);
+&nbsp;&nbsp;&nbsp;&nbsp;allOff();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// all motor outputs off</span>
+
+}
+
+
+<span style="color: #7E7E7E;">//&nbsp;***************************************************************************</span>
+<span style="color: #7E7E7E;">//&nbsp;end</span>
+
+
+</pre>
