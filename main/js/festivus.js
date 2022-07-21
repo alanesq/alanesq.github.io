@@ -2,7 +2,7 @@
   
     display "happy Festivus" banner if it is getting near to Festivus
 
-    alanesq.com - 13 Dec 19
+    alanesq.com - 21jul22
     
 */
 
@@ -11,7 +11,7 @@
 
     const BannerWidth = 75;         // Width of banner in percent of display width
     const BannerHeight = 145;       // Height of banner in px
-    const iLoc = "http://www.alanesq.eu5.net/img/festivus.jpg";
+    const iLoc = "https://alanesq.github.io/main/img/festivus.jpg";
 
     
 // ---------------------------------------------------------------------------
