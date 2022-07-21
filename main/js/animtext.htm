@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="Generator" content="Kate, the KDE Advanced Text Editor" />
+<title>animtext.js</title>
+</head>
+<!-- Highlighting: "JavaScript" -->
+<body>
+<pre style='color:#1f1c1b;background-color:#ffffff;'>
+<span style='color:#898887;'>/*</span>
+<span style='color:#898887;'>   Display animated text - 10 Dec 19</span>
+<span style='color:#898887;'>   </span>
+<span style='color:#898887;'>   include following in html:    </span>
+<span style='color:#898887;'>            &lt;script language=&quot;javascript&quot; type=&quot;text/javascript&quot; src=&quot;http://www.alanesq.com/js/p5.min.js&quot;&gt;&lt;/script&gt;</span>
+<span style='color:#898887;'>            &lt;script language=&quot;javascript&quot; type=&quot;text/javascript&quot; src=&quot;js/animtext.js&quot;&gt;&lt;/script&gt;</span>
+<span style='color:#898887;'>            </span>
+<span style='color:#898887;'>            &lt;center&gt;&lt;div id=&quot;animtext&quot;&gt;&lt;/div&gt;&lt;/center&gt;</span>
+
+
+<span style='color:#898887;'>    based on code by Daniel Shiffman</span>
+<span style='color:#898887;'>    Video: https://www.youtube.com/watch?v=4hA7G3gup-4</span>
+<span style='color:#898887;'>    </span>
+<span style='color:#898887;'>*/</span>
+
+
+<span style='color:#898887;'>// declare global variables</span>
+<b><i>let</i></b> lines = [];
+<b><i>let</i></b> font, vImage;
+<b><i>let</i></b> vehicles = [];
+<b><i>let</i></b> points = [];
+<b><i>let</i></b> maxX=<span style='color:#b08000;'>0</span>, maxY=<span style='color:#b08000;'>0</span>;
+<b><i>let</i></b> minX=<b>Infinity</b> , minY=<b>Infinity</b>;
+<b><i>let</i></b> lPad, radii;
+
+
+<span style='color:#898887;'>//   ----------------- s e t t i n g s --------------------</span>
+
+
+<span style='color:#898887;'>// text to display - format = 'lines.push(&quot;This is a message&quot;);'</span>
+    <span style='color:#0057ae;'>lines</span>.<span style='color:#0057ae;'>push</span>(<span style='color:#bf0303;'>&quot;Welcome to&quot;</span>);
+    <span style='color:#0057ae;'>lines</span>.<span style='color:#0057ae;'>push</span>(<span style='color:#bf0303;'>&quot;alanesq.eu5.net&quot;</span>);
+    
+<b><i>let</i></b> tcol = [<span style='color:#b08000;'>255</span>,<span style='color:#b08000;'>0</span>,<span style='color:#b08000;'>0</span>];                       <span style='color:#898887;'>// text colour (red alters if shimmer enabled)</span>
+<b>const</b> lSpace = <span style='color:#b08000;'>65</span>;                          <span style='color:#898887;'>// line spacing</span>
+<b>const</b> shimmer = <b>true</b>;                       <span style='color:#898887;'>// shimmering text effect (true/false)</span>
+<b>const</b> textFont = <span style='color:#bf0303;'>'js/1CamBam_Stick_2.ttf'</span>   <span style='color:#898887;'>// font to use</span>
+<b>const</b> bHeight = <span style='color:#b08000;'>0.7</span>;                        <span style='color:#898887;'>// total height of all text (0 to 1)</span>
+<span style='color:#898887;'>// const vehicleImage = 'blank.png';        // image for vehicles (not used)</span>
+
+
+<span style='color:#898887;'>//   ------------------------------------------------------</span>
+
+
+<b>function</b> <span style='color:#0057ae;'>preload</span>() {
+  font = <span style='color:#0057ae;'>loadFont</span>(textFont);
+  <span style='color:#898887;'>// vImage = loadImage(vehicleImage);</span>
+}
+
+
+<b>function</b> <span style='color:#0057ae;'>setup</span>() {
+    
+  <span style='color:#0057ae;'>pixelDensity</span>(<span style='color:#b08000;'>1</span>);            <span style='color:#898887;'>// in case of a high density display</span>
+  <span style='color:#898887;'>//frameRate = 10;</span>
+  <b><i>let</i></b> cnv = <span style='color:#0057ae;'>createCanvas</span>(windowWidth, windowHeight * bHeight);
+  <span style='color:#0057ae;'>cnv</span>.<span style='color:#0057ae;'>parent</span>(<span style='color:#bf0303;'>'animtext'</span>);     <span style='color:#898887;'>// put canvas inside html div with ID 'anitext'</span>
+  
+  <span style='color:#898887;'>// adjust border and dot size depending on display size (range approx. 300 to 2000 horizontal?)</span>
+  lPad = windowWidth / <span style='color:#b08000;'>25</span>;              <span style='color:#898887;'>// padding around whole text block</span>
+  radii = <span style='color:#b08000;'>9</span> * (windowHeight / <span style='color:#b08000;'>500</span>);     <span style='color:#898887;'>// size of dots</span>
+
+  <span style='color:#898887;'>// find all the x,y points on the text</span>
+  <b>for</b> (<b><i>let</i></b> [index, i] of <span style='color:#0057ae;'>lines</span>.<span style='color:#0057ae;'>entries</span>()) {     <span style='color:#898887;'>// step through each line of text</span>
+    <b><i>let</i></b> qpoints=<span style='color:#0057ae;'>font</span>.<span style='color:#0057ae;'>textToPoints</span>(i, <span style='color:#b08000;'>0</span>, (index * lSpace), <span style='color:#b08000;'>60</span>, { 
+        <span style='color:#0057ae;'>sampleFactor</span>: <span style='color:#b08000;'>0.25</span>
+    });
+    
+    <span style='color:#898887;'>// add the points of this line of text to the others</span>
+    <b>for</b> (<b><i>let</i></b> j of qpoints) {
+        <span style='color:#0057ae;'>points</span>.<span style='color:#0057ae;'>push</span>(j);   
+        
+        <span style='color:#898887;'>// find min and max values of x,y</span>
+        <b>if</b> (<span style='color:#0057ae;'>j</span>.<span style='color:#0057ae;'>x</span> &gt; maxX) maxX = <span style='color:#0057ae;'>j</span>.<span style='color:#0057ae;'>x</span>;  
+        <b>if</b> (<span style='color:#0057ae;'>j</span>.<span style='color:#0057ae;'>y</span> &gt; maxY) maxY = <span style='color:#0057ae;'>j</span>.<span style='color:#0057ae;'>y</span>;
+        <b>if</b> (<span style='color:#0057ae;'>j</span>.<span style='color:#0057ae;'>x</span> &lt; minX) minX = <span style='color:#0057ae;'>j</span>.<span style='color:#0057ae;'>x</span>;  
+        <b>if</b> (<span style='color:#0057ae;'>j</span>.<span style='color:#0057ae;'>y</span> &lt; minY) minY = <span style='color:#0057ae;'>j</span>.<span style='color:#0057ae;'>y</span>;
+    }
+  }
+
+    <span style='color:#898887;'>/*</span><span style='color:#898887;'> alternative way to find max values</span>
+<span style='color:#898887;'>    maxX = points.reduce( (max, val) =&gt; {</span>
+<span style='color:#898887;'>        if (val.x &gt; max) return val.x;</span>
+<span style='color:#898887;'>        else return max;</span>
+<span style='color:#898887;'>    }, 0);</span>
+<span style='color:#898887;'>    </span><span style='color:#898887;'>*/</span>
+
+
+  <span style='color:#898887;'>// create a new vehicle for each point in the complete list of points</span>
+  <b>for</b> (<b><i>let</i></b> i of points) {
+    <span style='color:#898887;'>// map to display resolution with border</span>
+        xMap = <span style='color:#0057ae;'>map</span>(<span style='color:#0057ae;'>i</span>.<span style='color:#0057ae;'>x</span>, minX, maxX, lPad, windowWidth - lPad);
+        yMap = <span style='color:#0057ae;'>map</span>(<span style='color:#0057ae;'>i</span>.<span style='color:#0057ae;'>y</span>, minY, maxY, lPad, (windowHeight * bHeight) - lPad);
+    <b><i>let</i></b> vehicle = <b>new</b> <span style='color:#0057ae;'>Vehicle</span>(xMap, yMap);
+    <span style='color:#0057ae;'>vehicles</span>.<span style='color:#0057ae;'>push</span>(vehicle);
+  }
+   
+}
+
+
+<span style='color:#898887;'>// ------------------------------------------------------</span>
+
+
+<b>function</b> <span style='color:#0057ae;'>draw</span>() {
+    
+  <span style='color:#0057ae;'>clear</span>();
+  <span style='color:#898887;'>//background(51);</span>
+  
+  <b>for</b> (<b><i>let</i></b> i of vehicles) {         <span style='color:#898887;'>// step through all the vehicles</span>
+    <span style='color:#0057ae;'>i</span>.<span style='color:#0057ae;'>behaviors</span>();
+    <span style='color:#0057ae;'>i</span>.<span style='color:#0057ae;'>update</span>();
+    <b>if</b> (shimmer === <b>true</b>) tcol[<span style='color:#b08000;'>0</span>]=<span style='color:#0057ae;'>random</span>(<span style='color:#b08000;'>200</span>,<span style='color:#b08000;'>255</span>);    <span style='color:#898887;'>// create shimmer effect</span>
+    <span style='color:#0057ae;'>i</span>.<span style='color:#0057ae;'>show</span>(tcol,radii);
+  }
+}
+
+
+<span style='color:#898887;'>// ------------------------------------------------------</span>
+
+
+<b><i>class</i></b> Vehicle {
+    
+    <span style='color:#0057ae;'>constructor</span>(x, y) {
+        <b>this</b>.<span style='color:#0057ae;'>pos</span> = <span style='color:#0057ae;'>createVector</span>( <span style='color:#0057ae;'>random</span>(windowWidth, windowWidth * <span style='color:#b08000;'>4</span>),<span style='color:#0057ae;'>random</span>(<span style='color:#b08000;'>0</span>, windowHeight) );
+        <b>this</b>.<span style='color:#0057ae;'>target</span> = <span style='color:#0057ae;'>createVector</span>(x, y);
+        <b>this</b>.<span style='color:#0057ae;'>vel</span> = <span style='color:#0057ae;'>p5</span>.<span style='color:#0057ae;'>Vector</span>.<span style='color:#0057ae;'>random2D</span>();
+        <b>this</b>.<span style='color:#0057ae;'>acc</span> = <span style='color:#0057ae;'>createVector</span>();
+        <span style='color:#898887;'>//this.r = windowWidth / 110;</span>
+        <b>this</b>.<span style='color:#0057ae;'>maxspeed</span> = <span style='color:#b08000;'>10</span>;
+        <b>this</b>.<span style='color:#0057ae;'>maxforce</span> = <span style='color:#b08000;'>1</span>;
+    }
+
+    <span style='color:#0057ae;'>behaviors</span>() {
+        <b><i>let</i></b> arrive = <b>this</b>.<span style='color:#0057ae;'>arrive</span>(<b>this</b>.<span style='color:#0057ae;'>target</span>);
+        <b><i>let</i></b> mouse = <span style='color:#0057ae;'>createVector</span>(mouseX, mouseY);
+        <b><i>let</i></b> flee = <b>this</b>.<span style='color:#0057ae;'>flee</span>(mouse);
+
+        <span style='color:#0057ae;'>arrive</span>.<span style='color:#0057ae;'>mult</span>(<span style='color:#b08000;'>1</span>);
+        <span style='color:#0057ae;'>flee</span>.<span style='color:#0057ae;'>mult</span>(<span style='color:#b08000;'>5</span>);
+
+        <b>this</b>.<span style='color:#0057ae;'>applyForce</span>(arrive);
+        <b>this</b>.<span style='color:#0057ae;'>applyForce</span>(flee);
+    }
+
+    <span style='color:#0057ae;'>applyForce</span>(f) {
+        <b>this</b>.<span style='color:#0057ae;'>acc</span>.<span style='color:#0057ae;'>add</span>(f);
+    }
+
+    <span style='color:#0057ae;'>update</span>() {
+        <b>this</b>.<span style='color:#0057ae;'>pos</span>.<span style='color:#0057ae;'>add</span>(<b>this</b>.<span style='color:#0057ae;'>vel</span>);
+        <b>this</b>.<span style='color:#0057ae;'>vel</span>.<span style='color:#0057ae;'>add</span>(<b>this</b>.<span style='color:#0057ae;'>acc</span>);
+        <b>this</b>.<span style='color:#0057ae;'>acc</span>.<span style='color:#0057ae;'>mult</span>(<span style='color:#b08000;'>0</span>);
+    }
+
+    <span style='color:#0057ae;'>show</span>(tcol,r) {      <span style='color:#898887;'>// colour, radius</span>
+        <span style='color:#0057ae;'>strokeWeight</span>(r);
+        <span style='color:#0057ae;'>stroke</span>(tcol[<span style='color:#b08000;'>0</span>],tcol[<span style='color:#b08000;'>1</span>],tcol[<span style='color:#b08000;'>2</span>]);
+        <span style='color:#0057ae;'>point</span>(<b>this</b>.<span style='color:#0057ae;'>pos</span>.<span style='color:#0057ae;'>x</span>, <b>this</b>.<span style='color:#0057ae;'>pos</span>.<span style='color:#0057ae;'>y</span>);
+        <span style='color:#898887;'>// image(vImage, this.pos.x, this.pos.y, r, r);        </span>
+    }
+
+
+    <span style='color:#0057ae;'>arrive</span>(target) {
+        <b><i>let</i></b> desired = <span style='color:#0057ae;'>p5</span>.<span style='color:#0057ae;'>Vector</span>.<span style='color:#0057ae;'>sub</span>(target, <b>this</b>.<span style='color:#0057ae;'>pos</span>);
+        <b><i>let</i></b> d = <span style='color:#0057ae;'>desired</span>.<span style='color:#0057ae;'>mag</span>();
+        <b><i>let</i></b> speed = <b>this</b>.<span style='color:#0057ae;'>maxspeed</span>;
+        <b>if</b> (d &lt; <span style='color:#b08000;'>100</span>) {
+            speed = <span style='color:#0057ae;'>map</span>(d, <span style='color:#b08000;'>0</span>, <span style='color:#b08000;'>100</span>, <span style='color:#b08000;'>0</span>, <b>this</b>.<span style='color:#0057ae;'>maxspeed</span>);
+        }
+        <span style='color:#0057ae;'>desired</span>.<span style='color:#0057ae;'>setMag</span>(speed);
+        <b><i>let</i></b> steer = <span style='color:#0057ae;'>p5</span>.<span style='color:#0057ae;'>Vector</span>.<span style='color:#0057ae;'>sub</span>(desired, <b>this</b>.<span style='color:#0057ae;'>vel</span>);
+        <span style='color:#0057ae;'>steer</span>.<span style='color:#0057ae;'>limit</span>(<b>this</b>.<span style='color:#0057ae;'>maxforce</span>);
+        <b>return</b> steer;
+    }
+
+    <span style='color:#0057ae;'>flee</span>(target) {
+        <b><i>let</i></b> desired = <span style='color:#0057ae;'>p5</span>.<span style='color:#0057ae;'>Vector</span>.<span style='color:#0057ae;'>sub</span>(target, <b>this</b>.<span style='color:#0057ae;'>pos</span>);
+        <b><i>let</i></b> d = <span style='color:#0057ae;'>desired</span>.<span style='color:#0057ae;'>mag</span>();
+        <b>if</b> (d &lt; <span style='color:#b08000;'>25</span>) {
+            <span style='color:#0057ae;'>desired</span>.<span style='color:#0057ae;'>setMag</span>(<b>this</b>.<span style='color:#0057ae;'>maxspeed</span>);
+            <span style='color:#0057ae;'>desired</span>.<span style='color:#0057ae;'>mult</span>(-<span style='color:#b08000;'>1</span>);
+            <b><i>let</i></b> steer = <span style='color:#0057ae;'>p5</span>.<span style='color:#0057ae;'>Vector</span>.<span style='color:#0057ae;'>sub</span>(desired, <b>this</b>.<span style='color:#0057ae;'>vel</span>);
+            <span style='color:#0057ae;'>steer</span>.<span style='color:#0057ae;'>limit</span>(<b>this</b>.<span style='color:#0057ae;'>maxforce</span>);
+            <b>return</b> steer;
+        } <b>else</b> {
+            <b>return</b> <span style='color:#0057ae;'>createVector</span>(<span style='color:#b08000;'>0</span>, <span style='color:#b08000;'>0</span>);
+        }
+    }
+
+}  
+
+
+<span style='color:#898887;'>// ---------------------- end ---------------------------</span>
+</pre>
+</body>
+</html>

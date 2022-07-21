@@ -1,0 +1,74 @@
+
+/* 
+ 
+    Style sheet for alanesq.com front page '/main.htm' - 11 Dec 19
+
+    
+*/
+
+
+
+/* ------------------------------------------------- */
+
+
+* {
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    z-index: 500;
+}
+
+body {
+    background-image: url('../img/main-squirrel.jpg');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 100vw 100vh;     
+    
+    color: #000;
+    font-family: arial;
+    font-size: 18px;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+.animtext {
+    position: fixed;
+    top: 0px;
+}
+
+.title {
+    opacity:0;
+    font-size: 28px;
+    color: #f30;
+    animation: fadeIn 1s linear 1s 1 normal forwards;    /* 1st no = duration, second=delay */
+}
+
+.text {
+    opacity:0;
+    font-size: 18px;
+    color: #000;  
+    animation: fadeIn 1s linear 2s 1 normal forwards;    /* 1st no = duration, second=delay */
+}
+
+/* Moving picture */
+.alan {
+    position: absolute;
+    top: 0px;
+    opacity:0;
+    animation: fadeIn 10s linear 17s 1 normal forwards;    /* 1st no = duration, second=delay */
+    width: 170px; 
+    height: 240px;
+    left: 0;        /* this is changed by jscript to move the image around the screen */
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+
+/* ---------------------- end ---------------------- */

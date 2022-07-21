@@ -1,0 +1,123 @@
+/*      
+ 
+    Style sheet for 'alanesq.com/index.htm' - Dec 19       
+ 
+    reference: https://www.w3schools.com/cssref
+    
+*/
+
+
+
+
+/* --------------------- Main Settings ---------------------------- */
+
+
+:root {
+    
+    --main-background-color: #EE0;
+    
+    --top-menu-height: 15vh;
+    
+    --side-menu-width: 150px;
+}
+
+
+/* ---------------------------------------------------------------- */
+
+
+/* Defaults for page */
+* {
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    z-index: 500;
+}
+
+
+body {
+    background-color: var(--main-background-color);
+}
+
+.main-iframe {
+    position: fixed;
+    top: var(--top-menu-height);
+    left: var(--side-menu-width);
+    padding: 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    z-index: 100;
+    overflow: scroll;
+    width: calc(100vw - var(--side-menu-width));      /* fit iframe to available space */
+    height: calc(100vh - var(--top-menu-height));
+
+    /* animation-name: iframeLoad;
+    animation-duration: 800ms; 
+    animation-timing-function: ease-out; 
+    animation-delay: 0s;
+    animation-fill-mode: none;
+    animation-play-state: running; */
+}
+
+@keyframes iframeLoad {                     /* animation used by nav */
+    0% {transform: translateX(-100%);}   
+    100% {transform: translateX(0%);}
+}
+
+
+/* ------------- Header -------------- */
+
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: var(--top-menu-height);
+}
+.header img {
+    width: 100vw;
+    height: 100%;
+}
+
+
+/* ----------------------- side bar ------------------------------- */
+
+
+
+.side-bar {
+    position: fixed;
+    display: block;
+    top: var(--top-menu-height);
+    left: 0;
+    height: calc(100vh - var(--top-menu-height));
+    width: var(--side-menu-width);
+    font-family: arial;
+    text-align: center;
+    overflow: auto;
+}
+
+
+side-title {
+    color: #000;
+}
+
+
+.side-item {
+    color: #222;
+    text-decoration: none;
+    padding: 2px;
+}
+
+.side-item:hover {
+    background-color: #770;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+
+
+/* ------------------------ e n d --------------------------------- */
+
+

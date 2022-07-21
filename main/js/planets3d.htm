@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<!-- 
+        Planets3D - 10 Dec 19 - www.alanesq.com
+        
+        based on code by Daniel Shiffman of thecodingtrain.com
+-->
+
+<html>
+
+<head>
+  <script type="text/javascript" src="http://www.alanesq.eu5.net/js/p5.min.js"></script>
+  <meta charset="utf-8" />
+  <title>Planets</title>
+</head>
+
+<body style="background-color: yellow;">
+    <center>
+    
+    <h1 style="color: red;">Random planets with zero velocity subjected to gravity</h1>
+    
+    <span>
+        Demo of programming in Javascript with P5.js - This type of thing is surprisingly easy to do, for more info. see:  
+        <a href="http://www.thecodingtrain.com" target="_top">The Coding Train</a>
+    </span>
+    
+    <br><br>
+        
+    <div id="code"></div>
+    
+    <span>
+        Note: This is not offered as scientifically accurate (e.g. the planets bounce off each other) just an interesting coding project...<br><br>
+        <a href="animtext.htm">See the Javascript code for the animated text on the front page of alanesq.com</a><br>
+    </span><br>
+    
+    
+    <!-- If it is December display Festivus banner -->
+        <div id='festivusDiv'></div>
+        <script type="text/javascript" src="../js/festivus.js"></script>    
+
+    <!-- show banner if 'alanesq.com/banner.gif' exists -->
+        <div id='bannerDiv'></div>
+        <script type="text/javascript" src="../js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->
+        
+
+
+<script>
+
+
+    // --------------------------------- Planets3D - javascript / p5.js ------------------------
+    
+
+    // planets - javascript / p5.js
+
+    let movers = [];
+    var G=2;                    // gravity
+    var numberPlanets = 10;
+    
+    function setup() {
+        pixelDensity(1);            // in case of a high density display
+        var cnv = createCanvas(800,600,WEBGL);
+        cnv.parent('code');     // put inside html div with ID 'code'
+        for (let i = 0; i < numberPlanets; i++) {
+            // random possition towards centre of screen
+            movers[i] = new Mover(random(-width/2,width/2), random(-height/2,height/2), random(-300,300), random(1, 4));
+        }
+    }
+    
+    
+    // -----------------------------------------------------------------------------------------
+
+    
+    function draw() {
+        background(50); 
+        translate(0,0,-300);
+        rotateY(mouseX/200);
+        rotateZ(-mouseY/200);
+        
+        for (let i = 0; i < movers.length; i++) {
+            let force = createVector(0,0,0);
+            
+            // force is sum of all other planets
+            for (let j = 0; j < movers.length; j++) {
+                if (i != j) {
+                    let gs = movers[j].attract(movers[i]);      // calc. gravity between the two planets
+                    force.add(gs);
+                }
+            }
+            
+            movers[i].applyForce(force);
+            movers[i].update();
+            movers[i].display();
+        }
+    }
+    
+    
+    // -----------------------------------------------------------------------------------------
+
+    
+    class Mover {
+        constructor(x, y, z, mass) {
+            this.colour = [random(50,255),random(50,255),random(50,255)]; 
+            this.mass = mass;
+            this.radius = mass * 5;
+            this.position = createVector(x, y, z);
+            this.velocity = createVector(0,0,0);
+            this.acceleration = createVector(0,0,0);
+        }
+        
+        update() {
+            // Velocity changes according to acceleration
+            this.velocity.add(this.acceleration);
+            // position changes by velocity
+            this.position.add(this.velocity);
+            // We must clear acceleration each frame
+            this.acceleration.mult(0); 
+        }
+
+        display() {
+            push();
+                translate(this.position.x,this.position.y,this.position.z);
+                strokeWeight(0);
+                
+                // appearance of sphere   (see - https://www.youtube.com/watch?v=k2FguXvqp60&t=3s)
+                shininess(50);
+                directionalLight(255,255,255,width,height,-1000);
+                ambientMaterial(this.colour);
+                sphere(this.radius,10,10);
+            pop();
+        }
+        
+        // Newton's 2nd law: F = M * A or A = F / M
+        applyForce(force) {
+            let f = p5.Vector.div(force, this.mass);
+            this.acceleration.add(f);
+        }
+
+        attract(mover_) {
+            // Calculate direction of force - more info: https://www.youtube.com/watch?v=OAcXnzRNiCY
+            let force = p5.Vector.sub(this.position, mover_.position);
+            
+            // Distance between objects
+            let distance = force.mag();
+
+            // Gravitional force magnitude              F = G * M1 * M2 / distance squared
+            let strength = (G * this.mass * mover_.mass) / (distance * distance);
+            force.setMag(strength);
+            
+            // if they collide - I don't know what to do here so just reverse the force direction for now??
+            if (distance < this.radius + mover_.radius) force.setMag(-strength);     
+            
+            return force;
+        }
+    
+    }
+
+    // ------------------------------------------ end ------------------------------------------
+
+</script>
+</center>
+
+<br><hr>
+<br>Code:<br>
+
+<!-- The code in HTML format -->
+<pre style='color:#1f1c1b;background-color:#ffffff;'>
+<b><span style='color:#0057ae;'>&lt;!DOCTYPE </span></b>html<b><span style='color:#0057ae;'>&gt;</span></b>
+
+<span style='color:#898887;'>&lt;!--</span><span style='color:#898887;'> </span>
+<span style='color:#898887;'>        Planets3D - 02 Dec 19 - www.alanesq.com</span>
+<span style='color:#898887;'>        </span>
+<span style='color:#898887;'>        based on code from thecodingtrain.com</span>
+<span style='color:#898887;'>--&gt;</span>
+
+<b>&lt;html&gt;</b>
+
+<b>&lt;head&gt;</b>
+  <b>&lt;script</b><span style='color:#006e28;'> type=</span><span style='color:#bf0303;'>&quot;text/javascript&quot;</span><span style='color:#006e28;'> src=</span><span style='color:#bf0303;'>&quot;https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js&quot;</span><b>&gt;</b><b>&lt;/script</b><b>&gt;</b>
+  <b>&lt;meta</b><span style='color:#006e28;'> charset=</span><span style='color:#bf0303;'>&quot;utf-8&quot;</span> <b>/&gt;</b>
+  <b>&lt;title&gt;</b>Planets<b>&lt;/title&gt;</b>
+<b>&lt;/head&gt;</b>
+
+<b>&lt;body</b><span style='color:#006e28;'> style=</span><span style='color:#bf0303;'>&quot;background-color: yellow;&quot;</span><b>&gt;</b>
+    <b>&lt;center&gt;</b>
+    
+    <b>&lt;h1</b><span style='color:#006e28;'> style=</span><span style='color:#bf0303;'>&quot;color: red;&quot;</span><b>&gt;</b>Random planets with zero velocity subjected to gravity<b>&lt;/h1&gt;</b>
+    
+    <b>&lt;span&gt;</b>
+        Demo of programming in Javascript with P5.js - This type of thing is surprisingly easy to do, for more info. see:  
+        <b>&lt;a</b><span style='color:#006e28;'> href=</span><span style='color:#bf0303;'>&quot;http://www.thecodingtrain.com&quot;</span><span style='color:#006e28;'> target=</span><span style='color:#bf0303;'>&quot;_top&quot;</span><b>&gt;</b>The Coding Train<b>&lt;/a&gt;</b>
+    <b>&lt;/span&gt;</b>
+    
+    <b>&lt;br&gt;&lt;br&gt;</b>
+        
+    <b>&lt;div</b><span style='color:#006e28;'> id=</span>
+    <span style='color:#bf0303;'>&quot;code&quot;</span>
+    <b>&gt;</b><b>&lt;/div</b><b>&gt;</b>
+
+
+<b>&lt;script</b><b>&gt;</b>
+
+
+    <span style='color:#898887;'>// --------------------------------- Planets3D - javascript / p5.js ------------------------</span>
+    
+
+    <span style='color:#898887;'>// planets - javascript / p5.js</span>
+
+    <b><i>let</i></b> movers = [];
+    <b>var</b> G=<span style='color:#b08000;'>4</span>;                    <span style='color:#898887;'>// gravity</span>
+    <b>var</b> numberPlanets = <span style='color:#b08000;'>10</span>;
+    
+    <b>function</b> <span style='color:#0057ae;'>setup</span>() {
+        <b>var</b> cnv = <span style='color:#0057ae;'>createCanvas</span>(<span style='color:#b08000;'>800</span>,<span style='color:#b08000;'>600</span>,WEBGL);
+        <span style='color:#0057ae;'>cnv</span>.<span style='color:#0057ae;'>parent</span>(<span style='color:#bf0303;'>'code'</span>);     <span style='color:#898887;'>// put inside html div with ID 'code'</span>
+        <b>for</b> (<b><i>let</i></b> i = <span style='color:#b08000;'>0</span>; i &lt; numberPlanets; i++) {
+            <span style='color:#898887;'>// random possition towards centre of screen</span>
+            movers[i] = <b>new</b> <span style='color:#0057ae;'>Mover</span>(<span style='color:#0057ae;'>random</span>(-width/<span style='color:#b08000;'>2</span>,width/<span style='color:#b08000;'>2</span>), <span style='color:#0057ae;'>random</span>(-height/<span style='color:#b08000;'>2</span>,height/<span style='color:#b08000;'>2</span>), <span style='color:#0057ae;'>random</span>(-<span style='color:#b08000;'>300</span>,<span style='color:#b08000;'>300</span>), <span style='color:#0057ae;'>random</span>(<span style='color:#b08000;'>1</span>, <span style='color:#b08000;'>4</span>));
+        }
+    }
+    
+    
+    <span style='color:#898887;'>// -----------------------------------------------------------------------------------------</span>
+
+    
+    <b>function</b> <span style='color:#0057ae;'>draw</span>() {
+        <span style='color:#0057ae;'>background</span>(<span style='color:#b08000;'>50</span>); 
+        <span style='color:#0057ae;'>translate</span>(<span style='color:#b08000;'>0</span>,<span style='color:#b08000;'>0</span>,-<span style='color:#b08000;'>300</span>);
+        <span style='color:#0057ae;'>rotateY</span>(mouseX/<span style='color:#b08000;'>200</span>);
+        <span style='color:#0057ae;'>rotateZ</span>(-mouseY/<span style='color:#b08000;'>200</span>);
+        
+        <b>for</b> (<b><i>let</i></b> i = <span style='color:#b08000;'>0</span>; i &lt; <span style='color:#0057ae;'>movers</span>.<span style='color:#0057ae;'>length</span>; i++) {
+            <b><i>let</i></b> force = <span style='color:#0057ae;'>createVector</span>(<span style='color:#b08000;'>0</span>,<span style='color:#b08000;'>0</span>,<span style='color:#b08000;'>0</span>);
+            
+            <span style='color:#898887;'>// force is sum of all other planets</span>
+            <b>for</b> (<b><i>let</i></b> j = <span style='color:#b08000;'>0</span>; j &lt; <span style='color:#0057ae;'>movers</span>.<span style='color:#0057ae;'>length</span>; j++) {
+                <b>if</b> (i != j) {
+                    <b><i>let</i></b> gs = movers[j].<span style='color:#0057ae;'>attract</span>(movers[i]);      <span style='color:#898887;'>// calc. gravity between the two planets</span>
+                    <span style='color:#0057ae;'>force</span>.<span style='color:#0057ae;'>add</span>(gs);
+                }
+            }
+            
+            movers[i].<span style='color:#0057ae;'>applyForce</span>(force);
+            movers[i].<span style='color:#0057ae;'>update</span>();
+            movers[i].<span style='color:#0057ae;'>display</span>();
+        }
+    }
+    
+    
+    <span style='color:#898887;'>// -----------------------------------------------------------------------------------------</span>
+
+    
+    <b><i>class</i></b> Mover {
+        <span style='color:#0057ae;'>constructor</span>(x, y, z, mass) {
+            <b>this</b>.<span style='color:#0057ae;'>colour</span> = [<span style='color:#0057ae;'>random</span>(<span style='color:#b08000;'>50</span>,<span style='color:#b08000;'>255</span>),<span style='color:#0057ae;'>random</span>(<span style='color:#b08000;'>50</span>,<span style='color:#b08000;'>255</span>),<span style='color:#0057ae;'>random</span>(<span style='color:#b08000;'>50</span>,<span style='color:#b08000;'>255</span>)]; 
+            <b>this</b>.<span style='color:#0057ae;'>mass</span> = mass;
+            <b>this</b>.<span style='color:#0057ae;'>radius</span> = mass * <span style='color:#b08000;'>5</span>;
+            <b>this</b>.<span style='color:#0057ae;'>position</span> = <span style='color:#0057ae;'>createVector</span>(x, y, z);
+            <b>this</b>.<span style='color:#0057ae;'>velocity</span> = <span style='color:#0057ae;'>createVector</span>(<span style='color:#b08000;'>0</span>,<span style='color:#b08000;'>0</span>,<span style='color:#b08000;'>0</span>);
+            <b>this</b>.<span style='color:#0057ae;'>acceleration</span> = <span style='color:#0057ae;'>createVector</span>(<span style='color:#b08000;'>0</span>,<span style='color:#b08000;'>0</span>,<span style='color:#b08000;'>0</span>);
+        }
+        
+        <span style='color:#0057ae;'>update</span>() {
+            <span style='color:#898887;'>// Velocity changes according to acceleration</span>
+            <b>this</b>.<span style='color:#0057ae;'>velocity</span>.<span style='color:#0057ae;'>add</span>(<b>this</b>.<span style='color:#0057ae;'>acceleration</span>);
+            <span style='color:#898887;'>// position changes by velocity</span>
+            <b>this</b>.<span style='color:#0057ae;'>position</span>.<span style='color:#0057ae;'>add</span>(<b>this</b>.<span style='color:#0057ae;'>velocity</span>);
+            <span style='color:#898887;'>// We must clear acceleration each frame</span>
+            <b>this</b>.<span style='color:#0057ae;'>acceleration</span>.<span style='color:#0057ae;'>mult</span>(<span style='color:#b08000;'>0</span>); 
+        }
+
+        <span style='color:#0057ae;'>display</span>() {
+            <span style='color:#0057ae;'>push</span>();
+                <span style='color:#0057ae;'>translate</span>(<b>this</b>.<span style='color:#0057ae;'>position</span>.<span style='color:#0057ae;'>x</span>,<b>this</b>.<span style='color:#0057ae;'>position</span>.<span style='color:#0057ae;'>y</span>,<b>this</b>.<span style='color:#0057ae;'>position</span>.<span style='color:#0057ae;'>z</span>);
+                <span style='color:#0057ae;'>strokeWeight</span>(<span style='color:#b08000;'>0</span>);
+                
+                <span style='color:#898887;'>// appearance of sphere   (see - https://www.youtube.com/watch?v=k2FguXvqp60&amp;t=3s)</span>
+                <span style='color:#0057ae;'>shininess</span>(<span style='color:#b08000;'>50</span>);
+                <span style='color:#0057ae;'>directionalLight</span>(<span style='color:#b08000;'>255</span>,<span style='color:#b08000;'>255</span>,<span style='color:#b08000;'>255</span>,width,height,-<span style='color:#b08000;'>1000</span>);
+                <span style='color:#0057ae;'>ambientMaterial</span>(<b>this</b>.<span style='color:#0057ae;'>colour</span>[<span style='color:#b08000;'>0</span>],<b>this</b>.<span style='color:#0057ae;'>colour</span>[<span style='color:#b08000;'>1</span>],<b>this</b>.<span style='color:#0057ae;'>colour</span>[<span style='color:#b08000;'>2</span>]);
+                <span style='color:#0057ae;'>sphere</span>(<b>this</b>.<span style='color:#0057ae;'>radius</span>,<span style='color:#b08000;'>10</span>,<span style='color:#b08000;'>10</span>);
+            <span style='color:#0057ae;'>pop</span>();
+        }
+        
+        <span style='color:#898887;'>// Newton's 2nd law: F = M * A or A = F / M</span>
+        <span style='color:#0057ae;'>applyForce</span>(force) {
+            <b><i>let</i></b> f = <span style='color:#0057ae;'>p5</span>.<span style='color:#0057ae;'>Vector</span>.<span style='color:#0057ae;'>div</span>(force, <b>this</b>.<span style='color:#0057ae;'>mass</span>);
+            <b>this</b>.<span style='color:#0057ae;'>acceleration</span>.<span style='color:#0057ae;'>add</span>(f);
+        }
+
+        <span style='color:#0057ae;'>attract</span>(mover_) {
+            <span style='color:#898887;'>// Calculate direction of force - more info: https://www.youtube.com/watch?v=OAcXnzRNiCY</span>
+            <b><i>let</i></b> force = <span style='color:#0057ae;'>p5</span>.<span style='color:#0057ae;'>Vector</span>.<span style='color:#0057ae;'>sub</span>(<b>this</b>.<span style='color:#0057ae;'>position</span>, <span style='color:#0057ae;'>mover_</span>.<span style='color:#0057ae;'>position</span>);
+            
+            <span style='color:#898887;'>// Distance between objects</span>
+            <b><i>let</i></b> distance = <span style='color:#0057ae;'>force</span>.<span style='color:#0057ae;'>mag</span>();
+
+            <span style='color:#898887;'>// Gravitional force magnitude              F = G * M1 * M2 / distance squared</span>
+            <b><i>let</i></b> strength = (G * <b>this</b>.<span style='color:#0057ae;'>mass</span> * <span style='color:#0057ae;'>mover_</span>.<span style='color:#0057ae;'>mass</span>) / (distance * distance);
+            <span style='color:#0057ae;'>force</span>.<span style='color:#0057ae;'>setMag</span>(strength);
+            
+            <span style='color:#898887;'>// if they collide - I don't know what to do here so just reverse the force direction for now??</span>
+            <b>if</b> (distance &lt; <b>this</b>.<span style='color:#0057ae;'>radius</span> + <span style='color:#0057ae;'>mover_</span>.<span style='color:#0057ae;'>radius</span>) <span style='color:#0057ae;'>force</span>.<span style='color:#0057ae;'>setMag</span>(-strength);     
+            
+            <b>return</b> force;
+        }
+    
+    }
+
+    <span style='color:#898887;'>// ------------------------------------------ end ------------------------------------------</span>
+
+<b>&lt;/script</b><b>&gt;</b>
+<b>&lt;/center&gt;</b>
+
+<b>&lt;/body&gt;</b>
+<b>&lt;/html&gt;</b>
+</pre>
+
+
+</body>
+</html>
