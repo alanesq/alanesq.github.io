@@ -1,0 +1,70 @@
+
+/*      
+ 
+    Alternative style sheet for alanesq.com links page tables - Oct19       
+
+    reference: https://www.w3schools.com/cssref
+
+*/
+
+
+* {
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+}
+
+body {
+    float: left;
+    background-color: #ff0;
+    padding: 20px;
+}   
+
+.styleButton {
+    position: absolute; 
+    top: 0; 
+    left: 0;
+    font-size: 12px;
+}
+
+h1 {
+    text-align: center; 
+    font-size: 28px;
+    padding: 4px;
+    color: #000
+}
+
+h2 {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #00f;
+    padding: 2px;
+}
+
+a:hover {
+    text-decoration: none;
+    color: white;
+    background-color: blue;
+    border-radius: 5px;
+    padding: 2px;
+}
+    
+table {
+    border-spacing: 20px 0;
+    text-align: left; 
+    margin-left: auto; 
+    margin-right: auto;
+    padding: 5px;
+}
+        
+td {
+    vertical-align: top; 
+    text-align: left; 
+    padding: 1px;
+}
+
+
+

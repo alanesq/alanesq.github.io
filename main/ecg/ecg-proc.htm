@@ -1,0 +1,67 @@
+<pre>
+<span style="color: rgb(102, 102, 102);">//&nbsp;ECG&nbsp;Graphing&nbsp;sketch&nbsp;v2&nbsp;-&nbsp;Sep13 - <a href="../ecg.htm">ecg.htm</a><br><br>// (based on original sketch http://arduino.cc/en/Tutorial/Graph)<br></span>&nbsp;&nbsp;
+<span style="color: rgb(102, 102, 102);">//&nbsp;press&nbsp;X&nbsp;to&nbsp;exit,&nbsp;S&nbsp;to&nbsp;save&nbsp;image&nbsp;to&nbsp;disk,&nbsp;C&nbsp;to&nbsp;clear&nbsp;display</span>
+
+
+
+&nbsp;<span style="color: rgb(51, 153, 126);">import</span> processing.serial.*;<br>&nbsp;<span style="color: rgb(226, 102, 26);">PrintWriter</span> output;   <span style="color: rgb(102, 102, 102);">// for outputting text file</span>
+&nbsp;<span style="color: rgb(226, 102, 26);">PFont</span> f;   <span style="color: rgb(102, 102, 102);">// font for text</span>
+&nbsp;
+&nbsp;Serial&nbsp;myPort;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// The serial port</span>
+&nbsp;<span style="color: rgb(226, 102, 26);">int</span> xPos = 0;         <span style="color: rgb(102, 102, 102);">// horizontal position of the graph</span>
+&nbsp;<span style="color: rgb(226, 102, 26);">int</span> lastxPos = 0;     <span style="color: rgb(102, 102, 102);">// last point drawn</span>
+&nbsp;<span style="color: rgb(226, 102, 26);">float</span> lastinByte = 0; <span style="color: rgb(102, 102, 102);">// last data plotted</span>
+&nbsp;
+
+&nbsp;<span style="color: rgb(51, 153, 126);">void</span> <span style="color: rgb(0, 102, 153);"><b>setup</b></span> () {<br>&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// output text file</span>
+&nbsp;&nbsp;&nbsp;output&nbsp;=&nbsp;<span style="color: rgb(0, 102, 153);">createWriter</span>(<span style="color: rgb(125, 71, 147);">"ecg.txt"</span>); <br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// Create the font</span>
+&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">println</span>(<span style="color: rgb(226, 102, 26);">PFont</span>.<span style="color: rgb(0, 102, 153);">list</span>());<br>&nbsp;&nbsp;&nbsp;f&nbsp;=&nbsp;<span style="color: rgb(0, 102, 153);">createFont</span>(<span style="color: rgb(125, 71, 147);">"Ariel"</span>, 14);<br>&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">textFont</span>(f);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// set the window size:</span>
+&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">size</span>(<span style="color: rgb(217, 74, 122);">displayWidth</span>, 300);        <br>&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// Serial port</span>
+&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">println</span>(Serial.<span style="color: rgb(0, 102, 153);">list</span>());<br>&nbsp;&nbsp;&nbsp;myPort&nbsp;=&nbsp;<span style="color: rgb(51, 153, 126);">new</span> Serial(<span style="color: rgb(51, 153, 126);">this</span>, Serial.<span style="color: rgb(0, 102, 153);">list</span>()[0], 9600);<br>&nbsp;&nbsp;&nbsp;myPort.bufferUntil(<span style="color: rgb(125, 71, 147);">'\n'</span>);    <span style="color: rgb(102, 102, 102);">// don't generate a serialEvent() unless you get a newline character:</span>
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// set inital background:</span>
+&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">background</span>(255,255,255);<br>&nbsp;}<br>&nbsp;<br>&nbsp;<br>&nbsp;<span style="color: rgb(51, 153, 126);">void</span> <span style="color: rgb(0, 102, 153);">scale</span>() {<br>&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// draw scale</span>
+&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">stroke</span>(#4EA53E);<br>&nbsp;&nbsp;&nbsp;<span style="color: rgb(226, 102, 26);">int</span> sdiv = 100;   <span style="color: rgb(102, 102, 102);">// division spacing (arduino samples once every 10 ms so 100 samples = 1 second)</span>
+&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 153, 0);">for</span> (<span style="color: rgb(226, 102, 26);">int</span> i = 0; i &lt;= <span style="color: rgb(217, 74, 122);">width</span>; i=i+sdiv) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">line</span>(i, <span style="color: rgb(217, 74, 122);">height</span> - 10 , i, 25 );<br>&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// text</span>
+&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">fill</span>(0, 102, 153);<br>&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">text</span>(<span style="color: rgb(125, 71, 147);">"E.C.G. "</span> + <span style="color: rgb(0, 102, 153);">day</span>() + <span style="color: rgb(125, 71, 147);">"/"</span> + <span style="color: rgb(0, 102, 153);">month</span>() + <span style="color: rgb(125, 71, 147);">"/"</span> + <span style="color: rgb(0, 102, 153);">year</span>() + <span style="color: rgb(125, 71, 147);">" at "</span> + <span style="color: rgb(0, 102, 153);">hour</span>() + <span style="color: rgb(125, 71, 147);">":"</span> + <span style="color: rgb(0, 102, 153);">minute</span>() + <span style="color: rgb(125, 71, 147);">" (1 second per division)"</span>, 20, 20);<br>&nbsp;}<br><br><br>&nbsp;<span style="color: rgb(51, 153, 126);">void</span> <span style="color: rgb(0, 102, 153);"><b>draw</b></span> () {<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// all done in serial event</span>
+&nbsp;}
+&nbsp;
+&nbsp;
+&nbsp;<span style="color: rgb(51, 153, 126);">void</span> <span style="color: rgb(0, 102, 153);">clear</span>() {<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// clear screen and start again</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xPos&nbsp;=&nbsp;0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lastxPos&nbsp;=&nbsp;0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">background</span>(255,255,255);<br>&nbsp;}<br>&nbsp;<br>&nbsp;<br>&nbsp;<span style="color: rgb(51, 153, 126);">void</span> <span style="color: rgb(0, 102, 153);"><b>keyReleased</b></span>() {<br>&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// key pressed</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 153, 0);">switch</span> (<span style="color: rgb(217, 74, 122);">key</span>) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(51, 153, 126);">case</span> <span style="color: rgb(125, 71, 147);">'c'</span>:  <span style="color: rgb(102, 102, 102);">// clear screen</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">clear</span>();    <span style="color: rgb(102, 102, 102);">// clear screen and start again</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(51, 153, 126);">break</span>;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(51, 153, 126);">case</span> <span style="color: rgb(125, 71, 147);">'s'</span>:   <span style="color: rgb(102, 102, 102);">// pause and save image</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">saveFrame</span>(<span style="color: rgb(125, 71, 147);">"ecg###.jpg"</span>);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delay(500);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(51, 153, 126);">break</span>;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(51, 153, 126);">case</span> <span style="color: rgb(125, 71, 147);">'x'</span>:   <span style="color: rgb(102, 102, 102);">// exit</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output.<span style="color: rgb(0, 102, 153);">flush</span>();  <span style="color: rgb(102, 102, 102);">// Writes the remaining data to the file</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output.<span style="color: rgb(0, 102, 153);">close</span>();  <span style="color: rgb(102, 102, 102);">// Finishes the file</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">exit</span>();  <span style="color: rgb(102, 102, 102);">// Stops the program</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(51, 153, 126);">break</span>;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;}<br>&nbsp;<br>&nbsp;<br>&nbsp;<span style="color: rgb(51, 153, 126);">void</span> serialEvent (Serial myPort) {<br>&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// get the ASCII string:</span>
+&nbsp;&nbsp;&nbsp;<span style="color: rgb(226, 102, 26);">String</span> inString = myPort.readStringUntil(<span style="color: rgb(125, 71, 147);">'\n'</span>);<br>&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 153, 0);">if</span> (inString != <span style="color: rgb(51, 153, 126);">null</span>) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inString&nbsp;=&nbsp;<span style="color: rgb(0, 102, 153);">trim</span>(inString);     <span style="color: rgb(102, 102, 102);">// trim off any whitespace:</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(226, 102, 26);">float</span> inByte = <span style="color: rgb(0, 102, 153);">float</span>(inString);      <span style="color: rgb(102, 102, 102);">// convert to an int </span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 153, 0);">if</span> (inByte &lt; 0) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// bpm info received  </span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">fill</span> (255,255,255);   <span style="color: rgb(102, 102, 102);">// erase last bpm   </span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">stroke</span> (255,255,255);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">rect</span>(500,8,100,18);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">stroke</span>(0,0,0);   <span style="color: rgb(102, 102, 102);">// display bpm</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">fill</span>(0, 102, 153);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">text</span>(<span style="color: rgb(125, 71, 147);">"B.P.M. = "</span> + <span style="color: rgb(0, 102, 153);">int</span>(-inByte)  , 500, 20);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 153, 0);">else</span> {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// raw data in</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inByte&nbsp;=&nbsp;<span style="color: rgb(0, 102, 153);">map</span>(inByte, 0, 500, 0, <span style="color: rgb(217, 74, 122);">height</span>);   <span style="color: rgb(102, 102, 102);">// and map to the screen height</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// if start of screen then draw scale</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 153, 0);">if</span> (xPos == 0) <span style="color: rgb(0, 102, 153);">scale</span>();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// draw the line:</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">stroke</span>(0,0,0);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">line</span>(lastxPos, <span style="color: rgb(217, 74, 122);">height</span> - lastinByte , xPos, <span style="color: rgb(217, 74, 122);">height</span> - inByte);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lastxPos&nbsp;=&nbsp;xPos;&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// store last point plotted</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lastinByte&nbsp;=&nbsp;inByte;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;output.<span style="color: rgb(0, 102, 153);">println</span>(inByte);    <span style="color: rgb(102, 102, 102);">// save the value to text file</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// at the edge of the screen, go back to the beginning:</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 153, 0);">if</span> (xPos &gt;= <span style="color: rgb(217, 74, 122);">width</span>) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 102, 153);">clear</span>();    <span style="color: rgb(102, 102, 102);">// clear screen and start again</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 153, 0);">else</span> {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(102, 102, 102);">// increment the horizontal position:</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xPos++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;}
+&nbsp;}&nbsp;
+
+</pre>

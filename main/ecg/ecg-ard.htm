@@ -1,0 +1,40 @@
+<pre><span style="color: rgb(126, 126, 126);">//&nbsp;ECG&nbsp;arduino&nbsp;code&nbsp;-&nbsp;v2&nbsp;-&nbsp;Sep13 - Alan Blackham<br><br>// </span><span style="color: rgb(102, 102, 102);"><a href="../ecg.htm">ecg.htm</a><br><br><br><br></span><span style="color: rgb(126, 126, 126);"></span>#define&nbsp;ANALOG_IN&nbsp;0<br><br><span style="color: rgb(204, 102, 0);">int</span> sensorPin = A0;              <span style="color: rgb(126, 126, 126);">// select the input pin for the potentiometer</span>
+<span style="color: rgb(204, 102, 0);">long</span> sensorValue = sensorValue;  <span style="color: rgb(126, 126, 126);">// variable to store the value coming from the sensor</span>
+<span style="color: rgb(204, 102, 0);">int</span> sounder = 11;                <span style="color: rgb(126, 126, 126);">// sounder</span>
+<span style="color: rgb(204, 102, 0);">int</span> led = 13;                    <span style="color: rgb(126, 126, 126);">// led</span>
+<span style="color: rgb(204, 102, 0);">unsigned</span> <span style="color: rgb(204, 102, 0);">long</span> ptime=<span style="color: rgb(204, 102, 0);">millis</span>();    <span style="color: rgb(126, 126, 126);">// store for time of last pulse</span>
+
+
+<span style="color: rgb(204, 102, 0);">void</span> <span style="color: rgb(204, 102, 0);"><b>setup</b></span>() {<br>&nbsp;&nbsp;<br>&nbsp;&nbsp;<span style="color: rgb(126, 126, 126);">// initialize the serial communication:</span>
+&nbsp;&nbsp;<span style="color: rgb(204, 102, 0);"><b>Serial</b></span>.<span style="color: rgb(204, 102, 0);">begin</span>(9600);<br>&nbsp;&nbsp;<br>&nbsp;&nbsp;<span style="color: rgb(204, 102, 0);">pinMode</span>(sounder, <span style="color: rgb(0, 102, 153);">OUTPUT</span>);  <span style="color: rgb(126, 126, 126);">// sounder pin</span>
+&nbsp;&nbsp;<span style="color: rgb(204, 102, 0);">digitalWrite</span>(sounder, <span style="color: rgb(0, 102, 153);">LOW</span>);    <span style="color: rgb(126, 126, 126);">// turn sounder off</span>
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: rgb(204, 102, 0);">pinMode</span>(led, <span style="color: rgb(0, 102, 153);">OUTPUT</span>);     <span style="color: rgb(126, 126, 126);">// led pin</span>
+&nbsp;&nbsp;<span style="color: rgb(204, 102, 0);">digitalWrite</span>(led, <span style="color: rgb(0, 102, 153);">LOW</span>);    <span style="color: rgb(126, 126, 126);">// turn led off</span>
+
+}
+
+
+<span style="color: rgb(204, 102, 0);">void</span> <span style="color: rgb(204, 102, 0);"><b>loop</b></span>() {<br>&nbsp;&nbsp;<br>&nbsp;&nbsp;<span style="color: rgb(126, 126, 126);">// read the value from the sensor and send via serial once </span>
+&nbsp;&nbsp;<span style="color: rgb(204, 102, 0);">int</span> val = <span style="color: rgb(204, 102, 0);">analogRead</span>(ANALOG_IN);<br>&nbsp;&nbsp;<span style="color: rgb(204, 102, 0);"><b>Serial</b></span>.<span style="color: rgb(204, 102, 0);">println</span>( val );<br>&nbsp;&nbsp;<br>&nbsp;&nbsp;<span style="color: rgb(126, 126, 126);">// if reading high then log as a pulse</span>
+&nbsp;&nbsp;<span style="color: rgb(204, 102, 0);">if</span> (val &gt; 300) {   <span style="color: rgb(126, 126, 126);">// if pulse detected</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(204, 102, 0);">if</span> ((<span style="color: rgb(204, 102, 0);">millis</span>()-ptime) &gt; 300) {   <span style="color: rgb(126, 126, 126);">// if not to soon since last one</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(126, 126, 126);">// pulse detected</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(204, 102, 0);">digitalWrite</span>(sounder, <span style="color: rgb(0, 102, 153);">HIGH</span>);   <span style="color: rgb(126, 126, 126);">// turn sounder on</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ptime&nbsp;=&nbsp;<span style="color: rgb(204, 102, 0);">millis</span>();   <span style="color: rgb(126, 126, 126);">// update time of last pulse</span>
+&nbsp;&nbsp;}
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: rgb(126, 126, 126);">// flash led and set timing</span>
+&nbsp;&nbsp;<span style="color: rgb(204, 102, 0);">digitalWrite</span>(led, <span style="color: rgb(0, 102, 153);">HIGH</span>);    <span style="color: rgb(126, 126, 126);">// turn led off</span>
+&nbsp;&nbsp;<span style="color: rgb(204, 102, 0);">delayMicroseconds</span>(5000);    <span style="color: rgb(126, 126, 126);">// pause 5ms</span>
+&nbsp;&nbsp;<span style="color: rgb(204, 102, 0);">digitalWrite</span>(led, <span style="color: rgb(0, 102, 153);">LOW</span>);     <span style="color: rgb(126, 126, 126);">// turn led off</span>
+&nbsp;&nbsp;<span style="color: rgb(204, 102, 0);">delayMicroseconds</span>(4650);    <span style="color: rgb(126, 126, 126);">// pause 5ms (tweaked to get timing spot on)</span>
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: rgb(204, 102, 0);">digitalWrite</span>(sounder, <span style="color: rgb(0, 102, 153);">LOW</span>);    <span style="color: rgb(126, 126, 126);">// turn sounder off  </span>
+
+}
+<span style="color: rgb(126, 126, 126);">//&nbsp;end</span>
+
+</pre>

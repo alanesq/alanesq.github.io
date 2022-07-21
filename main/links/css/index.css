@@ -1,0 +1,169 @@
+
+/*      
+ 
+    Style sheet for 'alanesq.com/links' - 14 nov 19       
+ 
+    reference: https://www.w3schools.com/cssref
+    
+*/
+
+
+
+/* --------------------- main settings --------------------- */
+
+
+:root {
+
+  --top-menu-height: 35px;              /* Note: this can be changed below depending on screen width */
+    
+  --left-menu-width: 60px;              /* needs to be same as in the javascript file */
+
+}
+
+
+/* ------------------- Conditional section ----------------- */
+
+
+/* vary top menu height depending on screen width */
+
+@media only screen and (max-width: 710px) {
+    :root {
+        --top-menu-height: 70px;
+    }
+}
+
+@media only screen and (max-width: 416px) {
+    :root {
+        --top-menu-height: 105px;
+    }
+}
+
+@media only screen and (max-width: 329px) {
+    :root {
+        --top-menu-height: 140px;
+    }
+}
+
+@media only screen and (max-width: 251px) {
+    :root {
+        --top-menu-height: 175px;
+    }
+}
+
+
+/* ---------------- main body of page ---------------------- */
+
+
+.iframe {
+    position: fixed;
+    top: var(--top-menu-height);
+    left: var(--left-menu-width);
+    padding: 0;
+    border: 0;
+    z-index: 100;                                       /* so that side menu is over the top of the iFrame */
+    overflow: scroll;                                   /* show scroll bar if page oversized */
+    width: calc(100vw - var(--left-menu-width));        /* fit iframe to available space */
+    height: calc(100vh - var(--top-menu-height));
+}
+
+
+/* ------------------ top menu ----------------------------- */
+
+
+.top-menu {
+    display: flex;      /* see  https://www.w3schools.com/css/css3_flexbox.asp */
+    flex-wrap: wrap;    /* allow extending on to next line */
+    flex-direction: row;
+    position: fixed;
+    align-items: center;
+    top: 0px;
+    left: var(--left-menu-width);
+    height: var(--top-menu-height);
+    width: calc(100vw - var(--left-menu-width));
+    background: linear-gradient(to bottom, #ff0 0%, #ee0 100%);
+}
+
+.top-menu a {
+    margin: 0px;
+    padding: 8px 10px;     /* top side */
+    height: calc( var(--top-menu-height) - 12 );    /* height of cell - top and bottom padding */
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: ariel;
+    font-size: 16px;
+    color: #000;
+    text-shadow: 0 0 2px #000000, 0 0 2px #0ff;
+}
+
+.top-menu a:hover {
+    background-color: #880; 
+}
+
+
+.btn {      /* side menu button */
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: var(--left-menu-width);
+    height: var(--top-menu-height);
+    background: linear-gradient(to bottom, #ff0 0%, #ee0 100%);
+    cursor: pointer;
+}
+
+.btn:hover {
+    opacity: 0.4; 
+}
+
+
+/* ------------------ left menu ---------------------------- */
+
+
+.sidebar {
+    z-index: 200;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: var(--left-menu-width);
+    height: calc(100vh - var(--top-menu-height));
+    background: linear-gradient(to bottom, #ee0 0%, #aa0 100%);
+    z-index: 200;                          /* above iFrame */
+    transition: all 0.4s ease-in-out;      /* slide the side menu in/out */
+}
+
+.sidebar a {
+    display: flex;
+    flex-wrap: wrap;            /* allow moing to next line */
+    flex-direction: column;
+    padding: 5px;
+    line-height: 25px;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: ariel;
+    font-size: 16px;
+    color: #000;
+    text-shadow: 0 0 2px #000000, 0 0 2px #0ff;
+    list-style: none;
+    overflow: hidden;
+    visibility: hidden;                     /* hidden until button pressed */
+}
+
+.sidebar a:hover {
+    background-color: #880;
+}
+
+
+.moreLinks {    /* animated banner */
+    z-index: 300;
+    position: fixed;
+    top: calc(var(--top-menu-height) + 100px);
+    left: 0px;
+    top: var(--top-menu-height);
+    /* transform: rotate(-90deg); */ 
+}
+
+
+
+/* ---------------------- end ------------------------------ */
+
+
