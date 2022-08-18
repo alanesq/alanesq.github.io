@@ -1,5 +1,5 @@
 /*
-   Display morse code via bunny image - 24Jul22
+   Display morse code via bunny image - 20Jul22
  
         Basic morse code javascript from: https://www.tutorialspoint.com/converting-string-to-morse-code-in-javascript
         images and idea from: https://www.youtube.com/user/bixanorak/about
@@ -89,10 +89,10 @@ const convertToMorse = (str) => {
 
 
 function textEntered() {
-  
   message = document.getElementById("MCmessage").value;
   if (message.length > 0) {
     message = convertToMorse(message);
+    document.getElementById("output").innerHTML = message;
     position = 0;
   }
 }
@@ -119,16 +119,6 @@ function setup() {
   cnv.parent('code');               // put canvas inside html div with ID 'code'
   pixelDensity(1);                  // in case of a high density display
 
-  // if command supplied in URL
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const urlMessage = urlParams.get('message')
-  if ( urlMessage != null) {
-    message = convertToMorse(urlMessage);
-    position = 0;   
-    const q = document.getElementById("ibox").remove();
-    document.getElementById("ibut").remove();
-  }
 }
 
 
