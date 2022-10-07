@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Comptometer Simulator</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript">
+<!--
+/* Comptometer simulator
+ *  Written by Jaap Scherphuis, March 2016
+ *   http://www.jaapsch.net/mechcalc/
+ *   mechcalc at jaapsch dot net
+ */
+
+// display parameters
+var size;
+var margin;
+var outermargin;
+var cvs, ctx;
+var caseColour = '#843';
+var bgColour = '#ddd';
+
+// model state
+var numColumns = 8;
+var numRows = 10;
+var keyboard = 0;
+var keyboardNames = ["10","1/4","1/8","1/12","\u00A3sd","\u00A3sdf"];
+var columnSizes = [];
+var columnIsWhite = [];
+var pointerNumbers = [];
+
+// changable state
+var registerClear = true;
+var leverdown = false;
+var register= [];
+var carrytab = [];
+var pointer = [];
+
+
+function drawstuff(){
+   ctx.save();
+   // clear
+   ctx.fillStyle = bgColour;
+   var w=cvs.width;
+   var h=cvs.height;
+   ctx.fillRect(-outermargin, -outermargin, cvs.width, cvs.height);
+
+   drawCase();
+   drawLever();
+   drawControls()
+   drawKeys();
+   drawLowerPart();
+
+   ctx.restore();
+}
+
+function drawCase(){
+   ctx.save();
+
+   ctx.fillStyle = caseColour;
+   ctx.strokeStyle = '#000';
+   var w = (numColumns+1)*size+margin*2;
+   var h = (numRows+2)*size+margin*2;
+   roundedRect(0,0,w,h,size*0.5);
+   ctx.fill();
+   ctx.stroke();
+
+   var r = 0.5*size;
+   var ind = 0.25*size;
+   // draw register cover edge
+   ctx.translate(0,margin+numRows*size);
+   ctx.beginPath();
+   ctx.moveTo(0,r);
+   ctx.lineTo(ind,r);
+   ctx.arcTo(ind,0,ind+r,0,r);
+   ctx.lineTo(w-ind-r,0);
+   ctx.arcTo(w-ind,0,w-ind,r,r);
+   ctx.lineTo(w,r);
+   ctx.stroke();
+
+   ctx.restore();
+}
+
+function drawControls(){
+   ctx.save();
+   ctx.translate(margin,margin);
+   drawColumnControl();
+   ctx.translate(0,size);
+   drawKeyboardControl();
+   ctx.restore();
+}
+function drawControlButtonBase(){
+   ctx.fillStyle = caseColour;
+   ctx.fillRect(0, 0, size, size);
+   ctx.fillStyle = '#ca9';
+   ctx.strokeStyle = '#ca9';
+   ctx.strokeRect(0.05*size, 0.05*size, 0.9*size, 0.9*size);
+}
+function drawColumnControl(){
+   drawControlButtonBase();
+   ctx.fillRect(0.15*size, 0.2*size, 0.1*size, 0.6*size);
+   ctx.fillRect(0.35*size, 0.2*size, 0.1*size, 0.6*size);
+   ctx.fillRect(0.55*size, 0.2*size, 0.1*size, 0.6*size);
+   ctx.fillRect(0.75*size, 0.2*size, 0.1*size, 0.6*size);
+}
+
+function drawKeyboardControl(){
+   drawControlButtonBase();
+   ctx.font = Math.floor(size*.45)+"px sans-serif";
+   ctx.textBaseline = "middle";
+   ctx.textAlign = "center";
+   ctx.fillText(keyboardNames[(keyboard+1)%keyboardNames.length], size/2, size/2);
+}
+
+function drawLever(){
+   var raxle = size*0.18;
+   var axleLen = size*0.7;
+   var stemw1 = size*0.15;
+   var stemw2 = size*0.10;
+   var stemlen = size*(leverdown?1.8:0.8);
+   var headw = size*0.15;
+   var headh = size*0.25;
+   var handlew = size*1.0;
+   var handleh = size*0.20;
+   var handlecv = handleh*0.8;
+   var tiph = handleh*0.8;
+   var tip2h = handleh*0.5;
+   var tip2w = handleh*0.5;
+
+   ctx.save();
+   var x = (numColumns+1)*size+margin*2;
+   var y = (numRows-4.5)*size+margin;
+   ctx.translate(x,y);
+
+   // clear area
+   ctx.fillStyle = bgColour;
+   ctx.fillRect(0.05*size, -raxle*2, 2*size, 4*size);
+
+   ctx.fillStyle = '#bbb';
+   ctx.strokeStyle = '#000';
+
+   // draw base axle
+   ctx.beginPath();
+   ctx.moveTo(0,-raxle);
+   ctx.lineTo(axleLen-raxle,-raxle);
+   ctx.arc(axleLen-raxle,0,raxle,Math.PI*3/2,Math.PI/2);
+   ctx.lineTo(axleLen-raxle,-raxle);
+   ctx.lineTo(axleLen-raxle,raxle);
+   ctx.lineTo(0,raxle);
+   ctx.closePath();
+   ctx.fill();
+   ctx.stroke();
+
+   // draw stem
+   ctx.translate((axleLen-raxle)/2,0);
+   ctx.beginPath();
+   ctx.moveTo(-stemw1,0);
+   ctx.lineTo(-stemw2,stemlen);
+   ctx.lineTo(stemw2,stemlen);
+   ctx.lineTo(stemw1,0);
+   ctx.fill();
+   ctx.stroke();
+
+   //draw stemhead
+   ctx.translate(0,stemlen);
+   ctx.beginPath();
+   ctx.moveTo(-headw,-headh);
+   ctx.lineTo(-headw, headh);
+   ctx.lineTo( headw, headh);
+   ctx.lineTo( headw,-headh);
+   ctx.closePath();
+   ctx.fill();
+   ctx.stroke();
+
+   //draw handle
+   ctx.translate(headw,0);
+   ctx.beginPath();
+   ctx.moveTo(0,-handleh);
+   ctx.bezierCurveTo(handlew/2, -handleh+handlecv, handlew/2, -handleh-handlecv, handlew,-handleh);
+   ctx.lineTo(handlew,handleh);
+   ctx.bezierCurveTo(handlew/2, handleh+handlecv, handlew/2, handleh-handlecv, 0,handleh);
+   ctx.closePath();
+   ctx.fillStyle = '#420';
+   ctx.fill();
+   ctx.stroke();
+
+   // draw handle screw tip
+   ctx.translate(handlew,0);
+   ctx.beginPath();
+   ctx.moveTo(0,-tiph);
+   ctx.bezierCurveTo(tip2w, -tiph+tip2h, tip2w, tiph-tip2h, 0,tiph);
+   ctx.closePath();
+   ctx.fillStyle = '#bbb';
+   ctx.fill();
+   ctx.stroke();
+
+
+   ctx.restore();
+}
+
+function drawLowerPart(){
+   ctx.save();
+
+   ctx.fillStyle = caseColour;
+   ctx.strokeStyle = '#000';
+   ctx.fillRect(margin+size/2, margin+(numRows+0.1)*size, (numColumns+0.2)*size, size);
+   ctx.fillRect(margin, margin+(numRows+1)*size, (numColumns+1)*size, size);
+
+   drawCarryTabs();
+   drawPointers();
+   drawRegister();
+}
+
+function drawKeys(){
+   for( var c=0; c<numColumns; c++ ){
+      var cs = getColumnSize(c);
+      for( var r=1; r<=numRows; r++ ){
+         drawKey(r,c,cs);
+      }
+   }
+}
+
+function drawKey( row, col, cs ){
+   var v = getKeyValue(row,col);
+   if( v<1 ) return;
+   ctx.save();
+   var x = margin+(numColumns-col)*size+size/2;
+   var y = margin+(numRows-row)*size+size/2;
+   ctx.translate(x,y);
+
+   var d2 = size*0.425;
+   var d1 = d2*0.41421; // ~ sqrt2-1
+
+   setKeyColor(col);
+   ctx.beginPath();
+   ctx.moveTo(-d1,-d2);
+   ctx.lineTo( d1,-d2);
+   ctx.lineTo( d2,-d1);
+   ctx.lineTo( d2, d1);
+   ctx.lineTo( d1, d2);
+   ctx.lineTo(-d1, d2);
+   ctx.lineTo(-d2, d1);
+   ctx.lineTo(-d2,-d1);
+   ctx.closePath();
+   ctx.fill();
+   ctx.stroke();
+
+   setKeyDigitColor(col);
+   var digit = ""+v;
+   ctx.font = Math.floor(size*0.60)+"px sans-serif";
+   ctx.textBaseline = "middle";
+   ctx.textAlign = "center";
+   ctx.fillText(digit, size*0.07, 0);
+
+   var digit = ""+(cs-v);
+   ctx.font = Math.floor(size*0.33)+"px sans-serif";
+   ctx.textBaseline = "middle";
+   ctx.fillText(digit, -size*0.26, 0);
+
+   ctx.restore();
+}
+
+function drawPointers(){
+   for( var c=0; c<numColumns; c++ ){
+      var v = pointer[c];
+      drawPointer(c,v);
+   }
+}
+
+function drawPointer(col,isactive){
+   ctx.save();
+   var x = margin+(numColumns-1-col)*size+size*1.05;
+   var y = margin+numRows*size+size*0.85;
+   ctx.translate(x,y);
+   if( !isactive )
+      ctx.rotate(-Math.PI/2);
+
+   // pointer radii sizes
+   var rnum = 0.16*size;
+   var rpin = 0.07*size;
+   var edge = 0.05*size;
+   var offset = rnum+edge/2
+
+   // draw pointer outline
+   ctx.fillStyle = '#ddd';
+   ctx.strokeStyle = '#000';
+   ctx.beginPath();
+   ctx.arc(0, offset, rnum+edge, Math.PI*1/6, Math.PI*5/6,true);
+   ctx.lineTo(0,offset + 2*(rnum+edge));
+   ctx.closePath();
+   ctx.fill();
+   ctx.stroke();
+
+   // draw number disc
+   var nmb = pointerNumbers[col];
+   if( nmb ){
+      ctx.fillStyle = '#000';
+      ctx.beginPath();
+      ctx.arc(0, offset, rnum, 0, 2*Math.PI);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = '#fff';
+      ctx.font = Math.floor(rnum*1.6)+"px sans-serif";
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "center";
+      ctx.fillText(nmb, 0, offset);
+   }
+
+   // draw pin
+   ctx.fillStyle = '#ddd';
+   ctx.strokeStyle = '#000';
+   ctx.beginPath();
+   ctx.arc(0, 0, rpin, 0, 2*Math.PI);
+   ctx.closePath();
+   ctx.fill();
+   ctx.stroke();
+
+   ctx.restore();
+}
+
+function drawCarryTabs(){
+   for( var c=0; c<numColumns; c++ ){
+      var v = carrytab[c];
+      drawCarryTab(c,v);
+   }
+}
+
+function drawCarryTab(col,pressed){
+   // tab size, and amount of movement
+   var tw = 0.3*size;
+   var th = 0.45*size;
+   var td = 0.2*size;
+   // slot size
+   var sw = 0.06*size;
+   var sh = 0.6*size;
+   // shift to the left
+   var shft = 0.2*size;
+
+   ctx.save();
+   var x = margin+(numColumns-1-col)*size+size/2+size/2-shft;
+   var y = margin+numRows*size+size/2;
+   ctx.translate(x,y);
+
+   ctx.fillStyle = '#000';
+   ctx.fillRect(-sw/2,-sh/2,sw,sh);
+
+   ctx.fillStyle = '#ddd';
+   ctx.strokeStyle = '#000';
+   roundedRect(-tw/2,(-th+(pressed?-td:td))/2,tw,th,tw*0.3);
+   ctx.fill();
+   ctx.stroke();
+   ctx.restore();
+}
+
+function drawRegister(){
+   for( var c=0; c<=numColumns; c++ ){
+      var v = getRegisterDisplay(c);
+      drawRegisterDigit(c,v,registerClear);
+   }
+}
+
+function drawRegisterDigit(col,digit,shifted){
+   ctx.save();
+   var x = margin+(numColumns-col)*size+size/2;
+   var y = margin+(numRows+1)*size+size/2;
+   ctx.translate(x,y);
+
+   ctx.beginPath();
+   ctx.arc(0, 0, size*0.35, 0, 2*Math.PI);
+   ctx.clip();
+
+   ctx.fillStyle = '#000';
+   ctx.fillRect(-size/2,-size/2,size,size);
+
+   setRegisterDigitColor(col)
+   ctx.textBaseline = "middle";
+   ctx.textAlign = "center";
+
+   var fs = Math.floor(size*( digit.length>2? 0.4 : 0.6));
+   ctx.font = fs+"px sans-serif";
+   ctx.fillText(digit, 0, shifted?size*0.25:0);
+
+   ctx.restore();
+}
+
+function setKeyColor(col){
+   if( getKeyIsWhite(col) ){
+      ctx.fillStyle = '#ffc';
+      ctx.strokeStyle = '#000';
+   }else{
+      ctx.fillStyle = '#080';
+      ctx.strokeStyle = '#000';
+   }
+}
+
+function setKeyDigitColor(col){
+   if( getKeyIsWhite(col) ){
+      ctx.fillStyle = '#000';
+   }else{
+      ctx.fillStyle = '#fff';
+   }
+}
+
+function setRegisterDigitColor(col){
+   if( getKeyIsWhite(col) ){
+      ctx.fillStyle = '#fff';
+   }else{
+      ctx.fillStyle = '#ff0';
+   }
+}
+
+function roundedRect(x,y,width,height,radius){
+  ctx.beginPath();
+  ctx.moveTo(x,y+radius);
+  ctx.lineTo(x,y+height-radius);
+  ctx.arcTo(x,y+height,x+radius,y+height,radius);
+  ctx.lineTo(x+width-radius,y+height);
+  ctx.arcTo(x+width,y+height,x+width,y+height-radius,radius);
+  ctx.lineTo(x+width,y+radius);
+  ctx.arcTo(x+width,y,x+width-radius,y,radius);
+  ctx.lineTo(x+radius,y);
+  ctx.arcTo(x,y,x,y+radius,radius);
+}
+
+function calcSizes(w, h){
+   var rowHeight = h/(numRows+3.5); // numRows keys, carry tabs, register, one for inner margin, 0.5 for outer margin
+   var rowWidth = w/(numColumns+4);  // keycolumns+1 digits, one for inner margin, 1.5 for clearing lever, 0.5 for outer margin
+
+   size = Math.floor(Math.min(rowWidth, rowHeight));
+   margin = Math.floor(size/2);
+   outermargin = Math.floor(size/4);
+}
+
+// ---------------mouse and touch events ---------------
+
+function handleItemPress(item,isDown,isMouse){
+   if( item.type=="key" ){
+      if( !isDown ){
+         doKeyPress(item.value,item.column);
+         drawRegister();
+      }
+   }
+   else if( item.type=="carry" ){
+      var c = item.column;
+      if( isMouse && isDown ){
+         // toggle carry tab
+         carrytab[c] = !carrytab[c];
+         drawLowerPart();
+      }else if( !isMouse ){
+         // set carry tab
+         carrytab[c] = isDown;
+         drawLowerPart();
+      }
+   }
+   else if( item.type=="pointer" ){
+      if( isDown ){
+         togglePointer(item.column);
+         drawLowerPart();
+      }
+   }
+   else if( item.type=="clear" ){
+      leverdown = isDown;
+      if( isDown ) {
+         clearRegister();
+         drawLowerPart();
+      }
+      drawLever();
+   }
+   else if( item.type=="column" ){
+      if( isDown ){
+         changeNumColumns();
+         resetState();
+         doresize();
+      }
+   }
+   else if( item.type=="keyboard" ){
+      if( isDown ){
+         changeKeyboard();
+         resetState();
+         doresize();
+      }
+   }
+
+}
+
+function getItemFromCoords(x,y){
+   // test for keys
+   var r = (y-margin)/size;
+   var c = (x-margin-size)/size;
+   if( r>=0 && r<numRows && c>=0 && c<numColumns){
+      r = numRows-Math.floor(r);
+      c = numColumns-1-Math.floor(c);
+      var v = getKeyValue(r,c);
+      if( v>0){
+         //console.log("key:"+r+","+c);
+         return {type:"key", value:v, column:c,
+               minx:margin+(numColumns-c)*size, maxx:margin+(numColumns-c+1)*size,
+               miny:margin+(numRows-r)*size, maxy:margin+(numRows-r+1)*size };
+      }
+      else return null;
+   }
+   if( r>=0 && r<1 && c>=-1 && c<0){
+      return {type:"column",
+               minx:margin, maxx:margin+size,
+               miny:margin, maxy:margin+size };
+   }
+   if( r>=1 && r<2 && c>=-1 && c<0){
+      return {type:"keyboard",
+               minx:margin, maxx:margin+size,
+               miny:margin+size, maxy:margin+2*size };
+   }
+   if( c>=numColumns+margin/size && c<numColumns+1.5+margin/size && r>=numRows-5 && r<numRows-2){
+      return {type:"clear",
+          minx:margin*2+(numColumns+1)*size, maxx:margin*2+(numColumns+2.5)*size,
+          miny:margin+(numRows-5)*size, maxy:margin+(numRows-2)*size };
+   }
+   c +=0.5;
+   var rm = c - Math.floor(c);
+   if( r>=numRows && r<numRows+1 && rm>=0.1 && rm<.5 && c>=0 && c<numColumns){
+      c = numColumns-1-Math.floor(c);
+      return {type:"carry", column:c,
+              minx:margin+(numColumns-c-0.4)*size, maxx:margin+(numColumns-c)*size,
+              miny:margin+numRows*size, maxy:margin+(numRows+1)*size };
+   }
+   if( r>=numRows+0.6 && r<numRows+1.4 && rm>=0.1 && c>=0 && c<numColumns){
+      c = numColumns-1-Math.floor(c);
+      return {type:"pointer", column:c,
+              minx:margin+(numColumns-c-0.4)*size, maxx:margin+(numColumns-c+0.5)*size,
+              miny:margin+(numRows+.6)*size, maxy:margin+(numRows+1.4)*size };
+   }
+   return null;
+}
+
+var ongoingTouches = new Array();
+
+function ongoingTouchIndexById(idToFind) {
+  for (var i = 0; i < ongoingTouches.length; i++) {
+    var id = ongoingTouches[i].id;
+    if (id == idToFind) {
+      return i;
+    }
+  }
+  return -1;    // not found
+}
+
+function handleDown( id, x, y){
+   // remove any old out of date data
+   var ix = ongoingTouchIndexById(id);
+   if( ix>=0 ) ongoingTouches.splice(ix,1);
+   var item = getItemFromCoords(x,y);
+   // store in array
+   if( item ){
+      //console.log(x+","+y+"  "+item.type+":"+item.minx+"-"+item.maxx+","+item.miny+"-"+item.maxy);
+      ongoingTouches.push({id:id, item:item});
+      handleItemPress(item,true,id=="mouse");
+   }
+}
+function handleUp( id, x, y){
+   // find stored data for this touch
+   var ix = ongoingTouchIndexById(id);
+   if(ix>=0 ) {  // nothing to do if not found
+      var item = ongoingTouches[ix].item;
+      ongoingTouches.splice(ix,1);
+      handleItemPress(item,false,id=="mouse");
+   }
+}
+function handleMove( id, x, y){
+   // find stored data for this touch
+   var ix = ongoingTouchIndexById(id);
+   if(ix>=0 ) {  // nothing to do if not found
+      // check if we are still in the bounds of the original item
+      var item = ongoingTouches[ix].item;
+      if( x<item.minx || x>item.maxx || y<item.miny || y>item.maxy ){
+         // moved out of bounds. Act same as if released.
+         ongoingTouches.splice(ix,1);
+         handleItemPress(item,false,id=="mouse");
+      }
+   }
+}
+
+function handleTouch( id, x, y, type){
+   x = x - cvs.offsetLeft - outermargin;
+   y = y - cvs.offsetTop - outermargin;
+   if     ( type==0 ) handleDown(id,x,y);
+   else if( type==1 ) handleUp(id,x,y);
+   else if( type==2 ) handleMove(id,x,y);
+   else if( type==3 ) handleUp(id,x,y);
+}
+
+function handleMouseDown(me){
+   handleMouseEvent(me,0);
+}
+function handleMouseUp(me){
+   handleMouseEvent(me,1);
+}
+function handleMouseMove(me){
+   handleMouseEvent(me,2);
+}
+
+function handleMouseEvent(me,type){
+   if(me.preventDefault) me.preventDefault();
+   if(me.stopPropagation) me.stopPropagation();
+   handleTouch("mouse", me.pageX, me.pageY, type);
+}
+
+function handleTouchDown(te){
+   handleTouchEvent(te,0);
+}
+function handleTouchUp(te){
+   handleTouchEvent(te,1);
+}
+function handleTouchMove(te){
+   handleTouchEvent(te,2);
+}
+function handleTouchCancel(te){
+   handleTouchEvent(te,3);
+}
+
+function handleTouchEvent(te,type){
+   if(te.preventDefault) te.preventDefault();
+   if(te.stopPropagation) te.stopPropagation();
+   var touches = te.changedTouches;
+   for (var i = 0; i < touches.length; i++) {
+      var t = touches[i];
+      handleTouch(t.identifier, t.pageX, t.pageY, type);
+   }
+}
+
+// --------------- state accessing/changing functions ----------------
+
+function resetState(){
+  leverdown = false;
+  clearRegister();
+  for( var i=0; i<numColumns; i++){
+    carrytab[i] = false;
+    pointer[i] = false;
+  }
+}
+
+function togglePointer(c){
+   pointer[c] = !pointer[c];
+}
+
+function changeNumColumns(){
+   numColumns+=2;
+   if( numColumns>12) numColumns = 8;
+   initialiseModel();
+}
+
+function changeKeyboard(){
+   keyboard = (keyboard+1)%keyboardNames.length;
+   initialiseModel();
+}
+
+function initialiseModel(){
+   numRows = 9;
+   var c=0;
+   var m=1;
+   var p=1;
+   var nm=keyboardNames[keyboard];
+   if( nm=="\u00A3sd" ){
+      numRows = 11;
+      columnSizes[c]=11;
+      columnIsWhite[c]=true;
+      pointerNumbers[c]=null;
+      c++;
+      columnSizes[c]=9;
+      columnIsWhite[c]=false;
+      pointerNumbers[c]=null;
+      c++;
+      columnSizes[c]=1;
+      columnIsWhite[c]=false;
+      pointerNumbers[c]=null;
+      c++;
+      m=0;  // reset m so that start with group of three white columns
+   }else if( nm=="\u00A3sdf" ){
+      columnSizes[c]=3;
+      columnIsWhite[c]=true;
+      pointerNumbers[c]=null;
+      c++;
+      numRows = 11;
+      columnSizes[c]=11;
+      columnIsWhite[c]=true;
+      pointerNumbers[c]=null;
+      c++;
+      columnSizes[c]=9;
+      columnIsWhite[c]=false;
+      pointerNumbers[c]=null;
+      c++;
+      columnSizes[c]=1;
+      columnIsWhite[c]=false;
+      pointerNumbers[c]=null;
+      c++;
+      m=0;  // reset m so that start with group of three white columns
+   }else if(nm=="1/12"){
+      numRows = 11;
+      columnSizes[c]=11;
+      columnIsWhite[c]=false;
+      pointerNumbers[c]=null;
+      c++;
+   }else if(nm=="1/8"){
+      columnSizes[c]=7;
+      columnIsWhite[c]=false;
+      pointerNumbers[c]=null;
+      c++;
+   }else if(nm=="1/4"){
+      columnSizes[c]=3;
+      columnIsWhite[c]=false;
+      pointerNumbers[c]=null;
+      c++;
+   }
+   while( c<=numColumns){
+      columnSizes[c] = 9;
+      columnIsWhite[c]=m<3;
+      pointerNumbers[c]=""+p;
+      c++;
+      p++;
+      m=(m+1)%6;
+   }
+}
+
+function clearRegister(){
+   for( var i=0; i<=numColumns; i++){
+      register[i] = 0;
+   }
+   registerClear=true;
+}
+
+function doKeyPress(r,c){
+   //add number to register
+   registerClear = false;
+   do{
+      var cs = getColumnSize(c);
+      var result = register[c] + r;
+      register[c] = result%(cs+1);
+      r = result>cs ? 1 : 0;
+      c++;
+   }while( r>0 && c<=numColumns && !carrytab[c-1] );
+}
+
+function getKeyIsWhite(col){
+   return columnIsWhite[col];
+}
+
+function getColumnSize(col){
+   return columnSizes[col];
+}
+
+function getKeyValue(row,col){
+   if( col<0 || col>=numColumns ) return 0;
+   var cs = getColumnSize(col);
+   if( cs==3 ){
+      if( row==2 || row==4 || row==6 ) return row/2;
+      return 0;
+   }
+   if( row>=1 && row<=cs ) return row;
+   return 0;
+}
+
+function getRegisterDisplay(col){
+   var cs = getColumnSize(col);
+   if( cs==3 ){
+      var q = ["-","1/4","1/2","3/4"];
+      return q[register[col]];
+   }
+   else if( cs==7 ){
+      var q = ["-","1/8","1/4","3/8","1/2","5/8","3/4","7/8"];
+      return q[register[col]];
+   }
+   return register[col];
+}
+
+// -------------- start up and resize ---------------------
+
+function initialise(){
+  document.body.style.overflow = 'hidden';
+  cvs = document.getElementById('drawing');
+  cvs.style.position="absolute";
+  cvs.style.left="0px";
+  cvs.style.top="0px";
+  cvs.addEventListener('mousedown',  handleMouseDown, false);
+  cvs.addEventListener('mouseup',    handleMouseUp, false);
+  cvs.addEventListener('mousemove',  handleMouseMove, false);
+  cvs.addEventListener('touchstart', handleTouchDown, false);
+  cvs.addEventListener('touchend',   handleTouchUp, false);
+  cvs.addEventListener("touchmove",  handleTouchMove, false);
+  cvs.addEventListener("touchcancel",handleTouchCancel, false);
+
+  initialiseModel();
+  resetState();
+  doresize();
+}
+
+function doresize(){
+  var w=1000,h=700;
+  if (document.body && document.body.offsetWidth) {
+     w = document.body.offsetWidth;
+     h = document.body.offsetHeight;
+  }
+  if (document.compatMode=='CSS1Compat' && document.documentElement && document.documentElement.clientWidth ) {
+     w = document.documentElement.clientWidth;
+     h = document.documentElement.clientHeight;
+  }
+  if (window.innerWidth && window.innerHeight) {
+     w = window.innerWidth;
+     h = window.innerHeight;
+  }
+
+  cvs = document.getElementById('drawing');
+  cvs.height = h;
+  cvs.width = w;
+
+  calcSizes(w,h);
+
+  ctx = cvs.getContext('2d');
+  ctx.translate(outermargin,outermargin);
+  drawstuff();
+}
+
+var resizeTimeoutId;
+function window_resize(e) {
+     window.clearTimeout(resizeTimeoutId);
+     resizeTimeoutId = window.setTimeout('doresize();', 20);
+}
+
+window.addEventListener('load',initialise);
+window.addEventListener('resize',window_resize);
+
+//-->
+</script>
+
+</head>
+<body><canvas id="drawing" width="680" height="500"></canvas></body>
+</html>
+
