@@ -17,6 +17,7 @@ var outermargin;
 var cvs, ctx;
 var caseColour = '#843';
 var bgColour = '#000';
+var lastButtonColour = 1;
 
 // model state
 var numColumns = 8;
@@ -111,7 +112,8 @@ function drawKeyboardControl(){
 }
 
 function drawLever(){
-   showButtonPressed(1," ");     // clear last button pressed
+   lastButtonColour = 1;      // added by alanesq - clear last button pressed
+   showButtonPressed(" ");     
    var raxle = size*0.18;
    var axleLen = size*0.7;
    var stemw1 = size*0.15;
@@ -727,7 +729,7 @@ function clearRegister(){
 }
 
 function doKeyPress(r,c){
-showButtonPressed(2,r);    // added by alanesq - show which button was pressed
+showButtonPressed(r);    // added by alanesq - show which button was pressed
 
    //add number to register
    registerClear = false;
@@ -825,9 +827,8 @@ function window_resize(e) {
 }
 
 // added by alanesq - show which button was last pressed
-function showButtonPressed(col,digit){
+function showButtonPressed(digit){
    ctx.save();
-   
    var x = (numColumns+1)*size+margin*2+size;
    var y = size;
    ctx.translate(x,y);
@@ -838,7 +839,6 @@ function showButtonPressed(col,digit){
    // draw key shape
       var d2 = size*0.425;
       var d1 = d2*0.41421; // ~ sqrt2-1   
-      setKeyColor(col);
       ctx.beginPath();
       ctx.moveTo(-d1,-d2);
       ctx.lineTo( d1,-d2);
@@ -854,10 +854,14 @@ function showButtonPressed(col,digit){
 
    ctx.clip();
 
-   ctx.fillStyle = '#222';
+   // change button colour 
+    lastButtonColour = !lastButtonColour;
+    if (lastButtonColour == 0) ctx.fillStyle = '#FFF';
+    if (lastButtonColour == 1) ctx.fillStyle = '#080';   
+
    ctx.fillRect(-size/2,-size/2,size,size);
 
-   setRegisterDigitColor(col)
+   ctx.fillStyle = '#000';   // text colour
    ctx.textBaseline = "middle";
    ctx.textAlign = "center";
 
