@@ -1,6 +1,6 @@
 <html style="direction: ltr;">
   
-<!-- Alan's Mechanical Calculator Page - 28Jan23 -->
+<!-- Alan's Mechanical Calculator Page - 29Jan23 -->
  
   <head>
     <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
@@ -53,7 +53,9 @@ background-size: 100% 100%; ">
         <a href="https://www.youtube.com/@CuriousMarc/search?query=friden" target="_blank">Curious Mark's video about his Friden</a><br><br>
             
       <!-- Image of my collection - imagemap tool: www.image-map.net -->
-        <br><img src="collection.jpg" style="width: 70%;" alt="My collection">      
+        <br>
+        Click on device in image for more info.<br>
+        <object data="collection.svg" type="image/svg+xml" id="collectionSVG" width="75%" alt="My collection"></object>
     
     </div>
       
@@ -88,5 +90,100 @@ background-size: 100% 100%; ">
         <font color="#800000">You can contact me on - </font><a href="mailto:alanesq@disroot.org"><font color="#800000">alanesq@disroot.org</font></a><br><br>
         </div></center>
 
+        
+    <script>   // to give pop up information when devices in the image is clicked
+        
+        var a = document.getElementById("collectionSVG");
+        var SVG;
+
+        a.addEventListener("load",function(){
+        
+          SVG = a.contentDocument.getElementById("schickard");
+          SVG.addEventListener("mousedown",function(){
+            alert('This is a replica I made of the Schickard calculator\nIt was invented in 1623 by Wilhelm Schickard\nSEE LINK NEAR TOP OF PAGE FOR MORE INFO.')
+          }, false);
+        
+          SVG = a.contentDocument.getElementById("ncr1");
+          SVG.addEventListener("mousedown",function(){
+            alert('NCR cash register, as seen on "Open all hours"\nUnsure of date, maybe 1950s')
+          }, false);
+          
+          SVG = a.contentDocument.getElementById("sumlock1");
+          SVG.addEventListener("mousedown",function(){
+            alert('Bell Punch Sumlock (comptometer) model 912, made 1949')
+          }, false);   
+          
+          SVG = a.contentDocument.getElementById("monroe1");
+          SVG.addEventListener("mousedown",function(){
+            alert('Monroe model L160-x, made early 1950s')
+          }, false);    
+          SVG = a.contentDocument.getElementById("monroe2");
+          SVG.addEventListener("mousedown",function(){
+            alert('Monroe model L160-x, made early 1950s')
+          }, false);            
+
+          SVG = a.contentDocument.getElementById("multo");
+          SVG.addEventListener("mousedown",function(){
+            alert('Multo Addo model 113, made late 50s')
+          }, false);            
+          
+          SVG = a.contentDocument.getElementById("Lagomarsino1");
+          SVG.addEventListener("mousedown",function(){
+            alert('Lagomarsino Numeria models 5903 and 5905, Made in Italy 1950s/60s')
+          }, false);   
+          
+          SVG = a.contentDocument.getElementById("brunsviga1");
+          SVG.addEventListener("mousedown",function(){
+            alert('Brunsviga model 13ZK, made between 1929 and 47\nThis was orignally half of a double unit')
+          }, false);             
+          
+          SVG = a.contentDocument.getElementById("Muldivo");
+          SVG.addEventListener("mousedown",function(){
+            alert('Muldivo Mentor, made in Germany in 1950s')
+          }, false);             
+     
+          SVG = a.contentDocument.getElementById("precisa");
+          SVG.addEventListener("mousedown",function(){
+            alert('Precisa model 117, made 1968')
+          }, false);    
+          
+          SVG = a.contentDocument.getElementById("facit");
+          SVG.addEventListener("mousedown",function(){
+            alert('Facit model C1-13, made 1959')
+          }, false);              
+     
+          SVG = a.contentDocument.getElementById("sumlock2");
+          SVG.addEventListener("mousedown",function(){
+            alert('Bell Punch Sumlock Duolectric 993s, made 1950s')
+          }, false);       
+     
+          SVG = a.contentDocument.getElementById("comptometer1");
+          SVG.addEventListener("mousedown",function(){
+            alert('Felt & Tarrant Comptometer model H, made 1922')
+          }, false);       
+     
+          SVG = a.contentDocument.getElementById("burroughs1");
+          SVG.addEventListener("mousedown",function(){
+            alert('Burroughs calculator class 5, made 1944\nThis arrived as a bag of bits...')
+          }, false); 
+          
+          SVG = a.contentDocument.getElementById("diehl1");
+          SVG.addEventListener("mousedown",function(){
+            alert('Diehl model E15, made 1956-62')
+          }, false);          
+          
+          SVG = a.contentDocument.getElementById("national1");
+          SVG.addEventListener("mousedown",function(){
+            alert('National (NCR) portable lister')
+          }, false); 
+          
+          
+        }, false);    
+        
+           
+        
+    </script>        
+        
+        
   </body>
 </html>
