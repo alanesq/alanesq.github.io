@@ -1,7 +1,7 @@
 
 <html style="direction: ltr;">
   
-<!-- Alan's Mechanical Calculator Page - 30Jan23 -->
+<!-- Alan's Mechanical Calculator Page - 31Jan23 -->
  
   <head>
     <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
@@ -11,6 +11,25 @@
     <title>Alan's Mechanical Calculator Page</title>
     <meta content="Alan Blackham" name="author">
     <meta content="Alan's Mechanical Calculator Page" name="description">
+    
+    <style>
+      /* blinking text */
+        .blink {    
+          animation: 2s linear infinite blink_effect;
+        }
+        @keyframes blink_effect {
+          0% {
+            color: green;
+          }
+          50% {
+            color: blue;
+          }
+          100% {
+            color: yellow;
+          }
+        }    
+    </style>        
+    
   </head>
   
   <body style=" direction: ltr; background-color: rgb(255, 255, 0); background-image: url('background.jpg'); background-repeat: no-repeat;
@@ -54,7 +73,7 @@ background-size: 100% 100%; ">
         <a href="https://www.youtube.com/@CuriousMarc/search?query=friden" target="_blank">Curious Mark's video about his Friden</a><br><br>
             
       <!-- Image of my collection  -->
-        <br><big>Click on device in image for more info.</big><br>
+        <br><span class="blink" style="font-size:2vw;">Click on device in image for more info.</span><br>
         <object data="collection.svg" onmouseover="imageMouseover();" type="image/svg+xml" id="collectionSVG" width="80%" alt="My collection"></object>
     
     </div>
@@ -111,7 +130,7 @@ background-size: 100% 100%; ">
           
           SVG = a.contentDocument.getElementById("sumlock1");
           SVG.addEventListener("mousedown",function(){
-            alert('Bell Punch Sumlock (comptometer) model 912\nMade in England 1949\nIt had no paint left on it so I have\nsprayed it in a custom none standard colour')
+            alert('Bell Punch Sumlock (comptometer) model 912\nMade in England 1949\nThe paint on this had almost completely flaked off\nso I have sprayed it in a custom none standard colour\nand this is now used every day...')
           }, false);   
           
           SVG = a.contentDocument.getElementById("monroe1");
@@ -177,6 +196,12 @@ background-size: 100% 100%; ">
           SVG.addEventListener("mousedown",function(){
             alert('National (NCR) Full-keyboard Add-lister\nModel 11AWD\nMade I believe in England around 1950')
           }, false); 
+          
+          SVG = a.contentDocument.getElementById("mri");
+          SVG.addEventListener("mousedown",function(){
+            window.open("../mri/index.htm");
+          }, false);           
+          
         }, false);    
 
     </script>        
