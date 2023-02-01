@@ -84,7 +84,7 @@ background-size: 100% 100%; ">
             
       <!-- Image of my collection  -->
         <br><span class="blink" style="font-size:2vw;">Click on device in image for more info.</span><br>
-        <object data="collection.svg" onmouseover="imageMouseover();" type="image/svg+xml" id="collectionSVG" width="80%" alt="My collection"></object>
+        <object data="collection.svg" type="image/svg+xml" id="collectionSVG" width="80%" alt="My collection"></object>
     
     </div>
       
@@ -122,97 +122,54 @@ background-size: 100% 100%; ">
 
         
     <script>     
+     /* ++++++++++++++++++++++++++++++++++++++++++    
+           to give information when devices in 
+                          the image is clicked      
+        ++++++++++++++++++++++++++++++++++++++++++ */
+        
+        // text information links (id = the rectangles ID in the SVG file)
+          const svgDataText = [
+            { id: "ncr1", message: 'NCR cash register model 126\nas seen on the original "Open all hours"\nUnsure of date, possibly 1956\nalthough serial number suggests 1906?' },
+            { id: "sumlock1", message: 'Bell Punch Sumlock (comptometer) model 912\nMade in England 1949\nThe paint on this had almost completely flaked off\nso I have sprayed it in a custom none standard colour\nand this is now used every day...' },
+            { id: "monroe1", message: 'Monroe model L160-x\nMade in Holland early 1950s' },
+            { id: "monroe2", message: 'Monroe model L160-x\nMade in Holland early 1950s' },
+            { id: "multo", message: 'Multo Addo model 113\nMade in Sweden late 1950s' },
+            { id: "Lagomarsino1", message: 'Lagomarsino Numeria models 5903 and 5905\nMade in Italy 1950s/60s' },
+            { id: "brunsviga1", message: 'Brunsviga model 13ZK\nMade in Germany between 1929 and 1947\nThis was originally half of a double unit (D13Z)' },
+            { id: "Muldivo", message: 'Muldivo Mentor\nMade in Germany in 1950s' },
+            { id: "precisa", message: 'Precisa model 117\nSwiss made 1968\nThis was a Facit clone with some interesting features' },
+            { id: "facit", message: 'Facit model C1-13\nMade in Sweden 1959' },
+            { id: "sumlock2", message: 'Bell Punch Sumlock Duolectric 993s\nMade in England 1950s' },
+            { id: "comptometer1", message: 'Felt & Tarrant Comptometer model H\nMade in U.S.A. 1922' },
+            { id: "burroughs1", message: 'Burroughs calculator class 5\nMade 1944\n\nThis arrived as a bag of bits...' },
+            { id: "diehl1", message: 'Diehl model E15\nMade in germany 1956-62\n\nYou can see a short video of this one in action via link towards top of page' },
+            { id: "national1", message: 'National (NCR) Full-keyboard Add-lister\nModel 11AWD\nMade I believe in England around 1950' }
+          ];        
+        
+        // hyperlinks
+          const svgDataLink = [
+            { id: "home", link: '../index.htm' },
+            { id: "schickard", link: 'Schickard/index.html' },
+            { id: "mri", link: '../mri/index.htm' }
+          ];          
+        
+    // ++++++++++++++++++++++++++++++++++++++++++
     
-        // to give pop up information when devices in the image is clicked        
         var a = document.getElementById("collectionSVG");
         var SVG;
         a.addEventListener("load",function(){
-        
-          SVG = a.contentDocument.getElementById("schickard");
-          SVG.addEventListener("mousedown",function(){
-            window.open("https://alanesq.github.io/main/calculators/Schickard/index.html");
-            //alert('This is a replica I made of the Schickard calculator\nInvented in 1623 by Wilhelm Schickard\n\nSEE LINK NEAR TOP OF PAGE FOR MORE INFO.')
-          }, false);
-        
-          SVG = a.contentDocument.getElementById("ncr1");
-          SVG.addEventListener("mousedown",function(){
-            alert('NCR cash register model 126\nas seen on the original "Open all hours"\nUnsure of date, possibly 1956\nalthough serial number suggests 1906?')
-          }, false);
-          
-          SVG = a.contentDocument.getElementById("sumlock1");
-          SVG.addEventListener("mousedown",function(){
-            alert('Bell Punch Sumlock (comptometer) model 912\nMade in England 1949\nThe paint on this had almost completely flaked off\nso I have sprayed it in a custom none standard colour\nand this is now used every day...')
-          }, false);   
-          
-          SVG = a.contentDocument.getElementById("monroe1");
-          SVG.addEventListener("mousedown",function(){
-            alert('Monroe model L160-x\nMade in Holland early 1950s')
-          }, false);    
-          SVG = a.contentDocument.getElementById("monroe2");
-          SVG.addEventListener("mousedown",function(){
-            alert('Monroe model L160-x\nMade in Holland early 1950s')
-          }, false);            
-
-          SVG = a.contentDocument.getElementById("multo");
-          SVG.addEventListener("mousedown",function(){
-            alert('Multo Addo model 113\nMade in Sweden late 1950s')
-          }, false);            
-          
-          SVG = a.contentDocument.getElementById("Lagomarsino1");
-          SVG.addEventListener("mousedown",function(){
-            alert('Lagomarsino Numeria models 5903 and 5905\nMade in Italy 1950s/60s')
-          }, false);   
-          
-          SVG = a.contentDocument.getElementById("brunsviga1");
-          SVG.addEventListener("mousedown",function(){
-            alert('Brunsviga model 13ZK\nMade in Germany between 1929 and 1947\nThis was originally half of a double unit (D13Z)')
-          }, false);             
-          
-          SVG = a.contentDocument.getElementById("Muldivo");
-          SVG.addEventListener("mousedown",function(){
-            alert('Muldivo Mentor\nMade in Germany in 1950s')
-          }, false);             
-     
-          SVG = a.contentDocument.getElementById("precisa");
-          SVG.addEventListener("mousedown",function(){
-            alert('Precisa model 117\nSwiss made 1968\nThis was a Facit clone with some interesting features')
-          }, false);    
-          
-          SVG = a.contentDocument.getElementById("facit");
-          SVG.addEventListener("mousedown",function(){
-            alert('Facit model C1-13\nMade in Sweden 1959')
-          }, false);              
-     
-          SVG = a.contentDocument.getElementById("sumlock2");
-          SVG.addEventListener("mousedown",function(){
-            alert('Bell Punch Sumlock Duolectric 993s\nMade in England 1950s')
-          }, false);       
-     
-          SVG = a.contentDocument.getElementById("comptometer1");
-          SVG.addEventListener("mousedown",function(){
-            alert('Felt & Tarrant Comptometer model H\nMade in U.S.A. 1922')
-          }, false);       
-     
-          SVG = a.contentDocument.getElementById("burroughs1");
-          SVG.addEventListener("mousedown",function(){
-            alert('Burroughs calculator class 5\nMade 1944\n\nThis arrived as a bag of bits...')
-          }, false); 
-          
-          SVG = a.contentDocument.getElementById("diehl1");
-          SVG.addEventListener("mousedown",function(){
-            alert('Diehl model E15\nMade in germany 1956-62\n\nYou can see a short video of this one in action via link towards top of page')
-          }, false);          
-          
-          SVG = a.contentDocument.getElementById("national1");
-          SVG.addEventListener("mousedown",function(){
-            alert('National (NCR) Full-keyboard Add-lister\nModel 11AWD\nMade I believe in England around 1950')
-          }, false); 
-          
-          SVG = a.contentDocument.getElementById("mri");
-          SVG.addEventListener("mousedown",function(){
-            window.open("../mri/index.htm");
-          }, false);           
-          
+          // text information links
+          svgDataText.forEach(data => {
+            a.contentDocument.getElementById(data.id).addEventListener("mousedown", function() {
+              alert(data.message);
+            }, false);
+          });        
+          // hyperlinks
+          svgDataLink.forEach(data => {
+            a.contentDocument.getElementById(data.id).addEventListener("mousedown", function() {
+              window.open(data.link);
+            }, false);
+          });
         }, false);    
 
     </script>        
