@@ -1,4 +1,3 @@
-
 <html style="direction: ltr;">
   
 <!-- Alan's Mechanical Calculator Page - 01Feb23 -->
@@ -13,21 +12,32 @@
     <meta content="Alan's Mechanical Calculator Page" name="description">
     
     <style>
-      /* blinking text */
-        .blink {    
-          animation: 2s linear infinite blink_effect;
+      /* ++++++++++++++++++++++++++++++++++++++++++ */
+      /*           css for the animated text        */
+      /* ++++++++++++++++++++++++++++++++++++++++++ */      
+        .blink {
+          position: relative;
+          font-family: sans-serif;
+          text-transform: uppercase;
+          font-size: 2em;
+          letter-spacing: 4px;
+          overflow: hidden;
+          background: linear-gradient(90deg, #000, #fff, #000);
+          background-repeat: no-repeat;
+          background-size: 80%;
+          animation: animate 3s linear infinite;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: rgba(255, 255, 255, 0);
         }
-        @keyframes blink_effect {
+        @keyframes animate {
           0% {
-            color: green;
-          }
-          50% {
-            color: blue;
+            background-position: -500%;
           }
           100% {
-            color: yellow;
+            background-position: 500%;
           }
-        }    
+        }
+      /* ++++++++++++++++++++++++++++++++++++++++++ */
     </style>        
     
   </head>
@@ -38,7 +48,7 @@ background-size: 100% 100%; ">
     <div style="text-align: center;">
 
       <!-- Banner at top of page -->
-      <h1 style="height: 10vw; display: flex; align-items: center; text-align: center; font-size:3vw; color: red; border: 4px solid green; background-color: rgba(255, 255, 0, 0.3);">
+      <h1 style="height: 10vw; display: flex; align-items: center; text-align: center; font-size:3vw; color: red; border: 4px solid green; background-color: rgba(64, 32, 28, 0.3);">
           <img src="cat.gif" style="height: 10vw; width: 20vw; position: absolute; left: 12px;">
           <div style="width:50%; margin: 0 auto;">Alan's Mechanical Calculator Page</div>
           <img src="cat.gif" style="transform: scaleX(-1); height: 10vw; width: 20vw; position: absolute; right: 12px;">
@@ -93,7 +103,8 @@ background-size: 100% 100%; ">
         putting the text on replacement key caps.  You simply print your required text/image (if printed on an inkjet you 
         need to then seal it with a spray laquer), cut it out, put in some water to soften the glue and slide it in to place.  
         This is very good for putting the text on replacement key tops.<br><br>
-      
+      4 - Patents are a good place to find information on how the calculators work etc, you can search them at 
+        <a href="https://worldwide.espacenet.com/" target="_blank">espacenet</a> <small>(thanks Martin Cummins for suggesting this site)</small>.<br><br>      
     
     <!-- If it is December display Festivus banner -->
         <div id='festivusDiv'></div>
