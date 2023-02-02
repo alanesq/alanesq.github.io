@@ -1,6 +1,6 @@
 <html style="direction: ltr;">
   
-<!-- Alan's Mechanical Calculator Page - 01Feb23 -->
+<!-- Alan's Mechanical Calculator Page - 02Feb23 -->
  
   <head>
     <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
@@ -83,7 +83,7 @@ background-size: 100% 100%; ">
         <a href="https://www.youtube.com/@CuriousMarc/search?query=friden" target="_blank">Curious Mark's video about his Friden</a><br><br>
             
       <!-- Image of my collection  -->
-        <br><span class="blink" style="font-size:2vw;">Click on device in image for more info.</span><br>
+        <br><span class="blink" style="font-size:1.5vw;">Click on device in image for more info.</span><br>
         <object data="collection.svg" type="image/svg+xml" id="collectionSVG" width="80%" alt="My collection"></object>
     
     </div>
@@ -120,14 +120,14 @@ background-size: 100% 100%; ">
         <font color="#800000">You can contact me on - </font><a href="mailto:alanesq@disroot.org"><font color="#800000">alanesq@disroot.org</font></a><br><br>
         </div></center>
 
-        
+    <script src="sweetalert.min.js"></script>     <!-- Used for popup message boxes - see: https://sweetalert.js.org/guides --> 
     <script>     
      /* ++++++++++++++++++++++++++++++++++++++++++    
            to give information when devices in 
-                          the image is clicked      
+               the SVG image are clicked      
         ++++++++++++++++++++++++++++++++++++++++++ */
         
-        // text information links (id = the rectangles ID in the SVG file)
+        // text links (id = the rectangles ID in the SVG file)
           const svgDataText = [
             { id: "ncr1", message: 'NCR cash register model 126\nas seen on the original "Open all hours"\nUnsure of date, possibly 1956\nalthough serial number suggests 1906?' },
             { id: "sumlock1", message: 'Bell Punch Sumlock (comptometer) model 912\nMade in England 1949\nThe paint on this had almost completely flaked off\nso I have sprayed it in a custom none standard colour\nand this is now used every day...' },
@@ -155,16 +155,17 @@ background-size: 100% 100%; ">
         
     // ++++++++++++++++++++++++++++++++++++++++++
     
+        // implement event listeners on the SVG image
         var a = document.getElementById("collectionSVG");
-        var SVG;
         a.addEventListener("load",function(){
-          // text information links
+          // text information
           svgDataText.forEach(data => {
             a.contentDocument.getElementById(data.id).addEventListener("mousedown", function() {
-              alert(data.message);
+              //alert(data.message);
+              swal("Machine Information", data.message);
             }, false);
           });        
-          // hyperlinks
+          // hyperlink
           svgDataLink.forEach(data => {
             a.contentDocument.getElementById(data.id).addEventListener("mousedown", function() {
               window.open(data.link);
