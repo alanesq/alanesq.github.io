@@ -1,6 +1,6 @@
 <html style="direction: ltr;">
   
-<!-- Alan's Mechanical Calculator Page - 02Feb23 -->
+<!-- Alan's Mechanical Calculator Page - 03Feb23 -->
  
   <head>
     <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
@@ -54,7 +54,8 @@ background-size: 100% 100%; ">
           <img src="cat.gif" style="transform: scaleX(-1); height: 10vw; width: 20vw; position: absolute; right: 12px;">
       </h1>       
 
-      <h2>My collection of old adding machines</h2>
+      <h2 style="font-size:2vw; color: green;">My collection of old adding machines</h2>
+      
       <span>
         I have a collection of mechanical calculators that I have rescued and returned to full working order.  My interest in 
         these machines began when I happened to see a YouTube video featuring a Friden machine.  After telling someone about 
@@ -162,7 +163,7 @@ background-size: 100% 100%; ">
           svgDataText.forEach(data => {
             a.contentDocument.getElementById(data.id).addEventListener("mousedown", function() {
               //alert(data.message);
-              swal("Machine Information", data.message);
+              swal("Machine Info.", data.message);
             }, false);
           });        
           // hyperlink
