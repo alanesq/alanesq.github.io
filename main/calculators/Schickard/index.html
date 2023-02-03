@@ -1,6 +1,6 @@
 <html style=" direction: ltr;">
   
-<!-- Alan's Schickard Calculator page - 01Feb23 -->
+<!-- Alan's Schickard Calculator page - 03Feb23 -->
  
   <head>
     <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
@@ -9,7 +9,7 @@
     <link rel="SHORTCUT ICON" href="../logo.ico">
     <title>Alan's Schickard Calculator page</title>
     <meta content="Alan Blackham" name="author">
-    <meta content="alan's Schickard Calculator page" name="description">
+    <meta content="Alan's Schickard Calculator page" name="description">
   </head>
   
   <body style=" direction: ltr; background-color: rgb(255, 255, 0); background-image: url('../background.jpg'); background-repeat: no-repeat;
@@ -18,13 +18,13 @@ background-size: 100% 100%; ">
     <div style="text-align: center;">
     
       <!-- Banner at top of page -->
-      <h1 style="height: 10vw; display: flex; align-items: center; text-align: center; font-size:3vw; color: red; border: 4px solid green; background-color: rgba(255, 255, 0, 0.3);">
+      <h1 style="height: 10vw; display: flex; align-items: center; text-align: center; font-size:3vw; color: red; border: 4px solid green; background-color: rgba(64, 32, 28, 0.3);">
           <img src="../cat.gif" style="height: 10vw; width: 20vw; position: absolute; left: 12px;">
           <div style="width:50%; margin: 0 auto;">Alan's Schickard Calculator Page</div>
           <img src="../cat.gif" style="transform: scaleX(-1); height: 10vw; width: 20vw; position: absolute; right: 12px;">
       </h1>        
         
-      <h2>My home built Schickard Calculator:</h2>
+      <h2 style="font-size:2vw; color: green;">My home made Schickard Calculator</h2>
       
       <span>
         As with most of my projects, it was a sudden and ill thought through decision to do it and rather than study or 
@@ -38,21 +38,32 @@ background-size: 100% 100%; ">
         I first learned of the existence of the Schickard Calculator on 10th November and on 29th I had finished building my 
         own which has to be some kind of record? ;-) 
       </span>
-        
-      <br><br><img style="width: 70%;" src="latest.jpg" alt="latest image of progress">
-      <br><br><img style="width: 70%;" src="adder.jpg" alt="the adder unit">
-      <br><br><a href="https://youtu.be/AHJ6L8pYVtw" target="_blank">See a video of a gear being cut on my CNC router</a>
-      <br><a href="1957replica.jpg" target="_blank">A replica which was built in 1957</a>
-      <br><a href="../index.html" target="_self">My collection of mechanical calculators</a>
       
+      <br><br><a style="font-size:1.5vw;" href="../index.html" target="_new">My collection of old mechanical calculators</a>
+        
+      <!-- images -->  
+        <br><br><img style="width: 70%;" src="latest.jpg" alt="My finished machine">
+        <br><br><img style="width: 70%;" src="adder.jpg" alt="the adder unit">
+        
+      <br><br><span>
+          I found the imprtant thing was to get the shape of the indexing arms correct, once I had done this the carry 
+          works surprisingly well although if it is carrying across several wheels it can require some assistance which 
+          I believe is normal for these machines judging from other videos I have seen.  This actually works well though 
+          as you can easily see which wheels have not fully turned and simply give them a tweak to help them to the next 
+          digit.<br>
+          If you request by email I can send you the drawings I used to create it on my CNC, they are just simple Inkscape 
+          files which I then used JScut to produce the gcode.  I used brass welding rods for axles and the inspiration I 
+          was most pleased with was to use the inserts from electrical block connectors to attach the gear wheels to the 
+          axle.
+      <br></span>
+        
+      <!-- Links -->
+        <br><br><a href="https://youtu.be/AHJ6L8pYVtw" target="_blank">See a video of a gear being cut on my CNC router</a>
+        <br><a href="1957replica.jpg" target="_blank">A replica which was built in 1957</a>
+        <br><a href="../index.html" target="_self">My collection of old mechanical calculators</a>
+        
     </div>
     <br>
-    
-    <!-- Footer -->  
-      <div style="border: 4px solid green; background-color: rgba(255, 255, 0, 0.3);"><center>
-        <br><input style="font-size: 15px; padding: 6px 25px;" type="button" value="Return to previous page" onclick="history.back()"> 
-        <font color="#800000">You can contact me on - </font><a href="mailto:alanesq@disroot.org"><font color="#800000">alanesq@disroot.org</font></a><br><br>
-      </div>
     
     <!-- If it is December display Festivus banner -->
         <div id='festivusDiv'></div>
@@ -60,7 +71,13 @@ background-size: 100% 100%; ">
 
     <!-- show banner if 'alanesq.com/banner.gif' exists -->
         <div id='bannerDiv'></div>
-        <script type="text/javascript" src="../../js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->    
-
+        <script type="text/javascript" src="../../js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->       
+    
+    <!-- Footer -->  
+      <div style="border: 4px solid green; background-color: rgba(255, 255, 0, 0.3);"><center>
+        <br><input style="font-size: 15px; padding: 6px 25px;" type="button" value="Return to previous page" onclick="history.back()"> 
+        <font color="#800000">You can contact me on - </font><a href="mailto:alanesq@disroot.org"><font color="#800000">alanesq@disroot.org</font></a><br><br>
+      </div>
+    
   </body>
 </html>
