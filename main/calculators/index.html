@@ -156,6 +156,7 @@ background-size: 100% 100%; ">
           const svgDataLink = [
             { id: "home", link: '../index.htm' },
             { id: "schickard", link: 'Schickard/index.html' },
+            { id: "napiers", link: 'https://commons.wikimedia.org/wiki/File:An_18th_century_set_of_Napier%27s_Bones.JPG' },
             { id: "mri", link: '../mri/index.htm' }
           ];          
         
@@ -164,6 +165,14 @@ background-size: 100% 100%; ">
         // implement event listeners on the SVG image
         var a = document.getElementById("collectionSVG");
         a.addEventListener("load",function(){
+        
+          // hyperlink
+          svgDataLink.forEach(data => {
+            a.contentDocument.getElementById(data.id).addEventListener("mousedown", function() {
+              window.open(data.link);
+            }, false);
+          });
+          
           // text information
           svgDataText.forEach(data => {
             a.contentDocument.getElementById(data.id).addEventListener("mousedown", function() {
@@ -171,12 +180,7 @@ background-size: 100% 100%; ">
               swal("Machine Info.", data.message);
             }, false);
           });        
-          // hyperlink
-          svgDataLink.forEach(data => {
-            a.contentDocument.getElementById(data.id).addEventListener("mousedown", function() {
-              window.open(data.link);
-            }, false);
-          });
+
         }, false);    
 
     </script>        
