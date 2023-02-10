@@ -1,0 +1,62 @@
+/* ----------------------------------------- */
+/* style file for calculator pages - 10Feb23 */
+/* ----------------------------------------- */
+
+
+body {
+  direction: ltr; 
+  background-color: rgb(255, 255, 0); 
+  background-image: url('/main/calculators/background.jpg'); 
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+h1 {
+  height: 10vw; 
+  display: flex; 
+  align-items: center; 
+  text-align: center; 
+  font-size:3vw; 
+  color: red; 
+  border: 4px solid green; 
+  background-color: rgba(64, 32, 28, 0.3);
+}
+
+#header-footer {
+  display: flex; 
+  align-items: center; 
+  text-align: center; 
+  color: red; 
+  border: 4px solid green; 
+  background-color: rgba(64, 32, 28, 0.3);"
+}
+
+
+
+/* ++++++++++++++++++++++++++++++++++++++++++ */
+/*           css for the animated text        */
+  .blink {
+    position: relative;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    font-size: 2em;
+    letter-spacing: 4px;
+    overflow: hidden;
+    background: linear-gradient(90deg, #000, #fff, #000);
+    background-repeat: no-repeat;
+    background-size: 80%;
+    animation: animate 3s linear infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0);
+  }
+  @keyframes animate {
+    0% {
+      background-position: -500%;
+    }
+    100% {
+      background-position: 500%;
+    }
+  }
+/* ++++++++++++++++++++++++++++++++++++++++++ */
+
+
