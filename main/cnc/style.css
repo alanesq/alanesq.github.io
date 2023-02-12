@@ -6,7 +6,7 @@
 body {
   direction: ltr; 
   background-color: rgb(255, 255, 0); 
-  background-image: url('/main/calculators/background.jpg'); 
+  background-image: url('/main/cnc/background.jpg'); 
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
