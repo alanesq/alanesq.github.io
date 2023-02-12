@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+  
+  
+<!-- Alan's CNC router page - 12Feb23 -->
+ 
+ 
+ <html style="direction: ltr;">
+  <head>
+    <title>Alan's CNC Router page</title>
+    <meta charset="UTF-8">
+    <link rel="SHORTCUT ICON" href="../logo.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="Alan Blackham" name="author">
+    <meta content="Alan's CNC router page" name="description">
+    <link rel="stylesheet" href="style.css"> 
+  </head>
+  
+  <body>
+  
+    <!-- Banner at top of page -->
+    <h1>
+        <img src="pics/header.jpg" alt="page logo 1" style="height: 10vw; width: 20vw; position: absolute; left: 12px;">
+        <span style="width:50%; margin: 0 auto;">Alan's CNC router page</span>
+        <img src="pics/header.jpg" alt="page logo 2" style="transform: scaleX(-1); height: 10vw; width: 20vw; position: absolute; right: 12px;">
+    </h1>     
+    
+    
+    <div style="text-align: center;">
+    
+     <span>
+      <h2 style="font-size:2vw; color: green; height: 1vh">My home made CNC router</h2>
+        Back in 2018 I happened to stumble upon the Arduino software GRBL whilst browsing the internet.  I thought it 
+        seemed very interesting so installed it on an Arduino UNO, connected a couple of cheap stepper motors I had and had 
+        a play;  Next thing I knew I was building myself a CNC router.  As is a common theme with my projects I did 
+        not bother researching the subject first but just made a start with no real plan or idea what I was doing, 
+        my only goal was to build it as cheaply as possible and only use open source software.<br>
+        I created diy linear rails using skateboard bearings and whilst these worked they were difficult to set up, 
+        unreliable and I later replaced them all with commercial linear rails from ebay.  I just used threaded bar 
+        for the lead screws and this also worked but it resulted in the router moving pretty slowly and I later 
+        replaced them with commercial lead screws as these are again not very expensive.<br>
+        Building your own CNC table is nothing like as difficult as you might imagine, the physical device is actually 
+        surprisingly simple, all the clever stuff is done by the software.  You basically just have to make a table 
+        which has a beam across that can slide freely but be pretty rigid this moved by a worm gear.  This is then
+        just repeated three times to get the x, Y, and Z movement of the router.<br>
+        Every component I used was the cheapest available on eBay but despite this I have not had any issue with any 
+        of them.  My CNC router is bigger and more complex than it needs to be because it has been modified etc. over 
+        time.  The main thing I would do differently if starting again now is I believe using two motors (one either 
+        side) for the Y axis would make the whole thing more stable and less complex to build.  I am really pleased 
+        with my idea to put all the electronics in the gantry of the machine as it hides it all away very nicely.<br>
+        <br> 
+        Whilst I use an Arduino UNO for the controller in my CNC router I think this is pushing it to its limits and 
+        using a Arduino Mega would probably be a better idea although there is now a version for ESP32 which looks
+        very good (links for all software I use at bottom of page).  You can these days pick up ready made circuit 
+        boards designed for the task which would probably be an easier option.<br>
+        On my laptop I use UniversalGcodeSender to send the commands (gcode) to the Arduino, this may not be the best 
+        option but it works reliably for me?<br>
+        Creating the gcode can get as complicated as you wish, most people seem to use Fusion 360 but as I only want 
+        to use truly free software and definately nothing "in the cloud" I used FreeCad which is very good but after 
+        spending a lot of time learning to use it I later realised that a full CAD application is way more than I 
+        tend to require for the things I make and it was just making everything far more difficult than it needed to 
+        be.  So I now draw what I require in Inkscape and then use KrabzCam to produce the gcode from this, this has 
+        resulted in my being able to draw the shape of what I require and have my CNC router cut it for me very 
+        quickly and easily and has resulted in my CNC router being a tool I don't know how I ever lived without.<br>
+        <br>
+      </span>  
+
+      <span>
+        <h2 style="font-size:2vw; color: green; height: 1vh">Some pictures of my router<h2>
+        <img style="width:75%;" src="pics/finishedSep18.jpg"><br><br> 
+        <img style="width:75%;" src="pics/electronics1.jpg"><br><br> 
+        <img style="width:75%;" src="pics/electronics2.jpg"><br><br>
+        <img style="width:75%;" src="pics/electronics3.jpg"><br><br>
+        <img style="width:75%;" src="pics/DIYbearings.jpg"><br><br>
+        <img style="width:75%;" src="pics/frame.jpg"><br><br>
+        <img style="width:75%;" src="pics/vacuumTable.jpg"><br><br>
+      </span>
+      
+      <span>
+        <h2 style="font-size:2vw; color: green; height: 1vh">Some Links</h2>
+        <a href="../links/electronics.htm" target="_blank">Useful links</a><br>
+        <a href="https://mkrabset.github.io/krabzcam/index.html" target="_blank">KrabzCam</a> - produce gcode (very good)<br>
+        <a href="http://jscut.org/" target="_blank">JScut</a> - I used this until I found KrabzCam<br> 
+        <a href="https://github.com/gnea" target="_blank">GRBL for Arduino Uno/Mega</a> - GRBL for Arduino<br> 
+        <a href="https://github.com/bdring/FluidNC" target="_blank">FluidNC</a> - GRBL for ESP32 (much more advanced)<br> 
+        <a href="https://github.com/winder/Universal-G-Code-Sender" target="_blank">Universal Gcode Sender</a> - send gcode to Arduino<br>        
+        <a href="http://chilipeppr.com/tinyg" target="_blank">ChilliPepper</a> - gcode viewer<br> 
+        <a href="https://www.youtube.com/watch?v=Bz1FpBQc5uo" target="_blank">Clough42</a> - a very advanced/expensive build<br> 
+        <a href="" target="_blank"> </a><br><br> 
+      </span>
+
+    </div>
+    <br>
+    
+    <!-- If it is December display Festivus banner -->
+        <div id='festivusDiv'></div>
+        <script type="text/javascript" src="../js/festivus.js"></script>    
+
+    <!-- show banner if 'alanesq.com/banner.gif' exists -->
+        <div id='bannerDiv'></div>
+        <script type="text/javascript" src="../js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->       
+    
+    <!-- Footer at bottom of page -->  
+      <div id="header-footer" style="height: 4vw; font-size:1.5vw;">
+        <span style="width:90%; margin: 0 auto;">
+          <input style="font-size: 1vw; padding: 2px 25px;" type="button" value="Return to previous page" onclick="history.back()"> 
+          <input style="font-size: 1vw; padding: 2px 25px;" type="button" value="Alan's Homepage" onclick='window.location.href = "../index.htm"'> 
+          You can contact me on - <a href="mailto:alanesq@disroot.org">alanesq@disroot.org</a>
+        </span>
+      </div>
+    
+  </body>
+</html>

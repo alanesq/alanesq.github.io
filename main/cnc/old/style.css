@@ -1,0 +1,33 @@
+/* ----------------------------------------- */
+/* style file for cnc router pages - 12Feb23 */
+/* ----------------------------------------- */
+
+
+body {
+  direction: ltr; 
+  background-color: rgb(255, 255, 0); 
+  background-image: url('/main/calculators/background.jpg'); 
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+h1 {
+  height: 10vw; 
+  display: flex; 
+  align-items: center; 
+  text-align: center; 
+  font-size:3vw; 
+  color: red; 
+  border: 4px solid green; 
+  background-color: rgba(64, 32, 28, 0.3);
+}
+
+#header-footer {
+  display: flex; 
+  align-items: center; 
+  text-align: center; 
+  color: red; 
+  border: 4px solid green; 
+  background-color: rgba(64, 32, 28, 0.3);"
+}
+
