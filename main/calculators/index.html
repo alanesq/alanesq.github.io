@@ -1,18 +1,22 @@
 <!DOCTYPE html>
-  
-  
-<!-- Alan's Mechanical Calculator Page - 10Feb23 -->
+<!-- 
+
+          Alan's Mechanical Calculator Page - 16Feb23          
+          
+-->
  
  
  <html style="direction: ltr;">
   <head>
     <title>Alan's Mechanical Calculator Page</title>
+    <meta name="description" content="Alan's Mechanical Calculator / adding machine Page">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta content="Alan Blackham" name="author">
-    <meta content="Alan's Mechanical Calculator Page" name="description">
     <link rel="SHORTCUT ICON" href="../logo.ico">
-    <link rel="stylesheet" href="style.css"> 
+    <meta name="keywords" content="adding machines, Brunsviga, Citizen, Olivetti, Diehl, Precisa, lagomarsino numeria, 
+            Multo Addo, Facit, Bell Punch / Sumlock, Burroughs, National / NCR, Monroe, Muldivo Mentor, Felt & Tarrant 
+            Comptometer, Schickard Calculator, Napiers Bones">
+    <link rel="stylesheet" href="style.css">             
   </head>
   
   <body>
@@ -57,9 +61,14 @@
         <a href="https://www.youtube.com/@CuriousMarc/search?query=friden" target="_blank">Curious Mark's video about his Friden</a><br>
         <br><br>
           
-      <!-- Image of my collection  -->
-        <span class="blink" style="font-size:1.5vw;">Click on device in image for more info.</span><br>
+      <!-- SVG Image of my collection  -->
+        <span class="blink" style="font-size:1.5vw;">Click on a device in the image for more info.</span><br>
         <object data="collection.svg" type="image/svg+xml" id="collectionSVG" width="80%"></object><br>
+        <span><small>
+          The collection includes: Brunsviga, Citizen, Olivetti, Diehl, Precisa, lagomarsino numeria, Multo Addo, Facit, 
+            Bell Punch / Sumlock, Burroughs, National / NCR, Monroe, Muldivo Mentor, Felt & Tarrant Comptometer, Schickard 
+            Calculator and Napiers Bones.<br>
+        </span></small>
     
     </div>
     
@@ -79,7 +88,7 @@
         need to then seal it with a spray laquer), cut it out, put in some water to soften the glue and slide it in to place.  
         This is very good for putting the text on replacement key tops.<br><br>
       4 - Patents are a good place to find information on how the calculators work etc, you can search them at 
-        <a href="https://worldwide.espacenet.com/" target="_blank">espacenet</a> <small>(thanks Martin Cummins for suggesting this site)</small>.<br><br>      
+        <a href="https://worldwide.espacenet.com/" target="_blank">espacenet</a> <small>(thanks Martin Cummins for suggesting this site).</small><br><br>      
      </span> 
      
     <!-- If it is December display Festivus banner -->
@@ -92,22 +101,26 @@
       
     <!-- Footer at bottom of page -->  
       <div id="header-footer" style="height: 4vw; font-size:1.5vw;">
-        <span style="width:50%; margin: 0 auto;">
+        <span style="width:90%; margin: 0 auto;">
           <input style="font-size: 1vw; padding: 2px 25px;" type="button" value="Return to previous page" onclick="history.back()"> 
+          <input style="font-size: 1vw; padding: 2px 25px;" type="button" value="Alan's Homepage" onclick='window.location.href = "../index.htm"'> 
           You can contact me on - <a href="mailto:alanesq@disroot.org">alanesq@disroot.org</a>
         </span>
       </div>
 
       
     <script src="sweetalert.min.js"></script>     <!-- Used for popup message boxes - see: https://sweetalert.js.org/guides --> 
-    <script>     
+    <script>   
+    
      /* ++++++++++++++++++++++++++++++++++++++++++    
            to give information when devices in 
                the SVG image are clicked      
         ++++++++++++++++++++++++++++++++++++++++++ */
         
-        // text links (id = the rectangles ID in the SVG file)
+        // text links in image (id = the rectangles ID in the SVG file)
           const svgDataText = [
+            { id: "olivetti", message: 'Olivetti Summa PRIMA 20\nMade in Italy 1960s' },
+            { id: "citizen", message: 'Citizen model 210S (21SK)' },
             { id: "ncr1", message: 'NCR cash register model 126\nas seen on the original "Open all hours"\nUnsure of date, possibly 1956\nalthough serial number suggests 1906?' },
             { id: "sumlock1", message: 'Bell Punch Sumlock (comptometer) model 912\nMade in England 1949\nThe paint on this had almost completely flaked off\nso I have sprayed it in a custom none standard colour\nand this is now used every day...' },
             { id: "monroe1", message: 'Monroe model L160-x\nMade in Holland early 1950s' },
@@ -127,7 +140,7 @@
             { id: "national1", message: 'National (NCR) Full-keyboard Add-lister\nModel 11AWD\nMade I believe in England around 1950' }
           ];        
         
-        // hyperlinks
+        // hyperlinks in image
           const svgDataLink = [
             { id: "home", link: '../index.htm' },
             { id: "schickard", link: 'Schickard/index.html' },
@@ -135,29 +148,43 @@
             { id: "mri", link: '../mri/index.htm' }
           ];          
         
-    // ++++++++++++++++++++++++++++++++++++++++++
+      // ++++++++++++++++++++++++++++++++++++++++++
     
-        // implement event listeners on the SVG image
+        // implement event listeners on the SVG image to allow clicking for more info
         var a = document.getElementById("collectionSVG");
-        a.addEventListener("load",function(){
+        var element;
         
-          // hyperlink
+        a.addEventListener("load",function(){        
+        
+          // image hyperlinks
           svgDataLink.forEach(data => {
-            a.contentDocument.getElementById(data.id).addEventListener("mousedown", function() {
-              window.open(data.link);
+            element = a.contentDocument.getElementById(data.id);
+            if (element) {
+              element.addEventListener("mousedown", function() {
+                console.log("Opening link for: " + data.id);
+                window.open(data.link);
             }, false);
+            } else {
+              console.error(`Element with ID '${data.id}' not found in SVG.`);
+            }
           });
-          
-          // text information
+ 
+          // image text information
           svgDataText.forEach(data => {
-            a.contentDocument.getElementById(data.id).addEventListener("mousedown", function() {
-              //alert(data.message);
-              swal("Machine Info.", data.message);
-            }, false);
-          });        
-
+            element = a.contentDocument.getElementById(data.id);
+            if (element) {
+              element.addEventListener("mousedown", function() {
+                console.log("Displaying text for: " + data.id);
+                swal("Machine Info.", data.message);
+              }, false);
+            } else {
+              console.error(`Element with ID '${data.id}' not found in SVG.`);
+            }
+          });          
+      
         }, false);    
-
+        
+      // ++++++++++++++++++++++++++++++++++++++++++        
     </script>        
         
         
