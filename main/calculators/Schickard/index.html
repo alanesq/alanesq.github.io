@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-  
-  
-<!-- Alan's Schickard Calculator page - 10Feb23 -->
+<!-- 
+
+        Alan's Schickard Calculator page - 18Feb23 
+            
+-->
  
  
  <html style="direction: ltr;">
@@ -10,8 +12,8 @@
     <meta charset="UTF-8">
     <link rel="SHORTCUT ICON" href="../logo.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta content="Alan Blackham" name="author">
     <meta content="Alan's Schickard Calculator page" name="description">
+    <meta name="keywords" content="adding machines, mechanical calculators, Schickard Calculator">    
     <link rel="stylesheet" href="../style.css"> 
   </head>
   
@@ -20,12 +22,12 @@
     <div style="text-align: center;">
     
       <!-- Banner at top of page -->
-      <h1>
-          <img src="../cat.gif" alt="page logo 1" style="height: 10vw; width: 20vw; position: absolute; left: 12px;">
-          <span style="width:50%; margin: 0 auto;">Alan's Schickard Calculator Page</span>
-          <img src="../cat.gif" alt="page logo 2" style="transform: scaleX(-1); height: 10vw; width: 20vw; position: absolute; right: 12px;">
-      </h1>        
-        
+      <div class="header-footer" style="height: 10vw;">
+          <img class="headerImg" src="/main/calculators/cat.gif" alt="Page logo 1" style="left: 12px;">
+          <span class="headerText">Alan's Schickard Calculator Page</span>
+          <img class="headerImg" src="/main/calculators/cat.gif" alt="Page logo 2" style="transform: scaleX(-1); right: 12px;">
+      </div>   
+             
       <h2 style="font-size:2vw; color: green;">My home made Schickard Calculator</h2>
       
       <span>
@@ -64,7 +66,8 @@
         the gear wheels to the axles. <br>
         I was very pleased with the way the adder unit worked out, there are several things I could improve to the rest 
         of it, mainly due to my having no plan as I built it, just working it out as I went along.  The windows to the 
-        Napiers Bones are too small for starters...<br>
+        Napiers Bones are too small for starters...<br><br>
+        <a href="https://youtu.be/Vas9IkJuZf4" target="_blank">A video I made when first starting to test out the concept.</a><br><br>
       </span>
         
       <!-- Links -->
@@ -84,11 +87,10 @@
         <script type="text/javascript" src="../../js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->       
     
     <!-- Footer at bottom of page -->  
-      <div id="header-footer" style="height: 4vw; font-size:1.5vw;">
-        <span style="width:50%; margin: 0 auto;">
-          <input style="font-size: 1vw; padding: 2px 25px;" type="button" value="Return to previous page" onclick="history.back()"> 
-          You can contact me on - <a href="mailto:alanesq@disroot.org">alanesq@disroot.org</a>
-        </span>
+      <div class="header-footer" style="height: 4vw;">
+          <input class="button" type="button" value="Return to previous page" onclick="history.back()"> 
+          <input class="button" type="button" value="Alan's Homepage" onclick='window.location.href = "../index.htm"'> 
+          <span class="button">You can contact me on - <a href="mailto:alanesq@disroot.org">alanesq@disroot.org</a></span>
       </div>
     
   </body>
