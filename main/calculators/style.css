@@ -1,5 +1,5 @@
 /* ----------------------------------------- */
-/* style file for calculator pages - 18Feb23 */
+/* style file for calculator pages - 19Feb23 */
 /* ----------------------------------------- */
 
 
@@ -15,7 +15,7 @@ h1 {             /* main title */
   font-size:3.5vw; 
   color: red;
   text-shadow: 0 0 18px #000000, 0 0 24px #00FF00;  
-  height: 10vw; 
+  height: 10vh; 
   display: flex; 
   align-items: center; 
   text-align: center; 
@@ -23,6 +23,7 @@ h1 {             /* main title */
 
 h2 {             /* sub section titles */
   font-size:2vw;
+  height: 1vh;
   color: green; 
   text-shadow: 0 0 4px #000000, 0 0 6px #AA0000; 
 }
