@@ -1,7 +1,7 @@
 <!DOCTYPE html>
   
   
-<!-- Alan's CNC router page - 12Feb23 -->
+<!-- Alan's CNC router page - 19Feb23 -->
  
  
  <html style="direction: ltr;">
@@ -16,14 +16,13 @@
   </head>
   
   <body>
-  
+
     <!-- Banner at top of page -->
-    <h1>
-        <img src="header2.jpg" alt="page logo 1" style="height: 10vw; width: 20vw; position: absolute; left: 12px;">
-        <span style="width:50%; margin: 0 auto;">Alan's CNC router page</span>
-        <img src="header1.jpg" alt="page logo 2" style="transform: scaleX(-1); height: 10vw; width: 20vw; position: absolute; right: 12px;">
-    </h1>     
-    
+    <div class="header-footer" style="height: 10vw;">
+        <img class="headerImg" src="header2.jpg" alt="Page logo 1" style="left: 12px;">
+        <h1>Alan's CNC router page</h1>
+        <img class="headerImg" src="header1.jpg" alt="Page logo 2" style="transform: scaleX(-1); right: 12px;">
+    </div>       
     
     <div style="text-align: center;">
     
@@ -63,15 +62,19 @@
       router £30.  The router bits I find I use most are 3.175mm and 1.5mm diameter and cost around £8 for 10.<br><br>
       </span>  
       
+      <hr>
+      
       <span>
-        <h2 style="font-size:2vw; color: green; height: 1vh">Videos</h2>
+        <h2>Videos</h2>
         <a href="https://youtu.be/AHJ6L8pYVtw" target="_blank">A gear being cut</a><br>
         <a href="https://youtu.be/FE02R1HfVKU" target="_blank">PCB being cut</a><br>
         <a href="https://youtu.be/fNpv-xeWKm8" target="_blank">How I use my router (although I no longer use Laserweb)</a><br><br>
       </span>
+      
+      <hr>
 
       <span>
-        <h2 style="font-size:2vw; color: green; height: 1vh">Pictures</h2>
+        <h2>Pictures</h2>
         <img style="width:75%;" src="pics/finishedSep18.jpg"><br>
         This is my 'finished' router still using the DIY linear bearings<br><br><br> 
         <img style="width:75%;" src="pics/electronics1.jpg"><br>
@@ -87,8 +90,10 @@
         This shows the vacuum hold down table I made which attaches to my shop vac and is very handy for engraving etc.<br><br>
       </span>
       
+      <hr>
+      
       <span>
-        <h2 style="font-size:2vw; color: green; height: 1vh">Links</h2>
+        <h2>Links</h2>
         <a href="../links/electronics.htm" target="_blank">Useful links</a> - my links page<br>
         <a href="https://mkrabset.github.io/krabzcam/index.html" target="_blank">KrabzCam</a> - produce gcode from SVG file (very good)<br>
         <a href="http://jscut.org/" target="_blank">JScut</a> - I used this until I found KrabzCam<br> 
@@ -112,12 +117,10 @@
         <script type="text/javascript" src="../js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->       
     
     <!-- Footer at bottom of page -->  
-      <div id="header-footer" style="height: 4vw; font-size:1.5vw;">
-        <span style="width:90%; margin: 0 auto;">
-          <input style="font-size: 1vw; padding: 2px 25px;" type="button" value="Return to previous page" onclick="history.back()"> 
-          <input style="font-size: 1vw; padding: 2px 25px;" type="button" value="Alan's Homepage" onclick='window.location.href = "../index.htm"'> 
-          You can contact me on - <a href="mailto:alanesq@disroot.org">alanesq@disroot.org</a>
-        </span>
+      <div class="header-footer" style="height: 4vw;">
+          <input class="button" type="button" value="Return to previous page" onclick="history.back()"> 
+          <input class="button" type="button" value="Alan's Homepage" onclick='window.location.href = "/main/index.htm"'> 
+          <span class="button">You can contact me on - <a href="mailto:alanesq@disroot.org">alanesq@disroot.org</a></span>
       </div>
     
   </body>
