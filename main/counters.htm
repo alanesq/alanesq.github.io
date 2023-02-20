@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- 
 
-          Alan's Mechanical Calculator Page - 20Feb23          
+          Alan's Page Counters - 20Feb23          
           
 -->
  
@@ -29,6 +29,9 @@
       
       <br>
       <div id="results"></div>
+      <br><br>
+      <input type="button" value="Reset Counters" onclick="resetCounters()"> 
+      <br><br>
 
     <!-- If it is December display Festivus banner -->
         <div id='festivusDiv'></div>
@@ -48,42 +51,59 @@
       
     <script> 
     
-var getJSON = function(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.responseType = 'json';
-    xhr.onload = function() {
-      var status = xhr.status;
-      if (status === 200) {
-        callback(null, xhr.response);
-      } else {
-        callback(status, xhr.response);
-      }
-    };
-    xhr.send();
-};
+        // get JSON data
+          var getJSON = function(url, callback) {
+              var xhr = new XMLHttpRequest();
+              xhr.open('GET', url, true);
+              xhr.responseType = 'json';
+              xhr.onload = function() {
+                var status = xhr.status;
+                if (status === 200) {
+                  callback(null, xhr.response);
+                } else {
+                  callback(status, xhr.response);
+                }
+              };
+              xhr.send();
+          };
+          
+        // GET request
+          function httpGet(theUrl)
+          {
+              var xmlHttp = new XMLHttpRequest();
+              xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+              xmlHttp.send( null );
+              return xmlHttp.responseText;
+          }        
 
+        // Calculators
+          getJSON('https://api.countapi.xyz/get/alanesqCalculators/a4531941-8c3d-469c-8259-437ca09d4a73',
+          function(err, data) {
+            if (err !== null) {
+              console.log('Something went wrong: ' + err);
+            } else {
+              console.log('Your query count: ' + data.value);
+              document.getElementById("results").innerHTML += "Calculators: " + data.value + "<br><br>";
+            }
+          });
 
-getJSON('https://api.countapi.xyz/get/alanesqCalculators/a4531941-8c3d-469c-8259-437ca09d4a73',
-function(err, data) {
-  if (err !== null) {
-    console.log('Something went wrong: ' + err);
-  } else {
-    console.log('Your query count: ' + data.value);
-    document.getElementById("results").innerHTML += "Calculators: " + data.value + "<br><br>";
-  }
-});
-
-getJSON('https://api.countapi.xyz/get/alanesqSchickard/c2cd0dd0-f132-40f6-8c92-9f4d75485a1f',
-function(err, data) {
-  if (err !== null) {
-    console.log('Something went wrong: ' + err);
-  } else {
-    console.log('Your query count: ' + data.value);
-    document.getElementById("results").innerHTML += "Schickard: " + data.value + "<br><br>";
-  }
-});
-
+        // Schickard
+          getJSON('https://api.countapi.xyz/get/alanesqSchickard/c2cd0dd0-f132-40f6-8c92-9f4d75485a1f',
+          function(err, data) {
+            if (err !== null) {
+              console.log('Something went wrong: ' + err);
+            } else {
+              console.log('Your query count: ' + data.value);
+              document.getElementById("results").innerHTML += "Schickard: " + data.value + "<br><br>";
+            }
+          });
+          
+        // reset counters
+          function resetCounters() {
+            httpGet("https://api.countapi.xyz/set/alanesqCalculators/a4531941-8c3d-469c-8259-437ca09d4a73?value=0");
+            httpGet("https://api.countapi.xyz/set/alanesqSchickard/c2cd0dd0-f132-40f6-8c92-9f4d75485a1f?value=0");
+            location.reload();
+          }
     
     </script>        
         
