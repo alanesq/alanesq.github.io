@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!-- 
+
+          Alan's Mechanical Calculator Page - 20Feb23          
+          
+-->
+ 
+ 
+ <html style="direction: ltr;">
+  <head>
+    <title>Alan's Mechanical Calculator Page</title>
+    <meta name="description" content="Alan's Page Counters">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="SHORTCUT ICON" href="logo.ico">
+    <link rel="stylesheet" href="calculators/style.css">  
+  </head>
+  
+  <body>
+
+    <div style="text-align: center;">
+
+      <!-- Banner at top of page -->
+      <div class="header-footer" style="height: 10vw;">
+          <img class="headerImg" src="/main/calculators/cat.gif" alt="Page logo 1" style="left: 12px;">
+          <h1>Alan's Page Counters</h1>
+          <img class="headerImg" src="/main/calculators/cat.gif" alt="Page logo 2" style="transform: scaleX(-1); right: 12px;">
+      </div>       
+      
+      <br>
+      <div id="results"></div>
+
+    <!-- If it is December display Festivus banner -->
+        <div id='festivusDiv'></div>
+        <script type="text/javascript" src="../js/festivus.js"></script>    
+
+    <!-- show banner if 'alanesq.com/banner.gif' exists -->
+        <div id='bannerDiv'></div>
+        <script type="text/javascript" src="../js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->          
+      
+    <!-- Footer at bottom of page -->  
+      <div class="header-footer" style="height: 4vw;">
+          <input class="button" type="button" value="Return to previous page" onclick="history.back()"> 
+          <input class="button" type="button" value="Alan's Homepage" onclick='window.location.href = "index.htm"'> 
+          <span class="button">Contact: <a href="mailto:alanesq@disroot.org">alanesq@disroot.org</a></span>
+      </div>
+
+      
+    <script> 
+    
+var getJSON = function(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+      var status = xhr.status;
+      if (status === 200) {
+        callback(null, xhr.response);
+      } else {
+        callback(status, xhr.response);
+      }
+    };
+    xhr.send();
+};
+
+
+getJSON('https://api.countapi.xyz/get/alanesqCalculators/a4531941-8c3d-469c-8259-437ca09d4a73',
+function(err, data) {
+  if (err !== null) {
+    console.log('Something went wrong: ' + err);
+  } else {
+    console.log('Your query count: ' + data.value);
+    document.getElementById("results").innerHTML += "Calculators: " + data.value + "<br><br>";
+  }
+});
+
+getJSON('https://api.countapi.xyz/get/alanesqSchickard/c2cd0dd0-f132-40f6-8c92-9f4d75485a1f',
+function(err, data) {
+  if (err !== null) {
+    console.log('Something went wrong: ' + err);
+  } else {
+    console.log('Your query count: ' + data.value);
+    document.getElementById("results").innerHTML += "Schickard: " + data.value + "<br><br>";
+  }
+});
+
+    
+    </script>        
+        
+        
+  </body>
+</html>
