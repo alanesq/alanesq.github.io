@@ -16,11 +16,12 @@
     <meta name="keywords" content="adding machines, Brunsviga, Citizen, Olivetti, Diehl, Precisa, lagomarsino numeria, 
             Multo Addo, Facit, Bell Punch / Sumlock, Burroughs, National / NCR, Monroe, Muldivo Mentor, Felt & Tarrant 
             Comptometer, Schickard Calculator, Napiers Bones">
-    <link rel="stylesheet" href="style.css">             
+    <link rel="stylesheet" href="style.css">  
+    <script async src="https://api.countapi.xyz/hit/alanesqCalculators/a4531941-8c3d-469c-8259-437ca09d4a73?callback=websiteVisits"></script>  <!-- visit counter (using countapi.xyz) -->
   </head>
   
   <body>
-  
+
     <div style="text-align: center;">
 
       <!-- Banner at top of page -->
@@ -31,7 +32,7 @@
       </div>       
 
       <h2>My collection of old adding machines</h2>
-      
+
       <span>
         I have a collection of mechanical calculators that I have rescued and returned to full working order.  My interest in 
         these machines began when I happened to see a YouTube video featuring a Friden machine.  After telling someone about 
@@ -113,22 +114,29 @@
           <input class="button" type="button" value="Return to previous page" onclick="history.back()"> 
           <input class="button" type="button" value="Alan's Homepage" onclick='window.location.href = "/main/index.htm"'> 
           <span class="button">You can contact me on - <a href="mailto:alanesq@disroot.org">alanesq@disroot.org</a></span>
+          <span>Page visitors: <span id="visits"></span></span>   <!-- visit counter (using countapi.xyz) -->
       </div>
 
       
     <script src="sweetalert.min.js"></script>     <!-- Used for popup message boxes - see: https://sweetalert.js.org/guides --> 
-    <script>   
+    <script> 
     
-     /* ++++++++++++++++++++++++++++++++++++++++++    
-           to give information when devices in 
-               the SVG image are clicked      
-        ++++++++++++++++++++++++++++++++++++++++++ */
+        // visit counter (using countapi.xyz)
+          function websiteVisits(response) {
+              document.querySelector("#visits").textContent = response.value;
+          }    
+          
+    
+        /* ++++++++++++++++++++++++++++++++++++++++++    
+              to give information when devices in 
+                  the SVG image are clicked      
+            ++++++++++++++++++++++++++++++++++++++++++ */
         
         // text links in image (id = the rectangles ID in the SVG file)
           const svgDataText = [
             { id: "olivetti", message: 'Olivetti Prima 20\nMade in Italy 1960s\nIn 1961 this would have cost £40 (equivalent to £860 now)' },
             { id: "citizen", message: 'Citizen model 210S (21SK)' },
-            { id: "ncr1", message: 'NCR cash register Class 126(1) SP/1\nThe type you may recognise from the original "Open all Hours" TV show\nUnsure of date, possibly 1956\nalthough serial number suggests 1906?' },
+            { id: "ncr1", message: 'NCR cash register Class 126(1) SP/1\nThe type you may recognise from the original "Open all Hours" TV show.\nUnsure of date, possibly 1956 although serial number suggests 1906?' },
             { id: "sumlock1", message: 'Bell Punch Sumlock (comptometer) model 912\nMade in England 1949\nThe paint on this had almost completely flaked off\nso I have sprayed it in a custom none standard colour\nand this is now used every day...' },
             { id: "monroe1", message: 'Monroe model L160-x\nMade in Holland early 1950s' },
             { id: "monroe2", message: 'Monroe model L160-x\nMade in Holland early 1950s' },
