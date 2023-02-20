@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- 
 
-        Alan's Schickard Calculator page - 19Feb23 
+        Alan's Schickard Calculator page - 20Feb23 
             
 -->
  
@@ -15,6 +15,7 @@
     <meta content="Alan's Schickard Calculator page" name="description">
     <meta name="keywords" content="adding machines, mechanical calculators, Schickard Calculator">    
     <link rel="stylesheet" href="../style.css"> 
+    <script async src="https://api.countapi.xyz/hit/alanesqSchickard/c2cd0dd0-f132-40f6-8c92-9f4d75485a1f?callback=websiteVisits"></script>  <!-- visit counter (using countapi.xyz) -->
   </head>
   
   <body>
@@ -95,7 +96,15 @@
           <input class="button" type="button" value="Return to previous page" onclick="history.back()"> 
           <input class="button" type="button" value="Alan's Homepage" onclick='window.location.href = "/main/index.htm"'> 
           <span class="button">You can contact me on - <a href="mailto:alanesq@disroot.org">alanesq@disroot.org</a></span>
+          <span>Page visitors: <span id="visits"></span></span>   <!-- visit counter (using countapi.xyz) -->
       </div>
+      
+    <script>
+        // visit counter (using countapi.xyz)
+          function websiteVisits(response) {
+              document.querySelector("#visits").textContent = response.value;
+          }   
+    </script>
     
   </body>
 </html>
