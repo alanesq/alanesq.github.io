@@ -1,8 +1,31 @@
 <!DOCTYPE html>
 <!-- 
 
-          Alan's Page Counters - 20Feb23          
+          Alan's Page Counters - 22Feb23          
+ 
           
+see: https://medium.com/@mignunez/how-to-count-the-number-of-visits-on-your-website-with-html-css-javascript-and-the-count-api-2f99b42b5990
+
+create new counter: https://api.countapi.xyz/create?namespace=alanesqCNC&enable_reset=1
+
+reset counter: https://api.countapi.xyz/set/alanesqCalculators/a4531941-8c3d-469c-8259-437ca09d4a73?value=0
+
+read counter: https://api.countapi.xyz/get/alanesqCalculators/a4531941-8c3d-469c-8259-437ca09d4a73     
+
+calculators:  {"namespace":"alanesqCalculators","key":"a4531941-8c3d-469c-8259-437ca09d4a73","value":0}
+Schickard: {"namespace":"alanesqSchickard","key":"c2cd0dd0-f132-40f6-8c92-9f4d75485a1f","value":0}
+CNC: {"namespace":"alanesqCNC","key":"5078ea3c-e4e8-4f74-91ac-49c680a21e72","value":0}
+
+in HEAD add:  <script async src="https://api.countapi.xyz/hit/alanesqCalculators/a4531941-8c3d-469c-8259-437ca09d4a73?callback=websiteVisits"></script>  
+
+add this javascript:          // visit counter (using countapi.xyz)
+                                function websiteVisits(response) {
+                                    document.querySelector("#visits").textContent = response.value;
+                                }   
+
+display with:  <span>Page visitors: <span id="visits"></span></span>  
+          
+
 -->
  
  
@@ -29,7 +52,6 @@
       
       <br>
       <div id="results"></div>
-      <br><br>
       <input type="button" value="Reset Counters" onclick="resetCounters()"> 
       <br><br>
 
@@ -98,10 +120,22 @@
             }
           });
           
+        // CNC
+          getJSON('https://api.countapi.xyz/get/alanesqCNC/5078ea3c-e4e8-4f74-91ac-49c680a21e72',
+          function(err, data) {
+            if (err !== null) {
+              console.log('Something went wrong: ' + err);
+            } else {
+              console.log('Your query count: ' + data.value);
+              document.getElementById("results").innerHTML += "CNC Router: " + data.value + "<br><br>";
+            }
+          });          
+          
         // reset counters
           function resetCounters() {
             httpGet("https://api.countapi.xyz/set/alanesqCalculators/a4531941-8c3d-469c-8259-437ca09d4a73?value=0");
             httpGet("https://api.countapi.xyz/set/alanesqSchickard/c2cd0dd0-f132-40f6-8c92-9f4d75485a1f?value=0");
+            httpGet("https://api.countapi.xyz/set/alanesqCNC/5078ea3c-e4e8-4f74-91ac-49c680a21e72?value=0");
             location.reload();
           }
     
