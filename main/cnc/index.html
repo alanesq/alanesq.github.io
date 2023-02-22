@@ -1,7 +1,7 @@
 <!DOCTYPE html>
   
   
-<!-- Alan's CNC router page - 19Feb23 -->
+<!-- Alan's CNC router page - 22Feb23 -->
  
  
  <html style="direction: ltr;">
@@ -13,6 +13,7 @@
     <meta content="Alan Blackham" name="author">
     <meta content="Alan's CNC router page" name="description">
     <link rel="stylesheet" href="/main/css/style.css">  
+    <script async src="https://api.countapi.xyz/hit/alanesqCNC/5078ea3c-e4e8-4f74-91ac-49c680a21e72?callback=websiteVisits"></script>  <!-- visit counter (using countapi.xyz) -->
   </head>
   
   <body>
@@ -121,7 +122,17 @@
           <input class="button" type="button" value="Return to previous page" onclick="history.back()"> 
           <input class="button" type="button" value="Alan's Homepage" onclick='window.location.href = "/main/index.htm"'> 
           <span class="button">Contact: <a href="mailto:alanesq@disroot.org">alanesq@disroot.org</a></span>
+          <span>Page visitors: <span id="visits"></span></span>   <!-- visit counter (using countapi.xyz) -->
       </div>
+      
+      <script>
+      
+        // visit counter (using countapi.xyz)
+          function websiteVisits(response) {
+              document.querySelector("#visits").textContent = response.value;
+          }   
+          
+      </script>    
     
   </body>
 </html>
