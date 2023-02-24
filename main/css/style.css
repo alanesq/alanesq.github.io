@@ -5,9 +5,7 @@
 
 body {          /* page wide settings */
   direction: ltr; 
-  background-color: rgb(255, 255, 0); 
-  background-image: url('/main/calculators/background.jpg'); 
-  background-repeat: no-repeat;
+  background: url('/main/calculators/background.jpg') no-repeat 100% 100% rgb(255, 255, 0);
   background-size: 100% 100%;
 }
 
@@ -33,13 +31,13 @@ h2 {             /* sub section titles */
   text-align: center; 
   justify-content: space-around;
   border: 4px solid green; 
-  background-color: rgba(64, 32, 28, 0.3);"
+  background-color: rgba(64, 32, 28, 0.3);
 }
 
 .headerImg {     /* images in page header */
   height: 10vw; 
   width: 20vw; 
-  position: absolute; 
+  position: relative; 
 }
 
 .button {        /* buttons in page footer */
