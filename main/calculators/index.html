@@ -47,7 +47,8 @@
             
       <a href="Schickard/index.html" target="_self">See the Schickard Calculator I made</a><br>
       <a href="https://youtu.be/wypV2bYBoOI" target="_blank">A video of my Diehl model E15 in action</a><br>
-      <a href="https://youtu.be/RiNhMVyvV5g" target="_blank">A video of my Burroughs Class P in action</a><br><br>
+      <a href="https://youtu.be/RiNhMVyvV5g" target="_blank">A video of my Burroughs Class P in action</a><br>
+      <a href="/main/calculators/comptometer.htm" target="_blank">A comptometer emulator</a><br><br>
 
       <!-- Misc Links -->
         You can see more about these machines here: <a href="https://www.jaapsch.net/mechcalc/" target="_blank">Jaapsch</a> or 
@@ -137,31 +138,53 @@
         // text links in image (id = the rectangles ID in the SVG file)
         //     more info on the popup message options here: https://sweetalert2.github.io/
           const svgDataText = [
-            { id: "olivetti", message: "Olivetti Prima 20<br>Made in Italy 1960s<br>In 1961 this would have cost £40 (equivalent to £860 now)" },
+            { id: "olivetti", message: "Olivetti Prima 20, Made in Italy 1960s<br><br>In 1961 this would have " +
+              "cost £40 (equivalent to £860 now)" },
             { id: "citizen", message: "Citizen model 210S (21SK)" },
-            { id: "ncr1", message: "NCR cash register Class 126(1) SP/1<br>The type you may recognise from the original 'Open all Hours' TV show.<br>Unsure of date, possibly 1956 although serial number suggests 1906?" },
-            { id: "sumlock1", message: "Bell Punch Sumlock (comptometer) model 912<br>Made in England 1949<br>The paint on this had almost completely flaked off<br>so I have sprayed it in a custom none standard colour\nand this is now used every day..." },
-            { id: "monroe1", message: "Monroe model L160-x<br>Made in Holland early 1950s" },
-            { id: "monroe2", message: "Monroe model L160-x<br>Made in Holland early 1950s" },
+            { id: "ncr1", message: "NCR cash register Class 126(1) SP/1<br>The type you may recognise from " +
+              "<a href='https://www.youtube.com/watch?v=UceoLeW8GoA' target='_blank'>Open All Hours</a><br><br>" +
+              "Unsure of date, possibly 1956 although serial number suggests 1906?" },
+            { id: "sumlock1", message: "Bell Punch Sumlock model 912 - comptometer<br>Made in England 1949<br><br>"+
+              "This is a none standard colour, the paint had almost completely gone when I received it.  I have " +
+              "re-sprayed it and this is now used every day.<br><br>" +
+              "<a href='/main/calculators/comptometer.htm' target='_blank'>A comptometer emulator</a>"},
+            { id: "monroe1", message: "Monroe model L160-x<br>Made in Holland early 1950s<br><br>These are " +
+              "small machines and came with a carry case" },
+            { id: "monroe2", message: "Monroe model L160-x<br>Made in Holland early 1950s<br><br>These are " + 
+              "small machines and came with a carry case" },
             { id: "multo", message: "Multo Addo model 113<br>Made in Sweden late 1950s" },
-            { id: "Lagomarsino1", message: "Lagomarsino Numeria models 5903 and 5905<br>Made in Italy 1950s/60s" },
-            { id: "Lagomarsino2", message: "Lagomarsino Numeria models 5903 and 5905<br>Made in Italy 1950s/60s" },
-            { id: "brunsviga1", message: "Brunsviga model 13ZK<br>Made in Germany between 1929 and 1947<br>This was originally half of a double unit (D13Z)" },
+            { id: "Lagomarsino5", message: "Lagomarsino Numeria models 5905<br>Made in Italy 1950s/60s" },
+            { id: "Lagomarsino3", message: "Lagomarsino Numeria models 5903<br>Made in Italy 1950s/60s" },
+            { id: "brunsviga1", message: "Brunsviga model 13ZK<br>Made in Germany between 1929 and 1947<br>This was " +
+              "originally half of a double unit (D13Z)" },
             { id: "brunsviga2", message: "Brunsviga model 13RM<br>Made in Spain 1950" },
-            { id: "brunsviga3", message: "Brunsviga model 18RK<br>Made in West Germany Post 1954<br>In 1959 this would have cost £115 (equivalent to  £2,575 now)" },
-            { id: "brunsviga4", message: "Brunsviga model 18RK<br>nMade in West Germany Post 1954<br>In 1959 this would have cost £115 (equivalent to  £2,575 now)" },
+            { id: "brunsviga3", message: "Brunsviga model 18RK<br>Made in West Germany Post 1954<br><br>In 1959 Nottm Uni. " +
+              "paid £115 each for some of these (equivalent to  £2,575 now)" },
+            { id: "brunsviga4", message: "Brunsviga model 18RK<br>Made in West Germany Post 1954<br><br>In 1959 Nottm Uni. " +
+              "paid £115 each for some of these (equivalent to  £2,575 now)" },
             { id: "Muldivo", message: "Muldivo Mentor<br>Made in Germany in 1950s" },
-            { id: "precisa", message: "Precisa model 117<br>nSwiss made 1968<br>This was a Facit clone with some interesting features" },
+            { id: "precisa", message: "Precisa model 117<br>nSwiss made 1968<br>This was a Facit clone with some " +
+              "interesting features" },
             { id: "facit", message: "Facit model C1-13<br>Made in Sweden 1959" },
-            { id: "sumlock2", message: "Bell Punch Sumlock Duolectric 993s<br>Made in England 1950s<br>In 1963 this would have cost £265 (equivalent to £5,340 now)" },
-            { id: "comptometer1", message: "Felt & Tarrant Comptometer model H<br>Made in U.S.A. 1922" },
-            { id: "burroughs1", message: "Burroughs calculator class 5<br>Made 1944<br><br>This arrived as a bag of bits..." },
-            { id: "burroughs2", message: "Burroughs Class P electric portable adder<br>Made on or after 1954<br>It has a removable lever so can me manual or electric<br><br><a href='https://youtu.be/RiNhMVyvV5g'_blank'>A video of it in action</a>" },
-            { id: "diehl1", message: "Diehl model E15<br>Made in germany 1956-62<br><br><a href='https://youtu.be/wypV2bYBoOI' target='_blank'>A video of it in action</a>" },
-            { id: "national1", message: "National (NCR) Full-keyboard Add-lister Model 11AWD<br>Made I believe in England around 1950" },
-            { id: "home", message: "<a href='../index.htm' target='_blank'>My home page</a>" },
-            { id: "schickard", message: "A Schickard calculator I made<br><br><a href='Schickard/index.html' target='_blank'>See more about it here</a>" },
-            { id: "napiers", message: "<a href='https://commons.wikimedia.org/wiki/File:An_18th_century_set_of_Napier%27s_Bones.JPG' target='_blank'>A Napier's Bones I made</a>" },
+            { id: "sumlock2", message: "Bell Punch Sumlock Duolectric 993s<br>Made in England 1950s<br>In 1963 this " +
+              "would have cost £265 (equivalent to £5,340 now)<br><br>" +
+              "<a href='/main/calculators/comptometer.htm' target='_blank'>A comptometer emulator</a>"},
+            { id: "comptometer1", message: "Felt & Tarrant Comptometer model H<br>Made in U.S.A. 1922<br><br>" +
+              "<a href='/main/calculators/comptometer.htm' target='_blank'>A comptometer emulator</a>"},
+            { id: "burroughs1", message: "Burroughs calculator class 5<br>Made 1944<br><br>This arrived as a bag " +
+              "of bits.<br><br><a href='/main/calculators/comptometer.htm' target='_blank'>A comptometer emulator</a>" },
+            { id: "burroughs2", message: "Burroughs Class P electric portable adder<br>Made on or after 1954<br>It " +
+              "has a removable lever so can me manual or electric<br><br><a href='https://youtu.be/RiNhMVyvV5g'_blank'>" +
+              "A video of it in action</a>" },
+            { id: "diehl1", message: "Diehl model E15<br>Made in germany 1956-62<br><br>" +
+              "<a href='https://youtu.be/wypV2bYBoOI' target='_blank'>A video of it in action</a>" },
+            { id: "national1", message: "National (NCR) Full-keyboard Add-lister Model 11AWD<br>Made I believe in " +
+              "England around 1950" },
+            { id: "home", message: "<a href='../index.htm' target='_blank'>My main home page</a>" },
+            { id: "schickard", message: "A Schickard calculator I made<br><br><a href='Schickard/index.html' " +
+              "target='_blank'>See more about it here</a>" },
+            { id: "napiers", message: "A <a href='https://commons.wikimedia.org/wiki/File:An_18th_century_set_of_Napier%27s_Bones.JPG' target='_blank'>" +
+              "Napiers Bones</a> I made" },
             { id: "mri", message: "<a href='../mri/index.htm' target='_blank'>My MRI page</a>" }
           ];          
         
