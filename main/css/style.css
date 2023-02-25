@@ -1,9 +1,11 @@
 /* ----------------------------------------- */
-/* style file for calculator pages - 24Feb23 */
+/* style file for calculator pages - 25Feb23 */
 /* ----------------------------------------- */
 
 
 body {          /* page wide settings */
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;  
   direction: ltr; 
   background: url('/main/calculators/background.jpg') no-repeat 100% 100% rgb(255, 255, 0);
   background-size: 100% 100%;
@@ -25,8 +27,17 @@ h2 {             /* sub section titles */
   text-shadow: 0 0 4px #000000, 0 0 6px #AA0000; 
 }
 
-.header-footer { /* section at top and bottom of pages */
+a {              /* General links */
+  text-decoration: none; 
+  padding: 0.2vw 0.2vh;
+}
+a:hover {
+  background-color: rgba(64, 64, 128, 0.5);
+}
+
+.header-footer { /* sections at top and bottom of page */
   display: flex; 
+  text-decoration: none;  
   align-items: center; 
   text-align: center; 
   justify-content: space-around;
@@ -40,14 +51,17 @@ h2 {             /* sub section titles */
   position: relative; 
 }
 
-.button {        /* buttons in page footer */
+.button {        /* items in page footer */
   background-color: rgba(64, 32, 28, 0.3);
   border: none;
   color: white;
   padding: 0.5vw 0.5vh;
   text-align: center;
   text-decoration: none;
-  font-size: 1.3vw;
+  font-size: 2vh;
+}
+.button:hover {
+  background-color: rgba(64, 32, 28, 0.6);
 }
 
 
@@ -78,5 +92,3 @@ h2 {             /* sub section titles */
     }
   }
 /* ++++++++++++++++++++++++++++++++++++++++++ */
-
-
