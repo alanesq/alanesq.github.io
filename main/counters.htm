@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- 
 
-          Alan's Page Counters - 25Feb23          
+          Alan's Page Counters - 26Feb23          
  
           
 see: https://medium.com/@mignunez/how-to-count-the-number-of-visits-on-your-website-with-html-css-javascript-and-the-count-api-2f99b42b5990
@@ -35,7 +35,7 @@ display with:  <span>Page visitors: <span id="visits"></span></span>
     <meta name="description" content="Alan's Page Counters">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="SHORTCUT ICON" href="logo.ico">
+    <link rel="SHORTCUT ICON" href="/main/logo.ico">
     <link rel="stylesheet" href="/main/css/style.css">  
   </head>
   
@@ -57,11 +57,11 @@ display with:  <span>Page visitors: <span id="visits"></span></span>
 
     <!-- If it is December display Festivus banner -->
         <div id='festivusDiv'></div>
-        <script type="text/javascript" src="../js/festivus.js"></script>    
+        <script type="text/javascript" src="/main/js/festivus.js"></script>    
 
     <!-- show banner if 'alanesq.com/banner.gif' exists -->
         <div id='bannerDiv'></div>
-        <script type="text/javascript" src="../js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->          
+        <script type="text/javascript" src="/main/js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->          
       
     <!-- Footer at bottom of page -->  
       <div class="header-footer" style="height: 5vh;">
@@ -72,6 +72,14 @@ display with:  <span>Page visitors: <span id="visits"></span></span>
 
       
     <script> 
+    
+        // counters to display
+          const counterList = [
+            { name: "Calculators", id: "alanesqCalculators", key: "a4531941-8c3d-469c-8259-437ca09d4a73"},
+            { name: "Schickard", id: "alanesqSchickard", key: "c2cd0dd0-f132-40f6-8c92-9f4d75485a1f"},
+            { name: "CNC Router", id: "alanesqCNC", key: "5078ea3c-e4e8-4f74-91ac-49c680a21e72"}
+          ]; 
+          
     
         // get JSON data
           var getJSON = function(url, callback) {
@@ -98,44 +106,24 @@ display with:  <span>Page visitors: <span id="visits"></span></span>
               return xmlHttp.responseText;
           }        
 
-        // Calculators
-          getJSON('https://api.countapi.xyz/get/alanesqCalculators/a4531941-8c3d-469c-8259-437ca09d4a73',
-          function(err, data) {
-            if (err !== null) {
-              console.log('Something went wrong: ' + err);
-            } else {
-              console.log('Your query count: ' + data.value);
-              document.getElementById("results").innerHTML += "Calculators: " + data.value + "<br><br>";
-            }
-          });
-
-        // Schickard
-          getJSON('https://api.countapi.xyz/get/alanesqSchickard/c2cd0dd0-f132-40f6-8c92-9f4d75485a1f',
-          function(err, data) {
-            if (err !== null) {
-              console.log('Something went wrong: ' + err);
-            } else {
-              console.log('Your query count: ' + data.value);
-              document.getElementById("results").innerHTML += "Schickard: " + data.value + "<br><br>";
-            }
-          });
-          
-        // CNC
-          getJSON('https://api.countapi.xyz/get/alanesqCNC/5078ea3c-e4e8-4f74-91ac-49c680a21e72',
-          function(err, data) {
-            if (err !== null) {
-              console.log('Something went wrong: ' + err);
-            } else {
-              console.log('Your query count: ' + data.value);
-              document.getElementById("results").innerHTML += "CNC Router: " + data.value + "<br><br>";
-            }
-          });          
-          
-        // reset counters
+          // Get counter values and display them
+            counterList.forEach(counterData => {           
+              getJSON("https://api.countapi.xyz/get/" + counterData.id +"/" + counterData.key ,
+              function(err, data) {
+                if (err !== null) {
+                  console.log("Something went wrong " + counterData.name + ", " + err);
+                } else {
+                  console.log( counterData.name + " query count: " + data.value);
+                  document.getElementById("results").innerHTML += counterData.name + ": " + data.value + "<br><br>";
+                }
+              });
+            });
+              
+        // reset all counters
           function resetCounters() {
-            httpGet("https://api.countapi.xyz/set/alanesqCalculators/a4531941-8c3d-469c-8259-437ca09d4a73?value=0");
-            httpGet("https://api.countapi.xyz/set/alanesqSchickard/c2cd0dd0-f132-40f6-8c92-9f4d75485a1f?value=0");
-            httpGet("https://api.countapi.xyz/set/alanesqCNC/5078ea3c-e4e8-4f74-91ac-49c680a21e72?value=0");
+            counterList.forEach(counterData => { 
+              httpGet("https://api.countapi.xyz/set/" + counterData.id + "/" + counterData.key + "?value=0");
+            });
             location.reload();
           }
     
