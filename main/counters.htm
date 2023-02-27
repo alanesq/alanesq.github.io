@@ -1,31 +1,21 @@
 <!DOCTYPE html>
 <!-- 
 
-          Alan's Page Counters - 26Feb23          
+          Alan's Page Counters - 27Feb23          
  
           
-see: https://medium.com/@mignunez/how-to-count-the-number-of-visits-on-your-website-with-html-css-javascript-and-the-count-api-2f99b42b5990
+  see: https://medium.com/@mignunez/how-to-count-the-number-of-visits-on-your-website-with-html-css-javascript-and-the-count-api-2f99b42b5990
 
-create new counter: https://api.countapi.xyz/create?namespace=alanesqCNC&enable_reset=1
+  create new counter: https://api.countapi.xyz/create?namespace=<counter name>&enable_reset=1
+ 
+  in HEAD add:  <script async src="https://api.countapi.xyz/hit/<counter name>/<counter key>?callback=websiteVisits"></script>  
 
-reset counter: https://api.countapi.xyz/set/alanesqCalculators/a4531941-8c3d-469c-8259-437ca09d4a73?value=0
+  add this javascript:   function websiteVisits(response) {
+                            document.querySelector("#visits").textContent = response.value;
+                         }   
 
-read counter: https://api.countapi.xyz/get/alanesqCalculators/a4531941-8c3d-469c-8259-437ca09d4a73     
-
-calculators:  {"namespace":"alanesqCalculators","key":"a4531941-8c3d-469c-8259-437ca09d4a73","value":0}
-Schickard: {"namespace":"alanesqSchickard","key":"c2cd0dd0-f132-40f6-8c92-9f4d75485a1f","value":0}
-CNC: {"namespace":"alanesqCNC","key":"5078ea3c-e4e8-4f74-91ac-49c680a21e72","value":0}
-
-in HEAD add:  <script async src="https://api.countapi.xyz/hit/alanesqCalculators/a4531941-8c3d-469c-8259-437ca09d4a73?callback=websiteVisits"></script>  
-
-add this javascript:          // visit counter (using countapi.xyz)
-                                function websiteVisits(response) {
-                                    document.querySelector("#visits").textContent = response.value;
-                                }   
-
-display with:  <span>Page visitors: <span id="visits"></span></span>  
-          
-
+  display counter with:  <span>Page visitors: <span id="visits"></span></span>  
+            
 -->
  
  
@@ -45,42 +35,49 @@ display with:  <span>Page visitors: <span id="visits"></span></span>
 
       <!-- Banner at top of page -->
       <div class="header-footer" style="height: 10vw;">
-          <img class="headerImg" src="/main/calculators/cat.gif" alt="Page logo 1" style="left: 12px;">
+          <img class="headerImg" src="/main/calculators/cat.gif" alt="Page logo 1" ">
           <h1>Alan's Page Counters</h1>
-          <img class="headerImg" src="/main/calculators/cat.gif" alt="Page logo 2" style="transform: scaleX(-1); right: 12px;">
+          <img class="headerImg" src="/main/calculators/cat.gif" alt="Page logo 2" style="transform: scaleX(-1);">
       </div>       
       
-      <br>
-      <div id="results"></div>
-      <input type="button" value="Reset Counters" onclick="resetCounters()"> 
-      <br><br>
+      <!-- Main section -->
+        <br>
+        <div id="results"></div> <!-- Counter info goes in here -->
+        <input type="button" value="Reset Counters" onclick="resetCounters()"> 
+        <br><br>
 
-    <!-- If it is December display Festivus banner -->
-        <div id='festivusDiv'></div>
-        <script type="text/javascript" src="/main/js/festivus.js"></script>    
+      <!-- If it is December display Festivus banner -->
+          <div id='festivusDiv'></div>
+          <script type="text/javascript" src="/main/js/festivus.js"></script>    
 
-    <!-- show banner if 'alanesq.com/banner.gif' exists -->
-        <div id='bannerDiv'></div>
-        <script type="text/javascript" src="/main/js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->          
-      
-    <!-- Footer at bottom of page -->  
-      <div class="header-footer" style="height: 5vh;">
-          <input class="button" type="button" value="Return to previous page" onclick="history.back()"> 
-          <input class="button" type="button" value="Alan's Homepage" onclick='window.location.href = "index.htm"'> 
-          <span class="button">Contact: <a href="mailto:alanesq@disroot.org">alanesq@disroot.org</a></span>
-      </div>
+      <!-- show banner if '/main/banner.gif' exists -->
+          <div id='bannerDiv'></div>
+          <script type="text/javascript" src="/main/js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->          
+        
+      <!-- Footer at bottom of page -->  
+        <div class="header-footer" style="height: 5vh;">
+            <input class="button" type="button" value="Return to previous page" onclick="history.back()"> 
+            <input class="button" type="button" value="Alan's Homepage" onclick='window.location.href = "index.htm"'> 
+            <span class="button">Contact: <a href="mailto:alanesq@disroot.org">alanesq@disroot.org</a></span>
+        </div>
 
+    </div>
+    
       
     <script> 
     
-        // counters to display
+        // ********************************** Counters to display ***************************************
+        
           const counterList = [
+            { name: "Root", id: "alanesqRoot", key: "8c86b300-312a-4a2f-a1b8-cc51a9a49640"},
             { name: "Calculators", id: "alanesqCalculators", key: "a4531941-8c3d-469c-8259-437ca09d4a73"},
             { name: "Schickard", id: "alanesqSchickard", key: "c2cd0dd0-f132-40f6-8c92-9f4d75485a1f"},
             { name: "CNC Router", id: "alanesqCNC", key: "5078ea3c-e4e8-4f74-91ac-49c680a21e72"}
           ]; 
           
-    
+        // **********************************************************************************************          
+
+        
         // get JSON data
           var getJSON = function(url, callback) {
               var xhr = new XMLHttpRequest();
@@ -106,20 +103,19 @@ display with:  <span>Page visitors: <span id="visits"></span></span>
               return xmlHttp.responseText;
           }        
 
-          // Get counter values and display them
+          // Display counter values
             counterList.forEach(counterData => {           
               getJSON("https://api.countapi.xyz/get/" + counterData.id +"/" + counterData.key ,
               function(err, data) {
                 if (err !== null) {
-                  console.log("Something went wrong " + counterData.name + ", " + err);
+                  console.log("Something went wrong with " + counterData.name + ": " + err);
                 } else {
-                  console.log( counterData.name + " query count: " + data.value);
                   document.getElementById("results").innerHTML += counterData.name + ": " + data.value + "<br><br>";
                 }
               });
             });
               
-        // reset all counters
+        // Reset counters
           function resetCounters() {
             counterList.forEach(counterData => { 
               httpGet("https://api.countapi.xyz/set/" + counterData.id + "/" + counterData.key + "?value=0");
@@ -127,8 +123,7 @@ display with:  <span>Page visitors: <span id="visits"></span></span>
             location.reload();
           }
     
-    </script>        
-        
+    </script>                
         
   </body>
 </html>
