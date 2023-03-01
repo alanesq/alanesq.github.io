@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- 
 
-          Alan's Mechanical Calculator Page - 28Feb23          
+          Alan's Mechanical Calculator Page - 01Mar23          
           
 -->
  
@@ -136,13 +136,14 @@
                   the SVG image are clicked      
             ++++++++++++++++++++++++++++++++++++++++++ */
         
-        // text links in image (id = the rectangles ID in the SVG file)
-        //     more info on the popup message options here: https://sweetalert2.github.io/
-          // types of machine, P=pinwheel, C=comptometer, A=adder, S=Stepped wheel - this is additional text for the descriptions
+        // text links in image 
+        //     info on the popup message library here: https://sweetalert2.github.io/
+          // types of machine - this is additional text for the descriptions based on machine type
+          //    P=pinwheel type, S=Monroe type, C=comptometer 
             var typeP = "<br><a href='https://www.youtube.com/watch?v=pMd2DTvonz4' target='_blank'>USING THESE CALCULATORS (VIDEO)</a>";
-            var typeS = "<br><a href='https://www.youtube.com/watch?v=KRiQk5301kg' target='_blank'>USING THESE CALCULATORS (VIDEO)</a>";
+            var typeS = "<br><a href='https://youtu.be/KRiQk5301kg?t=51' target='_blank'>USING THESE CALCULATORS (VIDEO)</a>";
             var typeC = "<br><a href='/main/calculators/comptometer.htm' target='_blank'>COMPTOMETER EMULATOR</a>";
-          // descriptions
+          // Machine descriptions   (id = the rectangles ID in the SVG file)
           const svgDataText = [
             { id: "olivetti", type: "A", message: "Olivetti Prima 20, Made in Italy 1960s" +
               "<br><br>In 1961 this would have cost £40 (equivalent to £860 now)" +
@@ -180,11 +181,12 @@
               "paid £115 each for some of these (equivalent to  £2,575 now)" +
               "<br><br><a href='https://www.jaapsch.net/mechcalc/brunsviga.htm' target='_blank'>MORE INFO</a>"},
             { id: "Muldivo", type: "P", message: "Muldivo Mentor<br>Made in Germany in 1950s<br><br>" },
-            { id: "precisa", type: "S", message: "Precisa model 117, Swiss made 1968<br>" +
+            { id: "precisa", type: "P", message: "Precisa model 117, Swiss made 1968<br>" +
               "This was a Facit clone with some interesting features" +
               "<br><br><a href='https://www.jaapsch.net/mechcalc/precisa.htm' target='_blank'>MORE INFO</a>"},
-            { id: "facit", type: "S", message: "Facit model C1-13, made in Sweden 1959" +
-              "<br><br><a href='http://www.johnwolff.id.au/calculators/Facit/Facit.htm' target='_blank'>MORE INFO</a> " },
+            { id: "facit", type: "P", message: "Facit model C1-13, made in Sweden 1959" +
+              "<br><br><a href='http://www.johnwolff.id.au/calculators/Facit/Facit.htm' target='_blank'>MORE INFO</a>" +
+              "<br><a href='https://youtu.be/QJPMIjVGzd0' target='_blank'>ABOUT FACIT (VIDEO)</a>" },
             { id: "sumlock2", type: "C", message: "Bell Punch Sumlock Duolectric 993s<br>Made in England 1950s<br>In 1963 this " +
               "would have cost £265 (equivalent to £5,340 now)" +
               "<br><br><a href='https://www.jaapsch.net/mechcalc/bellpunch.htm' target='_blank'>MORE INFO</a>"},
