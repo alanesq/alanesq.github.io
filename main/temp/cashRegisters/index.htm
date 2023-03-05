@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <!-- 
 
-          Display Images - 05Mar23         
+          Cash register give-away - 05Mar23         
           
 -->
  
@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="SHORTCUT ICON" href="../logo.ico">
     <link rel="stylesheet" href="/main/css/style.css">  
+    <script async src="https://api.countapi.xyz/hit/alanesqTemp/74698904-cf59-45ce-9437-70d721b4a21e?callback=websiteVisits"></script>
   </head>
   
   <body>
@@ -37,10 +38,9 @@
           <span>
           
             There are three cash registers available, free to a good home.
-            <br>They are all All located at Dunstable for 
-            collection.  Please let me know on the forum if you are interested and only if you are serious, able to 
-            collect and will turn up on time as arranged etc..  It would be preferable if all three were to go at the 
-            same time.
+            <br>They are all All located at Dunstable (U.K.) for collection.  Please let me know on the forum if you 
+            are interested and only if you are serious, able to collect and will turn up on time as arranged etc..  
+            It would be preferable if all three were to go at the same time.
             <br><br>
           
             1-Hugin: <a href="hugin.jpg" target="_blank">PICTURE</a>
@@ -65,9 +65,7 @@
       
       
     </div>
-    
 
-     
     <!-- Footer at bottom of page -->  
       <div class="header-footer" style="height: 4vw;">
           <input class="button" type="button" value="Return to previous page" onclick="history.back()"> 
@@ -75,4 +73,11 @@
    
         
   </body>
+  
+  <script>
+    function websiteVisits(response) {
+      document.querySelector("#visits").textContent = response.value;
+    } 
+  </script>
+  
 </html>
