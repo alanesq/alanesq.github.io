@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!-- 
 
@@ -72,7 +73,8 @@
             { name: "Root", id: "alanesqRoot", key: "8c86b300-312a-4a2f-a1b8-cc51a9a49640"},
             { name: "Calculators", id: "alanesqCalculators", key: "a4531941-8c3d-469c-8259-437ca09d4a73"},
             { name: "Schickard", id: "alanesqSchickard", key: "c2cd0dd0-f132-40f6-8c92-9f4d75485a1f"},
-            { name: "CNC Router", id: "alanesqCNC", key: "5078ea3c-e4e8-4f74-91ac-49c680a21e72"}
+            { name: "CNC Router", id: "alanesqCNC", key: "5078ea3c-e4e8-4f74-91ac-49c680a21e72"},
+            { name: "CashRegisters", id: "alanesqTemp", key: "74698904-cf59-45ce-9437-70d721b4a21e"}
           ]; 
           
         // **********************************************************************************************          
@@ -120,7 +122,7 @@
             counterList.forEach(counterData => { 
               httpGet("https://api.countapi.xyz/set/" + counterData.id + "/" + counterData.key + "?value=0");
             });
-            location.reload();
+            location.reload();   // refresh page
           }
     
     </script>                
