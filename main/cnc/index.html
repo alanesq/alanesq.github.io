@@ -1,14 +1,14 @@
 <!DOCTYPE html>
   
   
-<!-- Alan's CNC router page - 25Feb23 -->
+<!-- Alan's CNC router page - 08Mar23 -->
  
  
  <html style="direction: ltr;">
   <head>
     <title>Alan's CNC Router page</title>
     <meta charset="UTF-8">
-    <link rel="SHORTCUT ICON" href="../logo.ico">
+    <link rel="SHORTCUT ICON" href="/main/logo.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta content="Alan Blackham" name="author">
     <meta content="Alan's CNC router page" name="description">
@@ -57,7 +57,19 @@
       file in to KrabzCam and this produces the gcode files, these files I then load in to UniversalGcodeSender and this operates
       the router.  There is a link to KrabzCam at the botom of this page if you want to give it a try, it is a very
       impressive bit of software I only recently discovered.<br><br>
-
+      
+      The easiest way I have found of using my router is to move the router bit to the bottom left of the work piece, just 
+      touching the surface and add the following to the top of the gcode file:<br>
+          <small>
+            G21                 ; set units to mm<br>
+            G17                 ; xy plane<br>
+            G92 X0 Y0 Z0        ; set current position as zero<br>
+            g28.1               ; store as home position<br>
+            G90                 ; absolute positioning<br>
+            g0 z20;             ; move up<br>
+            M3                  ; spindle on<br><br>
+          </small>
+      
       To give some idea of what it cost to build the Arduino cost £3, the 3 motor control boxes were £6 each, the 24v 
       power supply £12, linear bearings were around £30 for the large ones, Stepper motors around £20 each, 
       router £30.  The router bits I find I use most are 3.175mm and 1.5mm diameter and cost around £8 for 10.<br><br>
@@ -111,11 +123,11 @@
     
     <!-- If it is December display Festivus banner -->
         <div id='festivusDiv'></div>
-        <script type="text/javascript" src="../js/festivus.js"></script>    
+        <script type="text/javascript" src="/main/js/festivus.js"></script>    
 
-    <!-- show banner if 'alanesq.com/banner.gif' exists -->
+    <!-- show banner if '/main/banner.gif' exists -->
         <div id='bannerDiv'></div>
-        <script type="text/javascript" src="../js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->       
+        <script type="text/javascript" src="/main/js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->       
     
     <!-- Footer at bottom of page -->  
       <div class="header-footer" style="height: 5vh;">
@@ -124,6 +136,7 @@
           <span class="button">Contact: <a href="mailto:alanesq@disroot.org">alanesq@disroot.org</a></span>
           <span class="button">Page visitors: <span id="visits"></span></span>   <!-- visit counter (using countapi.xyz) -->
       </div>
+      
       
       <script>
       
