@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- 
 
-          Alan's Mechanical Calculator Page - 17Mar23          
+          Alan's Mechanical Calculator Page - 19Mar23          
           
 -->
  
@@ -59,11 +59,12 @@
         <a href="http://public.beuth-hochschule.de/hamann/calc/index.html" target="_blank">Prof. Christian-M. Hamann</a> or 
         <a href="http://w-hasselo.nl/mechn/" target="_blank">Wim Hasselo</a>
         <br>
-        lots of great YouTube content:  
+        YouTube links:  
         <a href="https://www.youtube.com/@GrumpyTim" target="_blank">GrumpyTim</a> or 
         <a href="https://www.youtube.com/@ChrisStaecker" target="_blank">ChrisStaecker</a>.<br>
         <a href="https://www.youtube.com/@CuriousMarc/search?query=friden" target="_blank">Curious Mark's video about his Friden</a><br>
         <a href="https://youtu.be/MpZL32ASCjc?t=1679" target="_blank">Comparing speeds of some electromechanical calculators</a><br>
+        <a href="https://youtu.be/YjIFfT8Sevk" target="_blank">My Marchant filmed at 210fps</a><br>
         <br>
         
         <hr>
@@ -150,6 +151,10 @@
             
           // Machine descriptions   (id = the shapes ID in the SVG file)
           const svgDataText = [
+            { id: "burroughsC4", type: "A", message: 
+              "Boroughs Class 4 made 1928<br><br>" +
+              "<a href='https://www.jaapsch.net/mechcalc/burroughs.htm' target='_blank'>MACHINE INFORMATION</a>"
+            },           
             { id: "plusadder1", type: "C", message: 
               "Plus adder - Model No. 509/S<br><br>" +
               "<a href='https://www.jaapsch.net/mechcalc/bellpunch.htm' target='_blank'>MACHINE INFORMATION</a>"
@@ -160,11 +165,12 @@
               "<a href='https://www.youtube.com/watch?v=k-jKFTXgPrY' target='_blank'>GREAT EXPLANATION OF THIS MACHINE</a>.<br>" +
               "<a href='http://www.johnwolff.id.au/calculators/Tech/MarchantDRX/Intro.htm#Contents' target='_blank'>MORE INFORMATION</a>.<br>" +
               "<a href='http://www.johnwolff.id.au/calculators/Marchant/Marchant.htm' target='_blank'>MACHINE INFORMATION</a><br>" +
-              "<a href='https://youtu.be/IQJC7hNr-go' target='_blank'>VIDEO OF THIS MACHINE IN OPERATION</a>"
+              "<a href='https://youtu.be/IQJC7hNr-go' target='_blank'>VIDEO OF THIS MACHINE IN OPERATION</a><br>" +
+              "<a href='https://youtu.be/YjIFfT8Sevk' target='_blank'>VIDEO OF THIS MACHINE AT 210FPS</a>"
             },
             { id: "olivetti1", type: "A", message: 
               "Olivetti Prima 20, Made in Italy 1960s<br><br>" +
-              "In 1961 this would have cost £40 (equivalent to £860 now)<br><br>" +
+              "In 1961 this would have cost £40 (equivalent today would be £860)<br><br>" +
               "<a href='https://www.jaapsch.net/mechcalc/olivetti.htm' target='_blank'>MACHINE INFORMATION</a>"
             },
             { id: "citizen1", type: "A", message: 
@@ -215,12 +221,12 @@
             },
             { id: "brunsviga3", type: "P", message: 
               "Brunsviga model 18RK<br>Made in West Germany Post 1954<br><br>In 1959 Nottm Uni. " +
-              "paid £115 each for some of these (equivalent to  £2,575 now)<br><br>" +
+              "paid £115 each for some of these (equivalent today would be £2,575)<br><br>" +
               "<a href='https://www.jaapsch.net/mechcalc/brunsviga.htm' target='_blank'>MACHINE INFORMATION</a>"
             },
             { id: "brunsviga4", type: "P", message: 
               "Brunsviga model 18RK<br>Made in West Germany Post 1954<br><br>In 1959 Nottm Uni. " +
-              "paid £115 each for some of these (equivalent to  £2,575 now)<br><br>" +
+              "paid £115 each for some of these (equivalent today would be £2,575)<br><br>" +
               "<a href='https://www.jaapsch.net/mechcalc/brunsviga.htm' target='_blank'>MACHINE INFORMATION</a>"
             },
             { id: "Muldivo", type: "P", message: 
@@ -238,7 +244,7 @@
             },
             { id: "sumlock2", type: "C", message: 
               "Bell Punch Sumlock Duolectric 993s<br>Made in England 1950s<br>In 1963 this " +
-              "would have cost £265 (equivalent to £5,340 now)" +
+              "would have cost £265 (equivalent today would be  £5,340)" +
               "<br><br><a href='https://www.jaapsch.net/mechcalc/bellpunch.htm' target='_blank'>MACHINE INFORMATION</a>"
             },
             { id: "comptometer1", type: "C", message: 
@@ -248,7 +254,7 @@
             { id: "burroughs1", type: "C", message: 
               "Burroughs calculator class 5, Made 1944<br><br>This arrived as a " +
               "<a href='burroughs1.jpg' target='_blank'>COLLECTION OF PARTS</a><br><br>" +
-              "<a href='https://www.jaapsch.net/mechcalc/burroughs.htm' target='_blank'>MACHINE INFORMATION</a> "
+              "<a href='https://www.jaapsch.net/mechcalc/burroughs.htm' target='_blank'>MACHINE INFORMATION</a>"
             },
             { id: "burroughs2", type: "A", message: 
               "Burroughs Class P electric portable adder<br>Made on or after 1954<br><br>"+
