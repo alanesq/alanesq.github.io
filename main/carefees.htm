@@ -2,7 +2,7 @@
 
 <!-- 
 
-    Display of care home fees - 20Jun22
+    Display of care home fees - 01Apr23
     
 -->
 
@@ -12,7 +12,7 @@
     <title>Care fees</title>
     <meta charset="utf-8">
     <meta http-equiv="Content-Language" content="en-gb">
-    <link rel="SHORTCUT ICON" href="http://alanesq.eu5.net/logo.ico"/>    
+    <link rel="SHORTCUT ICON" href="/main/logo.ico"/>    
   </head>
   
   <style>
@@ -62,7 +62,7 @@
       <br>
       <p title='What it costs you if you are ill and need to go in to care'>THE COST OF BEING ILL</p><br>
       <div id="myBar1"></div>
-      <br><h1 id="carecosts"></h1><br>
+      <br><h1 title="This is the care home fees paid so far from life-time savings minus attendance allowance" id="carecosts"></h1><br>
       <div id="myBar2"></div>
       <p id="fee" title='This is the cost of the care home minus attendance allowance'></p>
       <br>
@@ -72,8 +72,10 @@
     <script>   // Javascript 
     
       var cstart = new Date('June 1, 2021 10:00');      // When he moved in to care home £900 ('June 1, 2021 10:00')
-      var cstart2 = new Date('April 1, 2022 00:00');    // When care fees went up to £972 ('Apr 1, 2022 00:00')
-      var carefees = 972;                               // care home fees
+      //var cstart2 = new Date('April 1, 2022 00:00');    // When care fees went up to £972 ('Apr 1, 2022 00:00') start balance=£35150
+      var cstart2 = new Date('April 1, 2023 00:00');    // When care fees went up to £1070 ('Apr 1, 2023 00:00') start balance=£81161
+      var scost = 81220;                                // cost up to the above date
+      var carefees = 1070;                              // current care home fees
       var aa = 89.60;                                   // attendance allowance received
       var ccost = carefees - aa;                        // cost per week 
     
@@ -104,9 +106,11 @@
           }
           function update() {                         // update costs
             var n = new Date();                       // time now
-            var dif = Math.abs(n-cstart2);            // milliseconds since fees went up to £972
+            // n = new Date('April 1, 2023 00:00');         // temp set date manually
+            console.log("Today: " + n);
+            var dif = Math.abs(n-cstart2);            // milliseconds since fees went up 
             var res = cps * dif;                      // cost since fee increse
-            res += 35150;                             // fees from moving in until fee increased from £900 to £972 (apr 22)
+            res += scost;                             // fees from moving in until fee increased apr23
             var resFormatted = res.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             document.getElementById("carecosts").innerHTML = "Cost of being in care £" + resFormatted;    // display result
           }             
