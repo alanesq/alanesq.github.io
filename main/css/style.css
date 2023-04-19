@@ -1,5 +1,5 @@
 /* ----------------------------------------- */
-/*   style file for newer pages - 08Mar23    */
+/*   style file for newer pages - 19Apr23    */
 /* ----------------------------------------- */
 
 
@@ -8,7 +8,7 @@ body {          /* page wide settings */
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;  
   direction: ltr; 
-  background: url('/main/calculators/background.jpg') no-repeat 100% 100% rgb(255, 255, 0);
+  background: url('/main/calculators/background.jpg');
   background-size: 100% 100%;
 }
 
