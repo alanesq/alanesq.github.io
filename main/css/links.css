@@ -1,0 +1,29 @@
+
+/* css for Homeseer - standard style for buttons and links - 19Aug22 */
+
+
+input, button {                 /* device control buttons */
+    margin: 5px;
+    padding: 5px;
+    border-radius: 15px;
+    color: red;
+}
+input:hover, button:hover  {
+    background-color: #09e;
+}
+
+a {                             /* Links */
+    line-height: 16px;
+    text-decoration: none;
+    color: #00f;
+    font-size: 15px;
+    padding: 2px;
+}
+a:hover {
+    color: yellow;
+    background-color: blue;
+    color: white;
+    border-radius: 5px;
+    padding: 2px;
+}
+
