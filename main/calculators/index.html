@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- 
 
-          Alan's Mechanical Calculator Page - 27Apr23          
+          Alan's Mechanical Calculator Page - 28Apr23          
           
 -->
  
@@ -17,7 +17,6 @@
             Multo Addo, Facit, Bell Punch / Sumlock, Burroughs, National / NCR, Monroe, Muldivo Mentor, Felt & Tarrant 
             Comptometer, Schickard Calculator, Napiers Bones">
     <link rel="stylesheet" href="/main/css/style.css">  
-    <script async src="https://api.countapi.xyz/hit/alanesqCalculators/a4531941-8c3d-469c-8259-437ca09d4a73?callback=websiteVisits"></script>  <!-- visit counter (using countapi.xyz) -->
   </head>
   
   <body>
@@ -124,19 +123,12 @@
           <input class="button" type="button" value="Return to previous page" onclick="history.back()"> 
           <input class="button" type="button" value="Alan's Homepage" onclick='window.location.href = "/main/index.htm"'> 
           <span class="button">Contact: <a href="mailto:alanesq@disroot.org">alanesq@disroot.org</a></span>
-          <span class="button">Page visitors: <span id="visits"></span></span>   <!-- visit counter (using countapi.xyz) -->
       </div>
 
       
     <script src="sweetalert2.min.js"></script>     <!-- Used for popup message boxes - see: https://sweetalert2.github.io --> 
-    <script> 
-    
-        // visit counter (using countapi.xyz)
-          function websiteVisits(response) {
-              document.querySelector("#visits").textContent = response.value;
-          }    
+    <script>   
           
-    
         /* ++++++++++++++++++++++++++++++++++++++++++    
               to give information when devices in 
                   the SVG image are clicked      
@@ -253,8 +245,8 @@
             },
             { id: "brunsviga-11e", type: "P", message: "Brunsviga 11e, made in Germany 1952-59" +
               "<br><br>Very small electric machine " +
-              "<br><br><a href='https://www.jaapsch.net/mechcalc/brunsviga.htm' target='_blank'>MACHINE INFORMATION</a>" +
-              "<a href='https://youtu.be/1A2e9tMMbt8' target='_blank'>VIDEO OF THIS MACHINE</a>" 
+              "<br><br><a href='https://www.jaapsch.net/mechcalc/brunsviga.htm' target='_blank'>MACHINE INFORMATION</a> <br>" +
+              "<a href='https://youtu.be/1A2e9tMMbt8' target='_blank'>VIDEO OF THIS MACHINE IN ACTION</a>" 
             },            
             { id: "brunsviga2", type: "P", message: 
               "Brunsviga model 13RM<br>Made in Spain 1950<br><br>" +
