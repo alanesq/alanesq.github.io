@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- 
 
-        Alan's Schickard Calculator page - 25Feb23 
+        Alan's Schickard Calculator page - 28Apr23 
             
 -->
  
@@ -15,7 +15,6 @@
     <meta content="Alan's Schickard Calculator page" name="description">
     <meta name="keywords" content="adding machines, mechanical calculators, Schickard Calculator">    
     <link rel="stylesheet" href="/main/css/style.css">  
-    <script async src="https://api.countapi.xyz/hit/alanesqSchickard/c2cd0dd0-f132-40f6-8c92-9f4d75485a1f?callback=websiteVisits"></script>  <!-- visit counter (using countapi.xyz) -->
   </head>
   
   <body>
@@ -85,26 +84,19 @@
     
     <!-- If it is December display Festivus banner -->
         <div id='festivusDiv'></div>
-        <script type="text/javascript" src="../../js/festivus.js"></script>    
+        <script type="text/javascript" src="/main/js/festivus.js"></script>    
 
-    <!-- show banner if 'alanesq.com/banner.gif' exists -->
+    <!-- show banner if '/main/banner.gif' exists -->
         <div id='bannerDiv'></div>
-        <script type="text/javascript" src="../../js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->       
+        <script type="text/javascript" src="/main/js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->       
     
     <!-- Footer at bottom of page -->  
       <div class="header-footer" style="height: 5vh;">
           <input class="button" type="button" value="Return to previous page" onclick="history.back()"> 
           <input class="button" type="button" value="Alan's Homepage" onclick='window.location.href = "/main/index.htm"'> 
           <span class="button">Contact: <a href="mailto:alanesq@disroot.org">alanesq@disroot.org</a></span>
-          <span class="button">Page visitors: <span id="visits"></span></span>   <!-- visit counter (using countapi.xyz) -->
       </div>
-      
-    <script>
-        // visit counter (using countapi.xyz)
-          function websiteVisits(response) {
-              document.querySelector("#visits").textContent = response.value;
-          }   
-    </script>
+
     
   </body>
 </html>
