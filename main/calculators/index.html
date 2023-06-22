@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- 
 
-          Alan's Mechanical Calculator Page - 10May23     
+          Alan's Mechanical Calculator Page - 22Jun23
           
 -->
  
@@ -151,6 +151,18 @@
             
           // Machine descriptions   (id = the shapes ID in the SVG file)
           const svgDataText = [
+            { id: "addometer", type: "x", message: 
+              "Addometer Model F (Sterling Currency), Made in U.S.A. 1900s - 1960s Distributed in the UK. by Taylor's, 74 Chancery Lane, London.<br><br>" +
+              "<a href='https://www.jaapsch.net/mechcalc/addometer.htm' target='_blank'>MACHINE INFORMATION</a>" 
+            },           
+            { id: "addo310e", type: "A", message: 
+              "Addo Model 310E (model 10 with negative totals), Made in England by Agrell Manufacturing Co. Ltd.<br><br>" +
+              "<a href='http://www.johnwolff.id.au/calculators/Addo/Addo.htm' target='_blank'>MACHINE INFORMATION</a>" 
+            },            
+            { id: "remington", type: "A", message: 
+              "Remington Rand model 73?, made in U.S.A. around 1949?<br><br>" +
+              "<a href='http://www.johnwolff.id.au/calculators/printing/printing.htm#Sundstrand8112' target='_blank'>MACHINE INFORMATION</a>" 
+            },             
             { id: "comptograph101", type: "A", message: 
               "Walther Model P12 (Sumlock Comptograph Model 101), made in Germany post 1961<br><br>" +
               "<a href='http://anita-calculators.info/html/comptograph_101.html' target='_blank'>MACHINE INFORMATION</a>" 
@@ -162,8 +174,9 @@
               "Walther Model P12 (Comptograph Model 101), made in Germany 1950s<br><br>" 
             },             
             { id: "remington1", type: "A", message: 
-              "Remington Rand model 73<br>" +
-              "This is unusual as it seems to have the case for an electric model but it is manual only?<br><br>" +
+              "Remington Rand model 73 'Monarch'<br>" +
+              "This is unusual as it seems to have the case for an electric model but it is manual only<br><br>" +
+              "<a href='http://www.johnwolff.id.au/calculators/printing/printing.htm#Monarch-1249' target='_blank'>MACHINE INFORMATION</a>" +
               "<a href='https://www.youtube.com/watch?v=HS3yh-7KB2M' target='_blank'>VIDEO SHOWING HOW IT WORKS</a>"
             },           
             { id: "contex1", type: "x", message: 
@@ -173,9 +186,11 @@
             { id: "misc1", type: "x", message: 
               "MISC. ITEMS<br><br>" +
               "<a href='https://en.wikipedia.org/wiki/Napier%27s_bones' target='_blank'>Napiers bones (made by myself)</a><br>" +
-              "<a href='https://youtu.be/0MON8NiFTxA' target='_blank'>Roman abacus (replica made by myself)</a><br>" +
+              "<a href='https://youtu.be/0MON8NiFTxA' target='_blank'>Roman abacus (replica made by myself)</a><br>" 
+            },      
+            { id: "sliderule", type: "x", message: 
               "<a href='https://www.sliderulemuseum.com/' target='_blank'>Slide rule</a>" 
-            },             
+            },               
             { id: "burroughsC4", type: "A", message: 
               "Boroughs Class 4 made in U.S.A. 1928<br>" +
               "This is basically a class 3 with simple multiplication features.<br><br>" +
@@ -314,7 +329,7 @@
               "Diehl model DSR18, Made in Germany 1957-1961" +
               "<br>This is a much more advanced model than my E15 with lots of features." +
               "<br>In the 60s one of these would cost the average 6 months salary.<br><br>" +
-              "<a href='https://youtu.be/up9N5yFtlWY'>VIDEO OF ONE IN ACTION</a>" +
+              "<a href='https://youtu.be/up9N5yFtlWY'>VIDEO OF ONE IN ACTION</a><br>" +
               "<br><a href='https://youtu.be/DQ33h7mhGA8' target='_blank'>VIDEO OF MINE IN ACTION</a><br>" +
               "<a href='http://user.mendelu.cz/marik/mechmat/diehl_KR15/' target='_blank'>SOME MORE TECHNICAL INFO</a><br>" +
               "<a href='https://www.jaapsch.net/mechcalc/diehl.htm' target='_blank'>MACHINE INFORMATION</a>" 
