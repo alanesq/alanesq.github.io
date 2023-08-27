@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- 
 
-          Alan's Mechanical Calculator Page - 11Aug23
+          Alan's Mechanical Calculator Page - 23Aug23
           
 -->
  
@@ -36,7 +36,7 @@
         I have a collection of mechanical calculators that I have rescued and returned them all to full working order.  My 
         interest in these machines began when I happened to see a YouTube video featuring a Friden machine.  After telling 
         someone about my newfound interest I was later gifted an adding machine for my birthday, later someone else gifted 
-        me a couple more and next thing I knew I was acquiring more and more of them until I now have 22 and counting...
+        me a couple more and next thing I knew I was acquiring more and more of them until I now have over 40 of the things, and counting...
         <br><br>    
         
         These machines seem to attract little interest or value (apart from really early ones or 'THE CURTA!'), most of them 
@@ -149,11 +149,22 @@
             var typeS = "<br><a href='https://youtu.be/KRiQk5301kg?t=51' target='_blank'>USING STEPPED DRUM CALCULATORS (VIDEO)</a>";
             var typeC = "<br><a href='/main/calculators/comptometer.htm' target='_blank'>COMPTOMETER EMULATOR</a>" +
                         "<br><a href='https://youtu.be/_WxJ3JYoOAM' target='_blank'>HISTORY OF THE COMPTOMETER (VIDEO)</a>" +
+                        "<br><a href='https://www.youtube.com/watch?v=SbJpufimfdM' target='_blank'>HOW F&T COMPTOMETERS WORK (VIDEO)</a>" +
                         "<br><a href='videos.html' target='_blank'>OLD FILMS OF COMPTOMETERS</a>";
             var typeA = "<br><a href='http://www.johnwolff.id.au/calculators/printing/printing.htm' target='_blank'>ADD-LISTER INFORMATION</a>";
             
           // Machine descriptions   (id = the shapes ID in the SVG file)
           const svgDataText = [
+            { id: "burroughs3", type: "A", message: 
+              "Burroughs portable class 10<br>" +
+              "Has 'double ribbon device' for duplicate copy of printout stored in locked compartment, probably came from a bank?<br><br>" +
+              "<a href='http://www.burroughsinfo.com/portable-adders.html' target='_blank'>MACHINE INFORMATION</a>" 
+            },      
+            { id: "comptometer3", type: "C", message: 
+              "Felt & Tarrant, Comptometer 99C electric (newer version of the 992)<br>" +
+              "Made in the 1960s.<br><br>" +
+              "<a href='http://www.johnwolff.id.au/calculators/Comptometer/FT.htm' target='_blank'>MACHINE INFORMATION</a>" 
+            },              
             { id: "addometer", type: "x", message: 
               "Addometer Model F (Sterling Currency), Made in U.S.A. 1900s - 1960s Distributed in the UK. by Taylor's, 74 Chancery Lane, London.<br><br>" +
               "<a href='https://www.jaapsch.net/mechcalc/addometer.htm' target='_blank'>MACHINE INFORMATION</a>" 
@@ -183,7 +194,8 @@
               "<a href='https://www.youtube.com/watch?v=HS3yh-7KB2M' target='_blank'>VIDEO SHOWING HOW IT WORKS</a>"
             },           
             { id: "contex1", type: "x", message: 
-              "Contex model B, made in Denmark 1961-1970<br><br>" +
+              "Contex model B, made in Denmark 1961-1970<br>" +
+              "I have two of these one of which is in a hard carry case.<br><br>" +
               "<a href='https://www.jaapsch.net/mechcalc/contex.htm' target='_blank'>MACHINE INFORMATION</a>" 
             },            
             { id: "misc1", type: "x", message: 
@@ -204,13 +216,15 @@
               "Bell Punch Plus Adder - Model No. 509/S<br>" +
               "Made in England post 1958<br><br>" +
               "<a href='http://www.johnwolff.id.au/calculators/BellPunch/BPC.htm#PLUS' target='_blank'>MACHINE INFORMATION</a><br>" + 
-              "<a href='https://www.youtube.com/watch?v=kFoDyU6k7MU' target='_blank'>VIDEO ABOUT THESE MACHINES</a>"
+              "<a href='https://www.youtube.com/watch?v=kFoDyU6k7MU' target='_blank'>VIDEO ABOUT THESE MACHINES</a><br>" +
+              "<a href='http://anita-calculators.info/PlusBrochure_1.pdf' target='_blank'>SALES BROCHURE</a> "
             },    
             { id: "plusadder2", type: "C", message: 
               "Bell Punch Plus Adder - Model No. 509/SF<br>" +
               "Made in England around 1940<br><br>" +
               "<a href='http://www.johnwolff.id.au/calculators/BellPunch/BPC.htm#PLUS' target='_blank'>MACHINE INFORMATION</a><br>" + 
-              "<a href='https://www.youtube.com/watch?v=kFoDyU6k7MU' target='_blank'>VIDEO ABOUT THESE MACHINES</a>"
+              "<a href='https://www.youtube.com/watch?v=kFoDyU6k7MU' target='_blank'>VIDEO ABOUT THESE MACHINES</a><br>" +
+              "<a href='http://anita-calculators.info/PlusBrochure_1.pdf' target='_blank'>SALES BROCHURE</a> "
             },               
             { id: "marchant1", type: "S", message: 
               "Marchant Figurematic Model 8ADX, Made in California, USA 1950s<br>" +
@@ -221,10 +235,15 @@
               "<a href='https://youtu.be/sWHsr0Ya148' target='_blank'>VIDEO OF THIS MACHINE (Slow motion)</a>" 
             },
             { id: "olivetti1", type: "A", message: 
-              "Olivetti Prima 20, Made in Italy 1960s<br><br>" +
+              "Olivetti Summa Prima 20, Made in Italy 1960s<br><br>" +
               "In 1961 this would have cost £40 (equivalent today would be £860)<br><br>" +
               "<a href='https://www.jaapsch.net/mechcalc/olivetti.htm' target='_blank'>MACHINE INFORMATION</a>"
             },
+            { id: "olivetti2", type: "A", message: 
+              "Olivetti Summa 15, Made in Italy 1949-50s<br><br>" +
+              "This one was owned by Swarbrick butchers, Lancashire which closed in the 50s<br><br>" +
+              "<a href='https://www.jaapsch.net/mechcalc/olivetti.htm' target='_blank'>MACHINE INFORMATION</a>"
+            },            
             { id: "citizen1", type: "A", message: 
               "Citizen model 210S (21SK)<br>" +
               "Made in Tokyo, Japan 1971 to 1974<br><br>"
@@ -238,7 +257,8 @@
               "Bell Punch Sumlock model 912 - comptometer, made in England 1949<br><br>" +
               "This is a none standard colour, the paint had almost completely gone when I received it.  I have " +
               "re-sprayed it and this is now used every day.<br><br>" +
-              "<a href='https://www.jaapsch.net/mechcalc/bellpunch.htm' target='_blank'>MACHINE INFORMATION</a> "
+              "<a href='https://www.jaapsch.net/mechcalc/bellpunch.htm' target='_blank'>MACHINE INFORMATION</a>" +
+              "<br><a href='http://anita-calculators.info/SumlockBrochure_1.pdf' target='_blank'>SALES BROCHURE</a> "
             },
             { id: "monroe1", type: "S", message: 
               "Monroe model L160-x<br>Made in Holland early 1950s<br><br>These are " +
@@ -301,12 +321,14 @@
             { id: "precisa", type: "P", message: 
               "Precisa model 117, Swiss made 1968<br>" +
               "This was a Facit clone with some interesting features<br><br>" +
-              "<a href='https://www.jaapsch.net/mechcalc/precisa.htm' target='_blank'>MACHINE INFORMATION</a>"
+              "<a href='https://www.jaapsch.net/mechcalc/precisa.htm' target='_blank'>MACHINE INFORMATION</a><br>" +
+              "<a href='https://davidprograma.github.io/ytc/08-CalcMecanica/emu-facit-c1-13.html' target='_blank'>EMULATOR</a>"
             },
             { id: "facit", type: "P", message: 
               "Facit model C1-13, made in Sweden 1959<br><br>" +
-              "<a href='http://www.johnwolff.id.au/calculators/Facit/Facit.htm' target='_blank'>MACHINE INFORMATION</a>" +
-              "<br><a href='https://youtu.be/QJPMIjVGzd0' target='_blank'>ABOUT FACIT (VIDEO)</a>" 
+              "<a href='http://www.johnwolff.id.au/calculators/Facit/Facit.htm' target='_blank'>MACHINE INFORMATION</a><br>" +
+              "<a href='https://youtu.be/QJPMIjVGzd0' target='_blank'>ABOUT FACIT (VIDEO)</a><br>" +
+              "<a href='https://davidprograma.github.io/ytc/08-CalcMecanica/emu-facit-c1-13.html' target='_blank'>EMULATOR</a>"
             },
             { id: "sumlock2", type: "C", message: 
               "Bell Punch Sumlock Duolectric 993s<br>Made in England 1950s<br>In 1963 this " +
