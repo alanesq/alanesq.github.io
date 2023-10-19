@@ -1,5 +1,5 @@
 /*
-   Display morse code via bunny image - 20Jul22
+   Display morse code via bunny image - 19oct23
  
         Basic morse code javascript from: https://www.tutorialspoint.com/converting-string-to-morse-code-in-javascript
         images and idea from: https://www.youtube.com/user/bixanorak/about
@@ -61,6 +61,7 @@ const morseCode = {
    "S": "...",
    "T": "-",
    "U": "..-",
+   "V": "...-",
    "W": ".--",
    "X": "-..-",
    "Y": "-.--",
