@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<!-- 
+
+    Display of care home fees - Jul24
+    
+-->
+
+<html>
+
+  <head>
+    <title>Care fees</title>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Language" content="en-gb">
+    <link rel="SHORTCUT ICON" href="/main/logo.ico"/>    
+  </head>
+  
+  <style>
+    * {
+        padding: 0;
+        margin: 0;
+        font-size: 18px;
+    }  
+    
+    body {
+      background-color: #FF0;
+    }
+    #myProgress {
+      width: 100%;
+      background-color: #ddd;
+    }
+    #myBar1, #myBar2 {
+      width: 1%;
+      height: 30px;
+      background-color: #500;
+    } 
+    #myProgress {
+      border: 2px solid gray;
+      padding: 8px;
+      width: 95%;
+    }    
+    h1 {
+      color: #FF1000; 
+      text-shadow: 0 0 3px #000000, 0 0 5px #551000;      
+      font-size: 55px;
+      transition: font-size 5s;
+    }
+    h1:hover {
+      font-size: 95px;
+    }
+    P {
+      color: #505;
+      font-size: 20px;
+    }
+  </style>  
+  
+  <body>
+    <center>
+  
+    <br><br>
+    <div id="myProgress">
+      <br>
+      <p title='What it costs you if you are ill and need to go in to care'>THE COST OF BEING ILL</p><br>
+      <div id="myBar1"></div>
+      <br><h1 title="This is the care home fees paid so far from life-time savings minus attendance allowance" id="carecosts"></h1><br>
+      <div id="myBar2"></div>
+      <p id="fee" title='This is the cost of the care home minus attendance allowance'></p>
+      <br>
+    </div>
+    
+    
+    <script>   // Javascript - display care fees
+    
+        // Constants
+        const CARE_HOME_MOVE_IN_DATE = new Date('June 1, 2021 10:00');      // Move-in date
+        const CARE_FEES_INCREASE_DATE = new Date('April 1, 2024 00:00');    // Date of latest fee increase
+        const INITIAL_COST = 131800;                                        // Cost up to the latest starting date
+        const WEEKLY_CARE_FEES = 1150;                                      // Current weekly care home fees
+        const ATTENDANCE_ALLOWANCE = 108.55;                                // Weekly attendance allowance received
+
+        // Calculated values
+        const WEEKLY_COST = WEEKLY_CARE_FEES - ATTENDANCE_ALLOWANCE;        // Net weekly cost
+        const COST_PER_MILLISECOND = WEEKLY_COST / 7 / 24 / 60 / 60 / 1000; // Cost per millisecond
+
+        // Display initial fee information
+        function displayInitialFeeInformation() {
+            //const now = new Date();
+            const now = new Date('July 1, 2024 10:00');   // end date
+            const daysSinceStart = Math.ceil((now - CARE_HOME_MOVE_IN_DATE) / 1000 / 60 / 60 / 24); // Days since move-in date
+
+            let message = "<br>Moved into care home on 1st June 2021 until 1st July 2024";          // (${daysSinceStart} days ago)`;
+            message += `<br>Weekly care home fee £${WEEKLY_CARE_FEES.toFixed(2)}, weekly attendance allowance received £${ATTENDANCE_ALLOWANCE.toFixed(2)}`;
+
+            document.getElementById("fee").innerHTML = message;
+        }
+
+        // Update care costs and display them
+        function updateCareCosts() {
+            const now = new Date('July 1, 2024 10:00');   // end date
+            //const now = new Date();
+            const millisecondsSinceIncrease = Math.abs(now - CARE_FEES_INCREASE_DATE);          // Milliseconds since fee increase
+            let totalCost = COST_PER_MILLISECOND * millisecondsSinceIncrease + INITIAL_COST;    // Total cost
+
+            // Format the total cost with commas
+            const formattedTotalCost = totalCost.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+            document.getElementById("carecosts").innerHTML = "Cost of being in care £" + formattedTotalCost; // Display total cost
+        }
+
+        // Refresh display function
+        function refreshingDisplay() {
+            updateCareCosts(); // Show initial costs
+
+            let width = 1;
+            const intervalId = setInterval(() => {
+                if (width >= 100) {
+                    updateCareCosts(); // Update costs
+                    width = 1; // Reset bar size
+                } else {
+                    width++;
+                    document.getElementById("myBar1").style.width = width + "%";
+                    document.getElementById("myBar2").style.width = width + "%";
+                }
+            }, 95);
+        }
+
+        // Initialize
+        displayInitialFeeInformation();
+        refreshingDisplay();
+
+    </script>
+    
+
+  </body>
+</html>
