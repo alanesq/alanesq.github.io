@@ -58,7 +58,7 @@
         <button onclick="startCalculation()">Start Calculating Interest</button>
 
         <div class="result">
-            <p>Interest Earned: <span id="interest">0</span></p>
+            <p>Interest Earned: £<span id="interest">0</span></p>
         </div>
     </div>
 
@@ -84,7 +84,7 @@
             interval = setInterval(() => {
                 const secondsElapsed = (Date.now() - startTime) / 1000;
                 interestEarned = amount * ratePerSecond * secondsElapsed;
-                document.getElementById('interest').textContent = interestEarned.toFixed(3);
+                document.getElementById('interest').textContent = interestEarned.toFixed(6);
             }, 1000);
         }
     </script>
