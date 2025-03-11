@@ -3,17 +3,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="Generator" content="Kate, the KDE Advanced Text Editor" />
 <title>animtext.js</title>
 </head>
 <!-- Highlighting: "JavaScript" -->
 <body>
 <pre style='color:#1f1c1b;background-color:#ffffff;'>
 <span style='color:#898887;'>/*</span>
-<span style='color:#898887;'>   Display animated text - 10 Dec 19</span>
+<span style='color:#898887;'>   Display animated text - 11Mar25</span>
 <span style='color:#898887;'>   </span>
 <span style='color:#898887;'>   include following in html:    </span>
-<span style='color:#898887;'>            &lt;script language=&quot;javascript&quot; type=&quot;text/javascript&quot; src=&quot;http://www.alanesq.com/js/p5.min.js&quot;&gt;&lt;/script&gt;</span>
+<span style='color:#898887;'>            &lt;script language=&quot;javascript&quot; type=&quot;text/javascript&quot; src=&quot;js/p5.min.js&quot;&gt;&lt;/script&gt;</span>
 <span style='color:#898887;'>            &lt;script language=&quot;javascript&quot; type=&quot;text/javascript&quot; src=&quot;js/animtext.js&quot;&gt;&lt;/script&gt;</span>
 <span style='color:#898887;'>            </span>
 <span style='color:#898887;'>            &lt;center&gt;&lt;div id=&quot;animtext&quot;&gt;&lt;/div&gt;&lt;/center&gt;</span>
@@ -39,10 +38,11 @@
 
 
 <span style='color:#898887;'>// text to display - format = 'lines.push(&quot;This is a message&quot;);'</span>
-    <span style='color:#0057ae;'>lines</span>.<span style='color:#0057ae;'>push</span>(<span style='color:#bf0303;'>&quot;Welcome to&quot;</span>);
-    <span style='color:#0057ae;'>lines</span>.<span style='color:#0057ae;'>push</span>(<span style='color:#bf0303;'>&quot;alanesq.eu5.net&quot;</span>);
+    <span style='color:#0057ae;'>lines</span>.<span style='color:#0057ae;'>push</span>(<span style='color:#bf0303;'>&quot;Welcome to Alan's&quot;</span>);
+    <span style='color:#0057ae;'>lines</span>.<span style='color:#0057ae;'>push</span>(<span style='color:#bf0303;'>&quot;page of stuff&quot;</span>);
     
-<b><i>let</i></b> tcol = [<span style='color:#b08000;'>255</span>,<span style='color:#b08000;'>0</span>,<span style='color:#b08000;'>0</span>];                       <span style='color:#898887;'>// text colour (red alters if shimmer enabled)</span>
+<b><i>let</i></b> tcol = [<span style='color:#b08000;'>255</span>,<span style='color:#b08000;'>0</span>,<span style='color:#b08000;'>0</span>];  
+  <span style='color:#898887;'>// text colour (red alters if shimmer enabled)</span>
 <b>const</b> lSpace = <span style='color:#b08000;'>65</span>;                          <span style='color:#898887;'>// line spacing</span>
 <b>const</b> shimmer = <b>true</b>;                       <span style='color:#898887;'>// shimmering text effect (true/false)</span>
 <b>const</b> textFont = <span style='color:#bf0303;'>'js/1CamBam_Stick_2.ttf'</span>   <span style='color:#898887;'>// font to use</span>
