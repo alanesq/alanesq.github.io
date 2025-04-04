@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- 
 
-          Alan's Mechanical Calculator Page - 25Dec24
+          Alan's Mechanical Calculator Page - 04Apr25
           
 -->
  
@@ -12,11 +12,11 @@
     <meta name="description" content="Alan's Mechanical Calculator / adding machine Page">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="SHORTCUT ICON" href="/main/logo.ico">
+    <link rel="SHORTCUT ICON" href="../logo.ico">
     <meta name="keywords" content="adding machines, Brunsviga, Citizen, Olivetti, Diehl, Precisa, lagomarsino numeria, 
             Multo Addo, Facit, Bell Punch / Sumlock, Burroughs, National / NCR, Monroe, Muldivo Mentor, Felt & Tarrant 
             Comptometer, Schickard Calculator, Napiers Bones">
-    <link rel="stylesheet" href="/main/css/style.css">  
+    <link rel="stylesheet" href="../css/style.css">  
   </head>
   
   <body>
@@ -25,9 +25,9 @@
 
       <!-- Banner at top of page -->
       <div class="header-footer" style="height: 10vw;">
-          <img class="headerImg" src="/main/calculators/cat.gif" alt="Page logo 1" style="left: 12px;">
+          <img class="headerImg" src="cat.gif" alt="Page logo 1" style="left: 12px;">
           <h1>Alan's Mechanical Calculator Page</h1>
-          <img class="headerImg" src="/main/calculators/dyno.gif" alt="Page logo 2" style="transform: scaleX(-1); right: 12px;">
+          <img class="headerImg" src="dyno.gif" alt="Page logo 2" style="transform: scaleX(-1); right: 12px;">
       </div>       
 
       <h2>My collection of old adding machines</h2>
@@ -47,7 +47,7 @@
             
       <a href="Schickard/index.html" target="_self">See the Schickard Calculator I made</a><br>
       <a href="videos.html" target="_blank">A collection of old film clips of adding machines</a><br><br>
-      <a href="/main/calculators/comptometer.htm" target="_blank">A comptometer emulator</a><br>
+      <a href="comptometer.htm" target="_blank">A comptometer emulator</a><br>
       <a href="https://www.computinghistory.org.uk/cgi/computing-timeline.pl" target="_blank">Computing/calculating time line</a><br>
       Videos: <a href="https://youtu.be/wypV2bYBoOI" target="_blank">My Diehl model E15 in action</a>, &nbsp;
       <a href="https://youtu.be/RiNhMVyvV5g" target="_blank">My Burroughs Class P in action</a><br><br>
@@ -123,16 +123,16 @@
     
     <!-- If it is December display Festivus banner -->
         <div id='festivusDiv'></div>
-        <script type="text/javascript" src="/main/js/festivus.js"></script>    
+        <script type="text/javascript" src="../js/festivus.js"></script>    
 
-    <!-- show banner if '/main/banner.gif' exists -->
+    <!-- show banner if '../banner.gif' exists -->
         <div id='bannerDiv'></div>
-        <script type="text/javascript" src="/main/js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->          
+        <script type="text/javascript" src="../js/banner.js"></script>    <!-- check if banner.gif exists and if it does insert html in to div above -->          
       
     <!-- Footer at bottom of page -->  
       <div class="header-footer" style="height: 5vh;">
           <input class="button" type="button" value="Return to previous page" onclick="history.back()"> 
-          <input class="button" type="button" value="Alan's Homepage" onclick='window.location.href = "/main/index.htm"'> 
+          <input class="button" type="button" value="Alan's Homepage" onclick='window.location.href = "../index.htm"'> 
           <span class="button">Contact: <a href="mailto:alanesq@disroot.org">alanesq@disroot.org</a></span>
       </div>
 
@@ -152,7 +152,7 @@
           //                    types: P=pinwheel, S=Stepped drum, C=comptometer, A=Add-lister, x=n/a 
             var typeP = "<br><a href='https://www.youtube.com/watch?v=pMd2DTvonz4' target='_blank'>USING PINWHEEL CALCULATORS (VIDEO)</a>";
             var typeS = "<br><a href='https://youtu.be/KRiQk5301kg?t=51' target='_blank'>USING STEPPED DRUM CALCULATORS (VIDEO)</a>";
-            var typeC = "<br><a href='/main/calculators/comptometer.htm' target='_blank'>COMPTOMETER EMULATOR</a>" +
+            var typeC = "<br><a href='../calculators/comptometer.htm' target='_blank'>COMPTOMETER EMULATOR</a>" +
                         "<br><a href='https://youtu.be/_WxJ3JYoOAM' target='_blank'>HISTORY OF THE COMPTOMETER (VIDEO)</a>" +
                         "<br><a href='https://www.youtube.com/watch?v=SbJpufimfdM' target='_blank'>HOW F&T COMPTOMETERS WORK (VIDEO)</a>" +
                         "<br><a href='videos.html' target='_blank'>OLD FILMS OF COMPTOMETERS</a>";
@@ -204,12 +204,30 @@
               "MISC. ITEMS<br><br>" +
               "<a href='https://en.wikipedia.org/wiki/Napier%27s_bones' target='_blank'>Napiers bones (made by myself)</a><br>" +
               "<a href='https://youtu.be/0MON8NiFTxA' target='_blank'>Roman abacus (replica made by myself)</a><br>" 
-            },                   
+            },  
+            { id: "victor1", type: "A", message: 
+              "Victor series 5 made in U.S.A. 1945<br>" +
+              "This is very similar to the Burroughs class 4<br><br>" +
+              "<a href='https://www.johnwolff.id.au/calculators/Victor/Victor.htm' target='_blank'>MACHINE INFORMATION</a><br>" +
+              "<a href='https://www.youtube.com/watch?v=_R0P2Do2b-8' target='_blank'>VIDEO ABOUT THESE MACHINES</a>"
+            },     
+            { id: "friden1", type: "S", message: 
+              "Friden STW10 - Manufactured: San Leandro, California, 1949 onwards<br>" +
+              "Seeing a video of one of these is what sparked my interest in these machines<br><br>" +
+              "<a href='https://www.johnwolff.id.au/calculators/Friden/Friden.htm' target='_blank'>MACHINE INFORMATION</a><br>" +
+              "<a href='https://www.curiousmarc.com/mechanical/friden-stw-10-mechnical-calculator' target='_blank'>VIDEO ABOUT THESE MACHINES</a>"
+            },   
+            { id: "friden2", type: "S", message: 
+              "Friden CW8 - Manufactured: San Leandro, California, 1949 onwards<br>" +
+              "This is a work in progress as it is in a bad way...<br><br>" +
+              "<a href='https://www.johnwolff.id.au/calculators/Friden/Friden.htm' target='_blank'>MACHINE INFORMATION</a><br>" +
+              "<a href='https://www.curiousmarc.com/mechanical/friden-stw-10-mechnical-calculator' target='_blank'>VIDEO ABOUT THESE MACHINES</a>"
+            },                                                  
             { id: "burroughsC4", type: "A", message: 
               "Boroughs Class 4 made in U.S.A. 1928<br>" +
               "This is basically a class 3 with simple multiplication features.<br><br>" +
               "<a href='https://www.jaapsch.net/mechcalc/burroughs.htm' target='_blank'>MACHINE INFORMATION</a><br>" +
-              "<a href='https://www.youtube.com/watch?v=Mjo-R2Kgotg&t=147s' target='_blank'>VIDEO ABOUT THESE MACHINES</a>"
+              "<a href='https://www.youtube.com/watch?v=Mjo-R2Kgotg' target='_blank'>VIDEO ABOUT THESE MACHINES</a>"
             },           
             { id: "plusadder1", type: "C", message: 
               "Bell Punch Plus Adder - Model 509/S<br>" +
@@ -341,11 +359,7 @@
               "Bell Punch Sumlock Duolectric 993s<br>Made in England 1950s<br>In 1963 this " +
               "would have cost £265 (equivalent today would be  £5,340)" +
               "<br><br><a href='https://www.jaapsch.net/mechcalc/bellpunch.htm' target='_blank'>MACHINE INFORMATION</a>"
-            },
-            { id: "comptometer1", type: "C", message: 
-              "Felt & Tarrant Comptometer model H, Made in U.S.A. 1922<br><br>" +
-              "<a href='https://www.jaapsch.net/mechcalc/comptometer.htm' target='_blank'>MACHINE INFORMATION</a>"
-            },            
+            },          
             { id: "comptometer2", type: "C", message: 
               "Felt & Tarrant Comptometer model H, Made in U.S.A. 1922<br>" +
               "I believe the green case signifies it has been refurbished by Felt & Tarrant and re-sold at some point<br><br>" +
