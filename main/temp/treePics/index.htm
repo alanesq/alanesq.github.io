@@ -10,6 +10,7 @@
 <body>
 
 <img id="viewer" src="1.JPG">
+<div id="filename"></div>
 
 <div>
   <button onclick="prev()">Prev</button>
@@ -44,6 +45,7 @@ let index = 0;
 
 function show(){
   document.getElementById("viewer").src = images[index];
+  document.getElementById("filename").textContent = images[index];
 }
 
 function next(){
